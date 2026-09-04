@@ -1,0 +1,5667 @@
+{
+  "applications" : [
+    {
+      "build" : "1011.6.3.1.1",
+      "bundleIdentifier" : "com.apple.AppStore",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "App Store",
+      "path" : "/System/Applications/App Store.app",
+      "source" : "system",
+      "version" : "3.0"
+    },
+    {
+      "build" : "79.2.1",
+      "bundleIdentifier" : "com.apple.apps.launcher",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "Apps",
+      "path" : "/System/Applications/Apps.app",
+      "source" : "system",
+      "version" : "1.0"
+    },
+    {
+      "build" : "534",
+      "bundleIdentifier" : "com.apple.Automator",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "Automator",
+      "path" : "/System/Applications/Automator.app",
+      "source" : "system",
+      "version" : "2.10"
+    },
+    {
+      "build" : "2.0.0",
+      "bundleIdentifier" : "com.avira.security",
+      "modifiedAt" : "2025-09-30T10:20:16Z",
+      "name" : "Avira Security",
+      "path" : "/Applications/Avira Security.app",
+      "source" : "user",
+      "version" : "2.0.0"
+    },
+    {
+      "build" : "207",
+      "bundleIdentifier" : "software.micropixels.BatFi",
+      "modifiedAt" : "2026-06-24T23:08:46Z",
+      "name" : "BatFi",
+      "path" : "/Applications/BatFi.app",
+      "source" : "user",
+      "version" : "3.1.1"
+    },
+    {
+      "build" : "6570",
+      "bundleIdentifier" : "com.apple.iBooksX",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "Books",
+      "path" : "/System/Applications/Books.app",
+      "source" : "system",
+      "version" : "8.5"
+    },
+    {
+      "build" : "225",
+      "bundleIdentifier" : "com.apple.calculator",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "Calculator",
+      "path" : "/System/Applications/Calculator.app",
+      "source" : "system",
+      "version" : "12.0"
+    },
+    {
+      "build" : "3036.4.14",
+      "bundleIdentifier" : "com.apple.iCal",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "Calendar",
+      "path" : "/System/Applications/Calendar.app",
+      "source" : "system",
+      "version" : "16.0"
+    },
+    {
+      "build" : "0.5.9",
+      "bundleIdentifier" : "so.cap.desktop",
+      "modifiedAt" : "2026-08-11T02:28:53Z",
+      "name" : "Cap",
+      "path" : "/Applications/Cap.app",
+      "source" : "user",
+      "version" : "0.5.9"
+    },
+    {
+      "build" : "7658",
+      "bundleIdentifier" : "com.openai.codex",
+      "modifiedAt" : "2026-09-02T22:32:54Z",
+      "name" : "ChatGPT",
+      "path" : "/Applications/ChatGPT.app",
+      "source" : "user",
+      "version" : "26.901.20858"
+    },
+    {
+      "build" : "3.18",
+      "bundleIdentifier" : "com.apple.Chess",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "Chess",
+      "path" : "/System/Applications/Chess.app",
+      "source" : "system",
+      "version" : "3.18"
+    },
+    {
+      "build" : "1.44121.4",
+      "bundleIdentifier" : "com.anthropic.claudefordesktop",
+      "modifiedAt" : "2026-09-03T04:51:18Z",
+      "name" : "Claude",
+      "path" : "/Applications/Claude.app",
+      "source" : "user",
+      "version" : "1.44121.4"
+    },
+    {
+      "build" : "206",
+      "bundleIdentifier" : "com.tddworks.claudebar",
+      "modifiedAt" : "2026-09-02T15:00:08Z",
+      "name" : "ClaudeBar",
+      "path" : "/Applications/ClaudeBar.app",
+      "source" : "user",
+      "version" : "0.4.88"
+    },
+    {
+      "build" : "41514.0.2512021236",
+      "bundleIdentifier" : "com.macpaw.CleanMyMac4",
+      "modifiedAt" : "2025-12-08T15:37:22Z",
+      "name" : "CleanMyMac X",
+      "path" : "/Applications/CleanMyMac X.app",
+      "source" : "user",
+      "version" : "4.15.14"
+    },
+    {
+      "build" : "3.3.0",
+      "bundleIdentifier" : "com.sabotage.clearly",
+      "modifiedAt" : "2026-08-24T16:09:16Z",
+      "name" : "Clearly",
+      "path" : "/Applications/Clearly.app",
+      "source" : "user",
+      "version" : "3.3.0"
+    },
+    {
+      "build" : "62",
+      "bundleIdentifier" : "com.apple.clock",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "Clock",
+      "path" : "/System/Applications/Clock.app",
+      "source" : "system",
+      "version" : "1.1"
+    },
+    {
+      "build" : "143",
+      "bundleIdentifier" : "com.abhishek.Clocker",
+      "modifiedAt" : "2026-07-28T05:16:13Z",
+      "name" : "Clocker",
+      "path" : "/Applications/Clocker.app",
+      "source" : "user",
+      "version" : "26.16"
+    },
+    {
+      "build" : "2732.700.1",
+      "bundleIdentifier" : "com.apple.AddressBook",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "Contacts",
+      "path" : "/System/Applications/Contacts.app",
+      "source" : "system",
+      "version" : "14.0"
+    },
+    {
+      "build" : "3.18.25",
+      "bundleIdentifier" : "com.todesktop.230313mzl4w4u92",
+      "modifiedAt" : "1980-01-01T03:00:00Z",
+      "name" : "Cursor",
+      "path" : "/Applications/Cursor.app",
+      "source" : "user",
+      "version" : "3.18.25"
+    },
+    {
+      "build" : "1102.3.1",
+      "bundleIdentifier" : "developer.apple.wwdc-Release",
+      "modifiedAt" : "2026-08-08T05:34:53Z",
+      "name" : "Developer",
+      "path" : "/Applications/Developer.app",
+      "source" : "user",
+      "version" : "11.0.2"
+    },
+    {
+      "build" : "1",
+      "bundleIdentifier" : "com.lucianoarguello.devshop",
+      "modifiedAt" : "2026-09-03T20:40:15Z",
+      "name" : "DevShop",
+      "path" : "/Applications/DevShop.app",
+      "source" : "user",
+      "version" : "1.0"
+    },
+    {
+      "build" : "294",
+      "bundleIdentifier" : "com.apple.Dictionary",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "Dictionary",
+      "path" : "/System/Applications/Dictionary.app",
+      "source" : "system",
+      "version" : "2.3.0"
+    },
+    {
+      "build" : "861",
+      "bundleIdentifier" : "me.damir.dropover-mac",
+      "modifiedAt" : "2026-08-07T14:21:04Z",
+      "name" : "Dropover",
+      "path" : "/Applications/Dropover.app",
+      "source" : "user",
+      "version" : "5.2.5"
+    },
+    {
+      "build" : "1",
+      "bundleIdentifier" : "com.example.EthernetConnectionStatus",
+      "modifiedAt" : "2025-11-04T16:38:11Z",
+      "name" : "Ethernet Connection Status",
+      "path" : "/Applications/Ethernet Connection Status.app",
+      "source" : "user",
+      "version" : "1.0"
+    },
+    {
+      "build" : "36",
+      "bundleIdentifier" : "com.apple.FaceTime",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "FaceTime",
+      "path" : "/System/Applications/FaceTime.app",
+      "source" : "system",
+      "version" : "36"
+    },
+    {
+      "build" : "442.26.4.19.1",
+      "bundleIdentifier" : "com.apple.findmy",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "FindMy",
+      "path" : "/System/Applications/FindMy.app",
+      "source" : "system",
+      "version" : "4.0"
+    },
+    {
+      "build" : "475",
+      "bundleIdentifier" : "com.xykong.Markdown",
+      "modifiedAt" : "2026-08-14T15:04:01Z",
+      "name" : "FluxMarkdown",
+      "path" : "/Applications/FluxMarkdown.app",
+      "source" : "user",
+      "version" : "1.34.475"
+    },
+    {
+      "build" : "126",
+      "bundleIdentifier" : "ltd.anybox.FolderPreview",
+      "modifiedAt" : "2026-08-19T02:50:05Z",
+      "name" : "Folder Preview",
+      "path" : "/Applications/Folder Preview.app",
+      "source" : "user",
+      "version" : "2.11"
+    },
+    {
+      "build" : "526.4.0.1",
+      "bundleIdentifier" : "com.apple.FontBook",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "Font Book",
+      "path" : "/System/Applications/Font Book.app",
+      "source" : "system",
+      "version" : "11.0"
+    },
+    {
+      "build" : "630.120.3",
+      "bundleIdentifier" : "com.apple.freeform",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "Freeform",
+      "path" : "/System/Applications/Freeform.app",
+      "source" : "system",
+      "version" : "4.5"
+    },
+    {
+      "build" : "1",
+      "bundleIdentifier" : "com.apple.games",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "Games",
+      "path" : "/System/Applications/Games.app",
+      "source" : "system",
+      "version" : "1.0"
+    },
+    {
+      "build" : "7977.76",
+      "bundleIdentifier" : "com.google.Chrome",
+      "modifiedAt" : "2026-09-01T23:32:59Z",
+      "name" : "Google Chrome",
+      "path" : "/Applications/Google Chrome.app",
+      "source" : "user",
+      "version" : "152.0.7977.76"
+    },
+    {
+      "build" : "130.0.0",
+      "bundleIdentifier" : "com.google.drivefs.shortcuts.docs",
+      "modifiedAt" : "2026-08-22T06:54:40Z",
+      "name" : "Google Docs",
+      "path" : "/Applications/Google Docs.app",
+      "source" : "user",
+      "version" : "130.0"
+    },
+    {
+      "build" : "130.0.2",
+      "bundleIdentifier" : "com.google.drivefs",
+      "modifiedAt" : "2026-08-22T06:54:40Z",
+      "name" : "Google Drive",
+      "path" : "/Applications/Google Drive.app",
+      "source" : "user",
+      "version" : "130.0"
+    },
+    {
+      "build" : "130.0.0",
+      "bundleIdentifier" : "com.google.drivefs.shortcuts.sheets",
+      "modifiedAt" : "2026-08-22T06:54:40Z",
+      "name" : "Google Sheets",
+      "path" : "/Applications/Google Sheets.app",
+      "source" : "user",
+      "version" : "130.0"
+    },
+    {
+      "build" : "130.0.0",
+      "bundleIdentifier" : "com.google.drivefs.shortcuts.slides",
+      "modifiedAt" : "2026-08-22T06:54:40Z",
+      "name" : "Google Slides",
+      "path" : "/Applications/Google Slides.app",
+      "source" : "user",
+      "version" : "130.0"
+    },
+    {
+      "build" : "1.189.2.0",
+      "bundleIdentifier" : "com.grammarly.ProjectLlama",
+      "modifiedAt" : "2026-09-02T15:00:47Z",
+      "name" : "Grammarly Desktop",
+      "path" : "/Applications/Grammarly Desktop.app",
+      "source" : "user",
+      "version" : "1.189.2"
+    },
+    {
+      "build" : "1166.7.2",
+      "bundleIdentifier" : "com.apple.Home",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "Home",
+      "path" : "/System/Applications/Home.app",
+      "source" : "system",
+      "version" : "10.0"
+    },
+    {
+      "build" : "1120",
+      "bundleIdentifier" : "com.jordanbaird.Ice",
+      "modifiedAt" : "2025-09-16T17:17:15Z",
+      "name" : "Ice",
+      "path" : "/Applications/Ice.app",
+      "source" : "user",
+      "version" : "0.11.13-dev.2"
+    },
+    {
+      "build" : "76",
+      "bundleIdentifier" : "com.apple.IconComposer",
+      "modifiedAt" : "2025-12-05T06:23:18Z",
+      "name" : "Icon Composer",
+      "path" : "/Applications/Icon Composer.app",
+      "source" : "user",
+      "version" : "1.2"
+    },
+    {
+      "build" : "1106",
+      "bundleIdentifier" : "com.apple.Image_Capture",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "Image Capture",
+      "path" : "/System/Applications/Image Capture.app",
+      "source" : "system",
+      "version" : "8.0"
+    },
+    {
+      "build" : "148.5.2",
+      "bundleIdentifier" : "com.apple.GenerativePlaygroundApp",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "Image Playground",
+      "path" : "/System/Applications/Image Playground.app",
+      "source" : "system",
+      "version" : "1.0"
+    },
+    {
+      "build" : "1.9.3",
+      "bundleIdentifier" : "net.pornel.ImageOptim",
+      "modifiedAt" : "2026-04-27T18:20:00Z",
+      "name" : "ImageOptim",
+      "path" : "/Applications/ImageOptim.app",
+      "source" : "user",
+      "version" : "1.9.3"
+    },
+    {
+      "build" : "98.5",
+      "bundleIdentifier" : "com.apple.ScreenContinuity",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "iPhone Mirroring",
+      "path" : "/System/Applications/iPhone Mirroring.app",
+      "source" : "system",
+      "version" : "1.6"
+    },
+    {
+      "build" : "2370",
+      "bundleIdentifier" : "com.mowglii.ItsycalApp",
+      "modifiedAt" : "2026-04-10T20:25:11Z",
+      "name" : "Itsycal",
+      "path" : "/Applications/Itsycal.app",
+      "source" : "user",
+      "version" : "0.15.12"
+    },
+    {
+      "build" : "49.120.2",
+      "bundleIdentifier" : "com.apple.journal",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "Journal",
+      "path" : "/System/Applications/Journal.app",
+      "source" : "system",
+      "version" : "2.0"
+    },
+    {
+      "build" : "9910",
+      "bundleIdentifier" : "app.kaleidoscope.v4",
+      "modifiedAt" : "2026-02-25T19:47:26Z",
+      "name" : "Kaleidoscope",
+      "path" : "/Applications/Kaleidoscope.app",
+      "source" : "user",
+      "version" : "6.6"
+    },
+    {
+      "build" : "1.32.3",
+      "bundleIdentifier" : "com.linear",
+      "modifiedAt" : "2026-09-03T17:08:10Z",
+      "name" : "Linear",
+      "path" : "/Applications/Linear.app",
+      "source" : "user",
+      "version" : "1.32.3"
+    },
+    {
+      "build" : "2.7.961922",
+      "bundleIdentifier" : "com.logi.optionsplus",
+      "modifiedAt" : "2026-09-02T22:35:57Z",
+      "name" : "logioptionsplus",
+      "path" : "/Applications/logioptionsplus.app",
+      "source" : "user",
+      "version" : "2.7.961922"
+    },
+    {
+      "build" : "1693",
+      "bundleIdentifier" : "com.MrKai77.Loop",
+      "modifiedAt" : "2026-09-03T19:05:22Z",
+      "name" : "Loop",
+      "path" : "/Applications/Loop.app",
+      "source" : "user",
+      "version" : "1.4.2"
+    },
+    {
+      "build" : "62",
+      "bundleIdentifier" : "org.p0deje.Maccy",
+      "modifiedAt" : "2026-08-10T16:11:08Z",
+      "name" : "Maccy",
+      "path" : "/Applications/Maccy.app",
+      "source" : "user",
+      "version" : "2.7.1"
+    },
+    {
+      "build" : "1.0.0",
+      "bundleIdentifier" : "my.domain.style.identifier.MacTegraRCM",
+      "modifiedAt" : "2024-05-24T05:16:38Z",
+      "name" : "MacTegraRCM",
+      "path" : "/Applications/MacTegraRCM.app",
+      "source" : "user",
+      "version" : ""
+    },
+    {
+      "build" : "1481",
+      "bundleIdentifier" : "com.goodsnooze.MacWhisper",
+      "modifiedAt" : "2026-09-02T15:01:06Z",
+      "name" : "MacWhisper",
+      "path" : "/Applications/MacWhisper.app",
+      "source" : "user",
+      "version" : "14.8.1"
+    },
+    {
+      "build" : "3864.700.51.1.1",
+      "bundleIdentifier" : "com.apple.mail",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "Mail",
+      "path" : "/System/Applications/Mail.app",
+      "source" : "system",
+      "version" : "16.0"
+    },
+    {
+      "build" : "2921.26.4.23.12",
+      "bundleIdentifier" : "com.apple.Maps",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "Maps",
+      "path" : "/System/Applications/Maps.app",
+      "source" : "system",
+      "version" : "3.0"
+    },
+    {
+      "build" : "169",
+      "bundleIdentifier" : "leits.MeetingBar",
+      "modifiedAt" : "2026-07-16T17:20:22Z",
+      "name" : "MeetingBar",
+      "path" : "/Applications/MeetingBar.app",
+      "source" : "user",
+      "version" : "4.11.6"
+    },
+    {
+      "build" : "1450.700.71",
+      "bundleIdentifier" : "com.apple.MobileSMS",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "Messages",
+      "path" : "/System/Applications/Messages.app",
+      "source" : "system",
+      "version" : "26.0"
+    },
+    {
+      "build" : "1.0.8",
+      "bundleIdentifier" : "com.meteorite.app",
+      "modifiedAt" : "2026-03-15T20:27:51Z",
+      "name" : "Meteorite",
+      "path" : "/Applications/Meteorite.app",
+      "source" : "user",
+      "version" : "1.0.8"
+    },
+    {
+      "build" : "20",
+      "bundleIdentifier" : "com.oskarkwasniewski.MiniSim",
+      "modifiedAt" : "2026-05-21T13:52:31Z",
+      "name" : "MiniSim",
+      "path" : "/Applications/MiniSim.app",
+      "source" : "user",
+      "version" : "0.10.0"
+    },
+    {
+      "build" : "79.2.1",
+      "bundleIdentifier" : "com.apple.exposelauncher",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "Mission Control",
+      "path" : "/System/Applications/Mission Control.app",
+      "source" : "system",
+      "version" : "1.2"
+    },
+    {
+      "build" : "7123",
+      "bundleIdentifier" : "app.monitorcontrol.MonitorControl",
+      "modifiedAt" : "2024-10-04T10:47:48Z",
+      "name" : "MonitorControl",
+      "path" : "/Applications/MonitorControl.app",
+      "source" : "user",
+      "version" : "4.3.3"
+    },
+    {
+      "build" : "1.6.6",
+      "bundleIdentifier" : "com.apple.Music",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "Music",
+      "path" : "/System/Applications/Music.app",
+      "source" : "system",
+      "version" : "1.6.6"
+    },
+    {
+      "build" : "5890",
+      "bundleIdentifier" : "com.apple.news",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "News",
+      "path" : "/System/Applications/News.app",
+      "source" : "system",
+      "version" : "11.5"
+    },
+    {
+      "build" : "17",
+      "bundleIdentifier" : "com.ruban.notchi",
+      "modifiedAt" : "2026-09-01T19:21:59Z",
+      "name" : "Notchi",
+      "path" : "/Applications/Notchi.app",
+      "source" : "user",
+      "version" : "1.2.5"
+    },
+    {
+      "build" : "3146.141.6",
+      "bundleIdentifier" : "com.apple.Notes",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "Notes",
+      "path" : "/System/Applications/Notes.app",
+      "source" : "system",
+      "version" : "4.13"
+    },
+    {
+      "build" : "7.32.0",
+      "bundleIdentifier" : "notion.id",
+      "modifiedAt" : "2026-09-01T19:22:53Z",
+      "name" : "Notion",
+      "path" : "/Applications/Notion.app",
+      "source" : "user",
+      "version" : "7.32.0"
+    },
+    {
+      "build" : "7045.0.17",
+      "bundleIdentifier" : "com.apple.iWork.Numbers",
+      "modifiedAt" : "2026-01-28T15:49:48Z",
+      "name" : "Numbers",
+      "path" : "/Applications/Numbers.app",
+      "source" : "user",
+      "version" : "14.5"
+    },
+    {
+      "build" : "1.13.7",
+      "bundleIdentifier" : "md.obsidian",
+      "modifiedAt" : "2026-08-12T21:48:49Z",
+      "name" : "Obsidian",
+      "path" : "/Applications/Obsidian.app",
+      "source" : "user",
+      "version" : "1.13.7"
+    },
+    {
+      "build" : "7045.0.17",
+      "bundleIdentifier" : "com.apple.iWork.Pages",
+      "modifiedAt" : "2026-01-28T15:58:06Z",
+      "name" : "Pages",
+      "path" : "/Applications/Pages.app",
+      "source" : "user",
+      "version" : "14.5"
+    },
+    {
+      "build" : "21624.5.1.11.3",
+      "bundleIdentifier" : "com.apple.Passwords",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "Passwords",
+      "path" : "/System/Applications/Passwords.app",
+      "source" : "system",
+      "version" : "2.6.2"
+    },
+    {
+      "build" : "1",
+      "bundleIdentifier" : "com.apple.mobilephone",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "Phone",
+      "path" : "/System/Applications/Phone.app",
+      "source" : "system",
+      "version" : "1.0"
+    },
+    {
+      "build" : "1177",
+      "bundleIdentifier" : "com.apple.PhotoBooth",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "Photo Booth",
+      "path" : "/System/Applications/Photo Booth.app",
+      "source" : "system",
+      "version" : "13.1"
+    },
+    {
+      "build" : "860.0.170",
+      "bundleIdentifier" : "com.apple.Photos",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "Photos",
+      "path" : "/System/Applications/Photos.app",
+      "source" : "system",
+      "version" : "11.0"
+    },
+    {
+      "build" : "4025.700.3",
+      "bundleIdentifier" : "com.apple.podcasts",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "Podcasts",
+      "path" : "/System/Applications/Podcasts.app",
+      "source" : "system",
+      "version" : "1.1.0"
+    },
+    {
+      "build" : "12.26.4",
+      "bundleIdentifier" : "com.postmanlabs.mac",
+      "modifiedAt" : "2026-09-03T14:34:24Z",
+      "name" : "Postman",
+      "path" : "/Applications/Postman.app",
+      "source" : "user",
+      "version" : "12.26.4"
+    },
+    {
+      "build" : "1113.5.3",
+      "bundleIdentifier" : "com.apple.Preview",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "Preview",
+      "path" : "/System/Applications/Preview.app",
+      "source" : "system",
+      "version" : "11.0"
+    },
+    {
+      "build" : "1252.3",
+      "bundleIdentifier" : "com.apple.QuickTimePlayerX",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "QuickTime Player",
+      "path" : "/System/Applications/QuickTime Player.app",
+      "source" : "system",
+      "version" : "10.5"
+    },
+    {
+      "build" : "0",
+      "bundleIdentifier" : "com.raycast.macos",
+      "modifiedAt" : "2026-09-03T07:18:47Z",
+      "name" : "Raycast",
+      "path" : "/Applications/Raycast.app",
+      "source" : "user",
+      "version" : "2.2.0.0"
+    },
+    {
+      "build" : "3976",
+      "bundleIdentifier" : "com.apple.reminders",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "Reminders",
+      "path" : "/System/Applications/Reminders.app",
+      "source" : "system",
+      "version" : "7.0"
+    },
+    {
+      "build" : "2.1.1",
+      "bundleIdentifier" : "br.com.damascenorafael.reminders-menubar",
+      "modifiedAt" : "2026-06-30T22:49:25Z",
+      "name" : "Reminders MenuBar",
+      "path" : "/Applications/Reminders MenuBar.app",
+      "source" : "user",
+      "version" : "2.1.1"
+    },
+    {
+      "build" : "21624.5.1.11.3",
+      "bundleIdentifier" : "com.apple.Safari",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "Safari",
+      "path" : "/Applications/Safari.app",
+      "source" : "user",
+      "version" : "26.6.2"
+    },
+    {
+      "build" : "123",
+      "bundleIdentifier" : "com.apple.SFSymbols-beta",
+      "modifiedAt" : "2026-06-22T13:03:56Z",
+      "name" : "SF Symbols Beta",
+      "path" : "/Applications/SF Symbols Beta.app",
+      "source" : "user",
+      "version" : "8.0"
+    },
+    {
+      "build" : "4711",
+      "bundleIdentifier" : "com.apple.shortcuts",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "Shortcuts",
+      "path" : "/System/Applications/Shortcuts.app",
+      "source" : "system",
+      "version" : "7.0"
+    },
+    {
+      "build" : "128",
+      "bundleIdentifier" : "cc.ffitch.shottr",
+      "modifiedAt" : "2025-12-18T19:48:08Z",
+      "name" : "Shottr",
+      "path" : "/Applications/Shottr.app",
+      "source" : "user",
+      "version" : "1.9.1"
+    },
+    {
+      "build" : "79.2.1",
+      "bundleIdentifier" : "com.apple.siri.launcher",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "Siri",
+      "path" : "/System/Applications/Siri.app",
+      "source" : "system",
+      "version" : "1.0"
+    },
+    {
+      "build" : "1",
+      "bundleIdentifier" : "com.lucianoarguello.SkillsBar",
+      "modifiedAt" : "2026-06-05T00:10:04Z",
+      "name" : "SkillsBar",
+      "path" : "/Applications/SkillsBar.app",
+      "source" : "user",
+      "version" : "1.0"
+    },
+    {
+      "build" : "452000155",
+      "bundleIdentifier" : "com.tinyspeck.slackmacgap",
+      "modifiedAt" : "2026-09-02T15:10:08Z",
+      "name" : "Slack",
+      "path" : "/Applications/Slack.app",
+      "source" : "user",
+      "version" : "4.52.155"
+    },
+    {
+      "build" : "317",
+      "bundleIdentifier" : "com.torusknot.SourceTreeNotMAS",
+      "modifiedAt" : "2026-07-27T14:48:42Z",
+      "name" : "Sourcetree",
+      "path" : "/Applications/Sourcetree.app",
+      "source" : "user",
+      "version" : "4.2.19"
+    },
+    {
+      "build" : "2.0.8",
+      "bundleIdentifier" : "com.hans.stempel",
+      "modifiedAt" : "2025-12-04T02:39:36Z",
+      "name" : "Stempel",
+      "path" : "/Applications/Stempel.app",
+      "source" : "user",
+      "version" : "2.0"
+    },
+    {
+      "build" : "10.3",
+      "bundleIdentifier" : "com.apple.Stickies",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "Stickies",
+      "path" : "/System/Applications/Stickies.app",
+      "source" : "system",
+      "version" : "10.3"
+    },
+    {
+      "build" : "1969",
+      "bundleIdentifier" : "com.apple.stocks",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "Stocks",
+      "path" : "/System/Applications/Stocks.app",
+      "source" : "system",
+      "version" : "8.5"
+    },
+    {
+      "build" : "5.1.26",
+      "bundleIdentifier" : "com.westbridge.stremio5-mac",
+      "modifiedAt" : "2026-07-28T05:58:54Z",
+      "name" : "Stremio",
+      "path" : "/Applications/Stremio.app",
+      "source" : "user",
+      "version" : "5.1.26"
+    },
+    {
+      "build" : "4200",
+      "bundleIdentifier" : "com.sublimetext.4",
+      "modifiedAt" : "2025-06-10T03:14:21Z",
+      "name" : "Sublime Text",
+      "path" : "/Applications/Sublime Text.app",
+      "source" : "user",
+      "version" : "Build 4200"
+    },
+    {
+      "build" : "79",
+      "bundleIdentifier" : "org.sbarex.SourceCodeSyntaxHighlight",
+      "modifiedAt" : "2026-04-21T08:04:08Z",
+      "name" : "Syntax Highlight",
+      "path" : "/Applications/Syntax Highlight.app",
+      "source" : "user",
+      "version" : "2.1.30"
+    },
+    {
+      "build" : "15.0",
+      "bundleIdentifier" : "com.apple.systempreferences",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "System Settings",
+      "path" : "/System/Applications/System Settings.app",
+      "source" : "system",
+      "version" : "15.0"
+    },
+    {
+      "build" : "137",
+      "bundleIdentifier" : "riccqi.TabTab",
+      "modifiedAt" : "2026-08-22T01:45:52Z",
+      "name" : "TabTab",
+      "path" : "/Applications/TabTab.app",
+      "source" : "user",
+      "version" : "2.1.3"
+    },
+    {
+      "build" : "659.1",
+      "bundleIdentifier" : "com.apple.TestFlight",
+      "modifiedAt" : "2026-08-27T19:27:50Z",
+      "name" : "TestFlight",
+      "path" : "/Applications/TestFlight.app",
+      "source" : "user",
+      "version" : "4.3.0"
+    },
+    {
+      "build" : "415",
+      "bundleIdentifier" : "com.apple.TextEdit",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "TextEdit",
+      "path" : "/System/Applications/TextEdit.app",
+      "source" : "system",
+      "version" : "1.20"
+    },
+    {
+      "build" : "147",
+      "bundleIdentifier" : "cx.c3.theunarchiver",
+      "modifiedAt" : "2025-03-19T13:45:04Z",
+      "name" : "The Unarchiver",
+      "path" : "/Applications/The Unarchiver.app",
+      "source" : "user",
+      "version" : "4.3.9"
+    },
+    {
+      "build" : "79.2.1",
+      "bundleIdentifier" : "com.apple.backup.launcher",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "Time Machine",
+      "path" : "/System/Applications/Time Machine.app",
+      "source" : "system",
+      "version" : "1.3"
+    },
+    {
+      "build" : "527.5.1",
+      "bundleIdentifier" : "com.apple.helpviewer",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "Tips",
+      "path" : "/System/Applications/Tips.app",
+      "source" : "system",
+      "version" : "26.6"
+    },
+    {
+      "build" : "14718.1.399",
+      "bundleIdentifier" : "org.m0k.transmission",
+      "modifiedAt" : "2026-06-30T13:37:00Z",
+      "name" : "Transmission",
+      "path" : "/Applications/Transmission.app",
+      "source" : "user",
+      "version" : "4.1.3"
+    },
+    {
+      "build" : "1.6.6",
+      "bundleIdentifier" : "com.apple.TV",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "TV",
+      "path" : "/System/Applications/TV.app",
+      "source" : "system",
+      "version" : "1.6.6"
+    },
+    {
+      "build" : "1.5.1",
+      "bundleIdentifier" : "com.replay.Umbra",
+      "modifiedAt" : "2026-06-10T00:34:54Z",
+      "name" : "Umbra",
+      "path" : "/Applications/Umbra.app",
+      "source" : "user",
+      "version" : "1.5.1"
+    },
+    {
+      "build" : "9727",
+      "bundleIdentifier" : "app.updatest.Updatest",
+      "modifiedAt" : "2026-04-07T12:54:20Z",
+      "name" : "Updatest",
+      "path" : "/Applications/Updatest.app",
+      "source" : "user",
+      "version" : "2.4.2"
+    },
+    {
+      "build" : "1.136.0",
+      "bundleIdentifier" : "com.microsoft.VSCode",
+      "modifiedAt" : "2026-09-02T22:33:12Z",
+      "name" : "Visual Studio Code",
+      "path" : "/Applications/Visual Studio Code.app",
+      "source" : "user",
+      "version" : "1.136.0"
+    },
+    {
+      "build" : "3.0.23",
+      "bundleIdentifier" : "org.videolan.vlc",
+      "modifiedAt" : "2025-12-17T23:00:53Z",
+      "name" : "VLC",
+      "path" : "/Applications/VLC.app",
+      "source" : "user",
+      "version" : "3.0.23"
+    },
+    {
+      "build" : "1380",
+      "bundleIdentifier" : "com.apple.VoiceMemos",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "VoiceMemos",
+      "path" : "/System/Applications/VoiceMemos.app",
+      "source" : "system",
+      "version" : "3.2"
+    },
+    {
+      "build" : "0.2026.08.26.17.59.01",
+      "bundleIdentifier" : "dev.warp.Warp-Stable",
+      "modifiedAt" : "2026-08-28T18:14:56Z",
+      "name" : "Warp",
+      "path" : "/Applications/Warp.app",
+      "source" : "user",
+      "version" : "0.2026.08.26.17.59.01"
+    },
+    {
+      "build" : "1318",
+      "bundleIdentifier" : "com.apple.weather",
+      "modifiedAt" : "2026-08-13T02:51:55Z",
+      "name" : "Weather",
+      "path" : "/System/Applications/Weather.app",
+      "source" : "system",
+      "version" : "6.0"
+    },
+    {
+      "build" : "1057266364",
+      "bundleIdentifier" : "net.whatsapp.WhatsApp",
+      "modifiedAt" : "2026-09-03T18:55:04Z",
+      "name" : "WhatsApp",
+      "path" : "/Applications/WhatsApp.app",
+      "source" : "user",
+      "version" : "26.35.21"
+    },
+    {
+      "build" : "24959",
+      "bundleIdentifier" : "com.apple.dt.Xcode",
+      "modifiedAt" : "2026-06-26T14:45:14Z",
+      "name" : "Xcode",
+      "path" : "/Applications/Xcode.app",
+      "source" : "user",
+      "version" : "26.6"
+    },
+    {
+      "build" : "7.1.5.84650",
+      "bundleIdentifier" : "us.zoom.xos",
+      "modifiedAt" : "2026-07-20T19:40:52Z",
+      "name" : "zoom.us",
+      "path" : "/Applications/zoom.us.app",
+      "source" : "user",
+      "version" : "7.1.5 (84650)"
+    }
+  ],
+  "categories" : [
+    {
+      "id" : "lang",
+      "title" : "Languages & Runtimes",
+      "toolCount" : 13,
+      "tools" : [
+        {
+          "id" : "lang.bunrt",
+          "managedBy" : "Homebrew formula",
+          "name" : "Bun",
+          "path" : "/opt/homebrew/Cellar/bun/1.3.9",
+          "sizeBytes" : 60370944,
+          "status" : "ok",
+          "version" : "1.3.9 · Homebrew",
+          "website" : "https://bun.sh"
+        },
+        {
+          "id" : "lang.cpp",
+          "managedBy" : "Command Line Tools",
+          "name" : "C++",
+          "path" : "/Library/Developer/CommandLineTools/usr/bin/clang++",
+          "sizeBytes" : 0,
+          "status" : "ok",
+          "version" : "26.6 · CLT",
+          "website" : "https://isocpp.org"
+        },
+        {
+          "id" : "lang.clang",
+          "managedBy" : "Command Line Tools",
+          "name" : "Clang / GCC",
+          "path" : "/Library/Developer/CommandLineTools/usr/bin/clang",
+          "sizeBytes" : 0,
+          "status" : "ok",
+          "version" : "26.6 · CLT",
+          "website" : "https://clang.llvm.org"
+        },
+        {
+          "id" : "lang.deno",
+          "managedBy" : "Homebrew formula",
+          "name" : "Deno",
+          "path" : "/opt/homebrew/Cellar/deno/2.9.6",
+          "sizeBytes" : 125030400,
+          "status" : "ok",
+          "version" : "2.9.6 · Homebrew",
+          "website" : "https://deno.com"
+        },
+        {
+          "id" : "lang.fortran",
+          "managedBy" : "Homebrew formula",
+          "name" : "Fortran",
+          "path" : "/opt/homebrew/Cellar/gcc/16.2.0",
+          "sizeBytes" : 519315456,
+          "status" : "ok",
+          "version" : "16.2.0 · Homebrew",
+          "website" : "https://fortran-lang.org"
+        },
+        {
+          "id" : "lang.gcc",
+          "managedBy" : "Homebrew formula",
+          "name" : "GNU GCC",
+          "path" : "/opt/homebrew/Cellar/gcc/16.2.0",
+          "sizeBytes" : 519315456,
+          "status" : "ok",
+          "version" : "16.2.0 · Homebrew",
+          "website" : "https://gcc.gnu.org"
+        },
+        {
+          "id" : "lang.go",
+          "managedBy" : "Homebrew formula",
+          "name" : "Go",
+          "path" : "/opt/homebrew/Cellar/go/1.27.1",
+          "sizeBytes" : 283271168,
+          "status" : "ok",
+          "version" : "1.27.1 · Homebrew",
+          "website" : "https://go.dev"
+        },
+        {
+          "id" : "lang.java@22.0.1",
+          "managedBy" : "JVM install",
+          "name" : "Java",
+          "path" : "/Library/Java/JavaVirtualMachines/jdk-22.0.1.jdk",
+          "sizeBytes" : 339435520,
+          "status" : "ok",
+          "version" : "22.0.1 · JVM install",
+          "website" : "https://openjdk.org"
+        },
+        {
+          "id" : "lang.node@22.19.0",
+          "managedBy" : "nvm",
+          "name" : "Node.js",
+          "path" : "~/.nvm/versions/node/v22.19.0",
+          "sizeBytes" : 380096512,
+          "status" : "ok",
+          "version" : "22.19.0 · nvm",
+          "website" : "https://nodejs.org"
+        },
+        {
+          "id" : "lang.perl",
+          "managedBy" : "macOS",
+          "name" : "Perl",
+          "path" : "/usr/bin/perl",
+          "sizeBytes" : 0,
+          "status" : "ok",
+          "version" : "system",
+          "website" : "https://perl.org"
+        },
+        {
+          "id" : "lang.python@3.11.6",
+          "managedBy" : "pyenv",
+          "name" : "Python",
+          "path" : "~/.pyenv/versions/3.11.6",
+          "sizeBytes" : 488783872,
+          "status" : "ok",
+          "version" : "3.11.6 · pyenv",
+          "website" : "https://python.org"
+        },
+        {
+          "id" : "lang.ruby",
+          "managedBy" : "macOS",
+          "name" : "Ruby",
+          "path" : "/usr/bin/ruby",
+          "sizeBytes" : 0,
+          "status" : "ok",
+          "version" : "system",
+          "website" : "https://ruby-lang.org"
+        },
+        {
+          "id" : "lang.swift",
+          "managedBy" : "macOS",
+          "name" : "Swift",
+          "path" : "/usr/bin/swift",
+          "sizeBytes" : 0,
+          "status" : "ok",
+          "version" : "Apple toolchain",
+          "website" : "https://swift.org"
+        }
+      ],
+      "totalBytes" : 2715619328
+    },
+    {
+      "id" : "pkg",
+      "title" : "Package & Version Managers",
+      "toolCount" : 13,
+      "tools" : [
+        {
+          "id" : "pkg.bun",
+          "managedBy" : "Homebrew formula",
+          "name" : "bun",
+          "path" : "/opt/homebrew/Cellar/bun/1.3.9",
+          "sizeBytes" : 60370944,
+          "status" : "ok",
+          "version" : "1.3.9 · Homebrew",
+          "website" : "https://bun.sh"
+        },
+        {
+          "id" : "pkg.bundler",
+          "managedBy" : "macOS",
+          "name" : "Bundler",
+          "path" : "/usr/bin/bundle",
+          "sizeBytes" : 0,
+          "status" : "ok",
+          "version" : "system",
+          "website" : "https://bundler.io"
+        },
+        {
+          "contents" : [
+            {
+              "id" : "brew.formulae/llvm@22",
+              "name" : "llvm@22",
+              "path" : "/opt/homebrew/Cellar/llvm@22/22.1.8",
+              "sizeBytes" : 1587945472,
+              "version" : "22.1.8"
+            },
+            {
+              "id" : "brew.formulae/gcc",
+              "name" : "gcc",
+              "path" : "/opt/homebrew/Cellar/gcc/16.2.0",
+              "sizeBytes" : 519315456,
+              "version" : "16.2.0"
+            },
+            {
+              "id" : "brew.formulae/pytorch",
+              "name" : "pytorch",
+              "path" : "/opt/homebrew/Cellar/pytorch/2.13.0_3",
+              "sizeBytes" : 512626688,
+              "version" : "2.13.0_3"
+            },
+            {
+              "id" : "brew.formulae/openjdk",
+              "name" : "openjdk",
+              "path" : "/opt/homebrew/Cellar/openjdk/26.0.2.1",
+              "sizeBytes" : 398209024,
+              "version" : "26.0.2.1"
+            },
+            {
+              "id" : "brew.casks/claude-code",
+              "name" : "claude-code",
+              "path" : "/opt/homebrew/Caskroom/claude-code/2.1.236",
+              "sizeBytes" : 317046784,
+              "version" : "2.1.236"
+            },
+            {
+              "id" : "brew.casks/codex",
+              "name" : "codex",
+              "path" : "/opt/homebrew/Caskroom/codex/0.153.0",
+              "sizeBytes" : 288034816,
+              "version" : "0.153.0"
+            },
+            {
+              "id" : "brew.formulae/go",
+              "name" : "go",
+              "path" : "/opt/homebrew/Cellar/go/1.27.1",
+              "sizeBytes" : 283271168,
+              "version" : "1.27.1"
+            },
+            {
+              "id" : "brew.formulae/xcodebuildmcp",
+              "name" : "xcodebuildmcp",
+              "path" : "/opt/homebrew/Cellar/xcodebuildmcp/2.1.0",
+              "sizeBytes" : 257286144,
+              "version" : "2.1.0"
+            },
+            {
+              "id" : "brew.casks/zoom",
+              "name" : "zoom",
+              "path" : "/opt/homebrew/Caskroom/zoom/7.1.5.84650",
+              "sizeBytes" : 204992512,
+              "version" : "7.1.5.84650"
+            },
+            {
+              "id" : "brew.formulae/summarize",
+              "name" : "summarize",
+              "path" : "/opt/homebrew/Cellar/summarize/0.21.11",
+              "sizeBytes" : 172617728,
+              "version" : "0.21.11"
+            },
+            {
+              "id" : "brew.casks/google-drive",
+              "name" : "Google Drive",
+              "path" : "/opt/homebrew/Caskroom/google-drive/130.0.2",
+              "sizeBytes" : 140558336,
+              "version" : "130.0.2"
+            },
+            {
+              "id" : "brew.formulae/deno",
+              "name" : "deno",
+              "path" : "/opt/homebrew/Cellar/deno/2.9.6",
+              "sizeBytes" : 125030400,
+              "version" : "2.9.6"
+            },
+            {
+              "id" : "brew.casks/xquartz",
+              "name" : "xquartz",
+              "path" : "/opt/homebrew/Caskroom/xquartz/2.8.6",
+              "sizeBytes" : 122036224,
+              "version" : "2.8.6"
+            },
+            {
+              "id" : "brew.formulae/gemini-cli",
+              "name" : "gemini-cli",
+              "path" : "/opt/homebrew/Cellar/gemini-cli/0.46.0",
+              "sizeBytes" : 102440960,
+              "version" : "0.46.0"
+            },
+            {
+              "id" : "brew.formulae/python@3.14",
+              "name" : "python@3.14",
+              "path" : "/opt/homebrew/Cellar/python@3.14/3.14.7",
+              "sizeBytes" : 88723456,
+              "version" : "3.14.7"
+            },
+            {
+              "id" : "brew.formulae/icu4c@78",
+              "name" : "icu4c@78",
+              "path" : "/opt/homebrew/Cellar/icu4c@78/78.3",
+              "sizeBytes" : 88211456,
+              "version" : "78.3"
+            },
+            {
+              "id" : "brew.formulae/idb-companion",
+              "name" : "idb-companion",
+              "path" : "/opt/homebrew/Cellar/idb-companion/1.5.2",
+              "sizeBytes" : 78110720,
+              "version" : "1.5.2"
+            },
+            {
+              "id" : "brew.formulae/node",
+              "name" : "node",
+              "path" : "/opt/homebrew/Cellar/node/26.8.1",
+              "sizeBytes" : 75452416,
+              "version" : "26.8.1"
+            },
+            {
+              "id" : "brew.formulae/tcl-tk",
+              "name" : "tcl-tk",
+              "path" : "/opt/homebrew/Cellar/tcl-tk/9.0.4",
+              "sizeBytes" : 66416640,
+              "version" : "9.0.4"
+            },
+            {
+              "id" : "brew.formulae/bun",
+              "name" : "bun",
+              "path" : "/opt/homebrew/Cellar/bun/1.3.9",
+              "sizeBytes" : 60370944,
+              "version" : "1.3.9"
+            },
+            {
+              "id" : "brew.formulae/postgresql@14",
+              "name" : "postgresql@14",
+              "path" : "/opt/homebrew/Cellar/postgresql@14/14.24",
+              "sizeBytes" : 56344576,
+              "version" : "14.24"
+            },
+            {
+              "id" : "brew.formulae/ffmpeg",
+              "name" : "ffmpeg",
+              "path" : "/opt/homebrew/Cellar/ffmpeg/9.0.1_1",
+              "sizeBytes" : 54444032,
+              "version" : "9.0.1_1"
+            },
+            {
+              "id" : "brew.formulae/uv",
+              "name" : "uv",
+              "path" : "/opt/homebrew/Cellar/uv/0.12.9",
+              "sizeBytes" : 44388352,
+              "version" : "0.12.9"
+            },
+            {
+              "id" : "brew.formulae/openai-whisper",
+              "name" : "openai-whisper",
+              "path" : "/opt/homebrew/Cellar/openai-whisper/20250625_6",
+              "sizeBytes" : 44294144,
+              "version" : "20250625_6"
+            },
+            {
+              "id" : "brew.formulae/numpy",
+              "name" : "numpy",
+              "path" : "/opt/homebrew/Cellar/numpy/2.5.2",
+              "sizeBytes" : 43753472,
+              "version" : "2.5.2"
+            },
+            {
+              "id" : "brew.formulae/gettext",
+              "name" : "gettext",
+              "path" : "/opt/homebrew/Cellar/gettext/1.0",
+              "sizeBytes" : 42459136,
+              "version" : "1.0"
+            },
+            {
+              "id" : "brew.formulae/openssl@3",
+              "name" : "openssl@3",
+              "path" : "/opt/homebrew/Cellar/openssl@3/3.6.4",
+              "sizeBytes" : 41332736,
+              "version" : "3.6.4"
+            },
+            {
+              "id" : "brew.formulae/libpq",
+              "name" : "libpq",
+              "path" : "/opt/homebrew/Cellar/libpq/18.6",
+              "sizeBytes" : 40767488,
+              "version" : "18.6"
+            },
+            {
+              "id" : "brew.formulae/glib",
+              "name" : "glib",
+              "path" : "/opt/homebrew/Cellar/glib/2.88.3",
+              "sizeBytes" : 40562688,
+              "version" : "2.88.3"
+            },
+            {
+              "id" : "brew.formulae/openblas",
+              "name" : "openblas",
+              "path" : "/opt/homebrew/Cellar/openblas/0.3.34",
+              "sizeBytes" : 40423424,
+              "version" : "0.3.34"
+            },
+            {
+              "id" : "brew.formulae/gh",
+              "name" : "gh",
+              "path" : "/opt/homebrew/Cellar/gh/2.99.0",
+              "sizeBytes" : 40275968,
+              "version" : "2.99.0"
+            },
+            {
+              "id" : "brew.formulae/peekaboo",
+              "name" : "peekaboo",
+              "path" : "/opt/homebrew/Cellar/peekaboo/3.0.0-beta3",
+              "sizeBytes" : 39706624,
+              "version" : "3.0.0-beta3"
+            },
+            {
+              "id" : "brew.formulae/wacli",
+              "name" : "wacli",
+              "path" : "/opt/homebrew/Cellar/wacli/0.2.0",
+              "sizeBytes" : 38223872,
+              "version" : "0.2.0"
+            },
+            {
+              "id" : "brew.formulae/tesseract",
+              "name" : "tesseract",
+              "path" : "/opt/homebrew/Cellar/tesseract/5.5.3",
+              "sizeBytes" : 34758656,
+              "version" : "5.5.3"
+            },
+            {
+              "id" : "brew.formulae/llmfit",
+              "name" : "llmfit",
+              "path" : "/opt/homebrew/Cellar/llmfit/1.1.12",
+              "sizeBytes" : 27852800,
+              "version" : "1.1.12"
+            },
+            {
+              "id" : "brew.formulae/yt-dlp",
+              "name" : "yt-dlp",
+              "path" : "/opt/homebrew/Cellar/yt-dlp/2026.8.19",
+              "sizeBytes" : 24539136,
+              "version" : "2026.8.19"
+            },
+            {
+              "id" : "brew.formulae/gogcli",
+              "name" : "gogcli",
+              "path" : "/opt/homebrew/Cellar/gogcli/0.11.0",
+              "sizeBytes" : 21258240,
+              "version" : "0.11.0"
+            },
+            {
+              "id" : "brew.formulae/sag",
+              "name" : "sag",
+              "path" : "/opt/homebrew/Cellar/sag/0.2.2",
+              "sizeBytes" : 19484672,
+              "version" : "0.2.2"
+            },
+            {
+              "id" : "brew.formulae/protobuf",
+              "name" : "protobuf",
+              "path" : "/opt/homebrew/Cellar/protobuf/36.0",
+              "sizeBytes" : 18661376,
+              "version" : "36.0"
+            },
+            {
+              "id" : "brew.formulae/x265",
+              "name" : "x265",
+              "path" : "/opt/homebrew/Cellar/x265/4.3",
+              "sizeBytes" : 17367040,
+              "version" : "4.3"
+            },
+            {
+              "id" : "brew.formulae/libxcb",
+              "name" : "libxcb",
+              "path" : "/opt/homebrew/Cellar/libxcb/1.17.0",
+              "sizeBytes" : 16236544,
+              "version" : "1.17.0"
+            },
+            {
+              "id" : "brew.formulae/gnupg",
+              "name" : "gnupg",
+              "path" : "/opt/homebrew/Cellar/gnupg/2.5.22",
+              "sizeBytes" : 16195584,
+              "version" : "2.5.22"
+            },
+            {
+              "id" : "brew.formulae/openjpeg",
+              "name" : "openjpeg",
+              "path" : "/opt/homebrew/Cellar/openjpeg/2.5.4",
+              "sizeBytes" : 15716352,
+              "version" : "2.5.4"
+            },
+            {
+              "id" : "brew.formulae/gnutls",
+              "name" : "gnutls",
+              "path" : "/opt/homebrew/Cellar/gnutls/3.8.13_2",
+              "sizeBytes" : 14438400,
+              "version" : "3.8.13_2"
+            },
+            {
+              "id" : "brew.formulae/harfbuzz",
+              "name" : "harfbuzz",
+              "path" : "/opt/homebrew/Cellar/harfbuzz/14.4.0",
+              "sizeBytes" : 13672448,
+              "version" : "14.4.0"
+            },
+            {
+              "id" : "brew.formulae/abseil",
+              "name" : "abseil",
+              "path" : "/opt/homebrew/Cellar/abseil/20260817.0",
+              "sizeBytes" : 13524992,
+              "version" : "20260817.0"
+            },
+            {
+              "id" : "brew.formulae/pyenv",
+              "name" : "pyenv",
+              "path" : "/opt/homebrew/Cellar/pyenv/2.8.5",
+              "sizeBytes" : 11866112,
+              "version" : "2.8.5"
+            },
+            {
+              "id" : "brew.formulae/eigen",
+              "name" : "eigen",
+              "path" : "/opt/homebrew/Cellar/eigen/5.0.1",
+              "sizeBytes" : 11493376,
+              "version" : "5.0.1"
+            },
+            {
+              "id" : "brew.formulae/maven",
+              "name" : "maven",
+              "path" : "/opt/homebrew/Cellar/maven/3.9.16",
+              "sizeBytes" : 11063296,
+              "version" : "3.9.16"
+            },
+            {
+              "id" : "brew.formulae/mole",
+              "name" : "mole",
+              "path" : "/opt/homebrew/Cellar/mole/1.53.0",
+              "sizeBytes" : 10928128,
+              "version" : "1.53.0"
+            },
+            {
+              "id" : "brew.formulae/agent-browser",
+              "name" : "agent-browser",
+              "path" : "/opt/homebrew/Cellar/agent-browser/0.36.0",
+              "sizeBytes" : 10833920,
+              "version" : "0.36.0"
+            },
+            {
+              "id" : "brew.formulae/libx11",
+              "name" : "libx11",
+              "path" : "/opt/homebrew/Cellar/libx11/1.8.13",
+              "sizeBytes" : 10493952,
+              "version" : "1.8.13"
+            },
+            {
+              "id" : "brew.formulae/libtiff",
+              "name" : "libtiff",
+              "path" : "/opt/homebrew/Cellar/libtiff/4.7.2",
+              "sizeBytes" : 10276864,
+              "version" : "4.7.2"
+            },
+            {
+              "id" : "brew.formulae/libvmaf",
+              "name" : "libvmaf",
+              "path" : "/opt/homebrew/Cellar/libvmaf/3.2.0",
+              "sizeBytes" : 8871936,
+              "version" : "3.2.0"
+            },
+            {
+              "id" : "brew.formulae/isl",
+              "name" : "isl",
+              "path" : "/opt/homebrew/Cellar/isl/0.28",
+              "sizeBytes" : 8208384,
+              "version" : "0.28"
+            },
+            {
+              "id" : "brew.formulae/gifgrep",
+              "name" : "gifgrep",
+              "path" : "/opt/homebrew/Cellar/gifgrep/0.2.1",
+              "sizeBytes" : 8015872,
+              "version" : "0.2.1"
+            },
+            {
+              "id" : "brew.formulae/simdjson",
+              "name" : "simdjson",
+              "path" : "/opt/homebrew/Cellar/simdjson/4.6.9",
+              "sizeBytes" : 8003584,
+              "version" : "4.6.9"
+            },
+            {
+              "id" : "brew.formulae/pcre2",
+              "name" : "pcre2",
+              "path" : "/opt/homebrew/Cellar/pcre2/10.48",
+              "sizeBytes" : 7880704,
+              "version" : "10.48"
+            },
+            {
+              "id" : "brew.casks/goplaces",
+              "name" : "goplaces",
+              "path" : "/opt/homebrew/Caskroom/goplaces/0.4.9",
+              "sizeBytes" : 7770112,
+              "version" : "0.4.9"
+            },
+            {
+              "id" : "brew.formulae/goplaces",
+              "name" : "goplaces",
+              "path" : "/opt/homebrew/Cellar/goplaces/0.3.0",
+              "sizeBytes" : 7585792,
+              "version" : "0.3.0"
+            },
+            {
+              "id" : "brew.formulae/leptonica",
+              "name" : "leptonica",
+              "path" : "/opt/homebrew/Cellar/leptonica/1.87.0",
+              "sizeBytes" : 7327744,
+              "version" : "1.87.0"
+            },
+            {
+              "id" : "brew.formulae/onnx",
+              "name" : "onnx",
+              "path" : "/opt/homebrew/Cellar/onnx/1.22.0_3",
+              "sizeBytes" : 6893568,
+              "version" : "1.22.0_3"
+            },
+            {
+              "id" : "brew.formulae/witr",
+              "name" : "witr",
+              "path" : "/opt/homebrew/Cellar/witr/0.3.3",
+              "sizeBytes" : 6864896,
+              "version" : "0.3.3"
+            },
+            {
+              "id" : "brew.formulae/rtk",
+              "name" : "rtk",
+              "path" : "/opt/homebrew/Cellar/rtk/0.47.0",
+              "sizeBytes" : 6860800,
+              "version" : "0.47.0"
+            },
+            {
+              "id" : "brew.formulae/sdl3",
+              "name" : "sdl3",
+              "path" : "/opt/homebrew/Cellar/sdl3/3.4.16",
+              "sizeBytes" : 6516736,
+              "version" : "3.4.16"
+            },
+            {
+              "id" : "brew.formulae/krb5",
+              "name" : "krb5",
+              "path" : "/opt/homebrew/Cellar/krb5/1.22.2",
+              "sizeBytes" : 6197248,
+              "version" : "1.22.2"
+            },
+            {
+              "id" : "brew.formulae/libunistring",
+              "name" : "libunistring",
+              "path" : "/opt/homebrew/Cellar/libunistring/1.4.2",
+              "sizeBytes" : 5873664,
+              "version" : "1.4.2"
+            },
+            {
+              "id" : "brew.formulae/sqlite",
+              "name" : "sqlite",
+              "path" : "/opt/homebrew/Cellar/sqlite/3.53.4",
+              "sizeBytes" : 5353472,
+              "version" : "3.53.4"
+            },
+            {
+              "id" : "brew.formulae/p11-kit",
+              "name" : "p11-kit",
+              "path" : "/opt/homebrew/Cellar/p11-kit/0.26.5",
+              "sizeBytes" : 4861952,
+              "version" : "0.26.5"
+            },
+            {
+              "id" : "brew.formulae/cairo",
+              "name" : "cairo",
+              "path" : "/opt/homebrew/Cellar/cairo/1.18.4",
+              "sizeBytes" : 4804608,
+              "version" : "1.18.4"
+            },
+            {
+              "id" : "brew.formulae/xorgproto",
+              "name" : "xorgproto",
+              "path" : "/opt/homebrew/Cellar/xorgproto/2025.1",
+              "sizeBytes" : 4743168,
+              "version" : "2025.1"
+            },
+            {
+              "id" : "brew.formulae/x264",
+              "name" : "x264",
+              "path" : "/opt/homebrew/Cellar/x264/r3222",
+              "sizeBytes" : 4431872,
+              "version" : "r3222"
+            },
+            {
+              "id" : "brew.formulae/libvpx",
+              "name" : "libvpx",
+              "path" : "/opt/homebrew/Cellar/libvpx/1.17.0",
+              "sizeBytes" : 4423680,
+              "version" : "1.17.0"
+            },
+            {
+              "id" : "brew.formulae/libtool",
+              "name" : "libtool",
+              "path" : "/opt/homebrew/Cellar/libtool/2.6.2",
+              "sizeBytes" : 4390912,
+              "version" : "2.6.2"
+            },
+            {
+              "id" : "brew.formulae/jpeg-turbo",
+              "name" : "jpeg-turbo",
+              "path" : "/opt/homebrew/Cellar/jpeg-turbo/3.2.0",
+              "sizeBytes" : 4354048,
+              "version" : "3.2.0"
+            },
+            {
+              "id" : "brew.formulae/libgcrypt",
+              "name" : "libgcrypt",
+              "path" : "/opt/homebrew/Cellar/libgcrypt/1.12.3",
+              "sizeBytes" : 4161536,
+              "version" : "1.12.3"
+            },
+            {
+              "id" : "brew.formulae/automake",
+              "name" : "automake",
+              "path" : "/opt/homebrew/Cellar/automake/1.18.1_1",
+              "sizeBytes" : 4149248,
+              "version" : "1.18.1_1"
+            },
+            {
+              "id" : "brew.formulae/libarchive",
+              "name" : "libarchive",
+              "path" : "/opt/homebrew/Cellar/libarchive/3.8.9",
+              "sizeBytes" : 4149248,
+              "version" : "3.8.9"
+            },
+            {
+              "id" : "brew.formulae/sleef",
+              "name" : "sleef",
+              "path" : "/opt/homebrew/Cellar/sleef/3.9.0",
+              "sizeBytes" : 4014080,
+              "version" : "3.9.0"
+            },
+            {
+              "id" : "brew.formulae/autoconf",
+              "name" : "autoconf",
+              "path" : "/opt/homebrew/Cellar/autoconf/2.73",
+              "sizeBytes" : 4005888,
+              "version" : "2.73"
+            },
+            {
+              "id" : "brew.formulae/pango",
+              "name" : "pango",
+              "path" : "/opt/homebrew/Cellar/pango/1.58.2",
+              "sizeBytes" : 3837952,
+              "version" : "1.58.2"
+            },
+            {
+              "id" : "brew.formulae/sdl2-compat",
+              "name" : "sdl2-compat",
+              "path" : "/opt/homebrew/Cellar/sdl2-compat/2.32.72",
+              "sizeBytes" : 3563520,
+              "version" : "2.32.72"
+            },
+            {
+              "id" : "brew.formulae/gmp",
+              "name" : "gmp",
+              "path" : "/opt/homebrew/Cellar/gmp/6.3.0",
+              "sizeBytes" : 3473408,
+              "version" : "6.3.0"
+            },
+            {
+              "id" : "brew.formulae/mpfr",
+              "name" : "mpfr",
+              "path" : "/opt/homebrew/Cellar/mpfr/4.2.2",
+              "sizeBytes" : 3371008,
+              "version" : "4.2.2"
+            },
+            {
+              "id" : "brew.formulae/svt-av1",
+              "name" : "svt-av1",
+              "path" : "/opt/homebrew/Cellar/svt-av1/4.2.0",
+              "sizeBytes" : 3358720,
+              "version" : "4.2.0"
+            },
+            {
+              "id" : "brew.formulae/nettle",
+              "name" : "nettle",
+              "path" : "/opt/homebrew/Cellar/nettle/4.0",
+              "sizeBytes" : 3035136,
+              "version" : "4.0"
+            },
+            {
+              "id" : "brew.formulae/freetype",
+              "name" : "freetype",
+              "path" : "/opt/homebrew/Cellar/freetype/2.14.3",
+              "sizeBytes" : 2871296,
+              "version" : "2.14.3"
+            },
+            {
+              "id" : "brew.formulae/xz",
+              "name" : "xz",
+              "path" : "/opt/homebrew/Cellar/xz/5.8.3",
+              "sizeBytes" : 2850816,
+              "version" : "5.8.3"
+            },
+            {
+              "id" : "brew.formulae/readline",
+              "name" : "readline",
+              "path" : "/opt/homebrew/Cellar/readline/8.3.3",
+              "sizeBytes" : 2764800,
+              "version" : "8.3.3"
+            },
+            {
+              "id" : "brew.formulae/webp",
+              "name" : "webp",
+              "path" : "/opt/homebrew/Cellar/webp/1.6.0",
+              "sizeBytes" : 2723840,
+              "version" : "1.6.0"
+            },
+            {
+              "id" : "brew.formulae/zstd",
+              "name" : "zstd",
+              "path" : "/opt/homebrew/Cellar/zstd/1.5.7_1",
+              "sizeBytes" : 2367488,
+              "version" : "1.5.7_1"
+            },
+            {
+              "id" : "brew.formulae/simdutf",
+              "name" : "simdutf",
+              "path" : "/opt/homebrew/Cellar/simdutf/9.1.0",
+              "sizeBytes" : 2191360,
+              "version" : "9.1.0"
+            },
+            {
+              "id" : "brew.formulae/memo",
+              "name" : "memo",
+              "path" : "/opt/homebrew/Cellar/memo/0.3.6",
+              "sizeBytes" : 2174976,
+              "version" : "0.3.6"
+            },
+            {
+              "id" : "brew.formulae/fontconfig",
+              "name" : "fontconfig",
+              "path" : "/opt/homebrew/Cellar/fontconfig/2.18.3",
+              "sizeBytes" : 2117632,
+              "version" : "2.18.3"
+            },
+            {
+              "id" : "brew.formulae/mpg123",
+              "name" : "mpg123",
+              "path" : "/opt/homebrew/Cellar/mpg123/1.33.7",
+              "sizeBytes" : 2011136,
+              "version" : "1.33.7"
+            },
+            {
+              "id" : "brew.formulae/lame",
+              "name" : "lame",
+              "path" : "/opt/homebrew/Cellar/lame/4.0",
+              "sizeBytes" : 2002944,
+              "version" : "4.0"
+            },
+            {
+              "id" : "brew.formulae/libgpg-error",
+              "name" : "libgpg-error",
+              "path" : "/opt/homebrew/Cellar/libgpg-error/1.61",
+              "sizeBytes" : 1982464,
+              "version" : "1.61"
+            },
+            {
+              "id" : "brew.formulae/brotli",
+              "name" : "brotli",
+              "path" : "/opt/homebrew/Cellar/brotli/1.2.0",
+              "sizeBytes" : 1966080,
+              "version" : "1.2.0"
+            },
+            {
+              "id" : "brew.formulae/fastfetch",
+              "name" : "fastfetch",
+              "path" : "/opt/homebrew/Cellar/fastfetch/2.68.1",
+              "sizeBytes" : 1859584,
+              "version" : "2.68.1"
+            },
+            {
+              "id" : "brew.formulae/libomp",
+              "name" : "libomp",
+              "path" : "/opt/homebrew/Cellar/libomp/23.1.0",
+              "sizeBytes" : 1835008,
+              "version" : "23.1.0"
+            },
+            {
+              "id" : "brew.formulae/c-ares",
+              "name" : "c-ares",
+              "path" : "/opt/homebrew/Cellar/c-ares/1.34.8",
+              "sizeBytes" : 1609728,
+              "version" : "1.34.8"
+            },
+            {
+              "id" : "brew.formulae/pixman",
+              "name" : "pixman",
+              "path" : "/opt/homebrew/Cellar/pixman/0.46.4",
+              "sizeBytes" : 1458176,
+              "version" : "0.46.4"
+            },
+            {
+              "id" : "brew.formulae/libngtcp2",
+              "name" : "libngtcp2",
+              "path" : "/opt/homebrew/Cellar/libngtcp2/1.25.0",
+              "sizeBytes" : 1454080,
+              "version" : "1.25.0"
+            },
+            {
+              "id" : "brew.formulae/pybind11",
+              "name" : "pybind11",
+              "path" : "/opt/homebrew/Cellar/pybind11/3.1.0",
+              "sizeBytes" : 1454080,
+              "version" : "3.1.0"
+            },
+            {
+              "id" : "brew.formulae/libpng",
+              "name" : "libpng",
+              "path" : "/opt/homebrew/Cellar/libpng/1.6.58",
+              "sizeBytes" : 1437696,
+              "version" : "1.6.58"
+            },
+            {
+              "id" : "brew.formulae/little-cms2",
+              "name" : "little-cms2",
+              "path" : "/opt/homebrew/Cellar/little-cms2/2.19.1",
+              "sizeBytes" : 1425408,
+              "version" : "2.19.1"
+            },
+            {
+              "id" : "brew.formulae/remindctl",
+              "name" : "remindctl",
+              "path" : "/opt/homebrew/Cellar/remindctl/0.1.1",
+              "sizeBytes" : 1355776,
+              "version" : "0.1.1"
+            },
+            {
+              "id" : "brew.formulae/libuv",
+              "name" : "libuv",
+              "path" : "/opt/homebrew/Cellar/libuv/1.52.1",
+              "sizeBytes" : 1351680,
+              "version" : "1.52.1"
+            },
+            {
+              "id" : "brew.formulae/ada-url",
+              "name" : "ada-url",
+              "path" : "/opt/homebrew/Cellar/ada-url/4.0.0",
+              "sizeBytes" : 1224704,
+              "version" : "4.0.0"
+            },
+            {
+              "id" : "brew.formulae/fmt",
+              "name" : "fmt",
+              "path" : "/opt/homebrew/Cellar/fmt/12.2.0",
+              "sizeBytes" : 1175552,
+              "version" : "12.2.0"
+            },
+            {
+              "id" : "brew.formulae/opus",
+              "name" : "opus",
+              "path" : "/opt/homebrew/Cellar/opus/1.6.1",
+              "sizeBytes" : 1146880,
+              "version" : "1.6.1"
+            },
+            {
+              "id" : "brew.formulae/libidn2",
+              "name" : "libidn2",
+              "path" : "/opt/homebrew/Cellar/libidn2/2.3.8",
+              "sizeBytes" : 1118208,
+              "version" : "2.3.8"
+            },
+            {
+              "id" : "brew.formulae/libthai",
+              "name" : "libthai",
+              "path" : "/opt/homebrew/Cellar/libthai/0.1.30",
+              "sizeBytes" : 1040384,
+              "version" : "0.1.30"
+            },
+            {
+              "id" : "brew.formulae/dav1d",
+              "name" : "dav1d",
+              "path" : "/opt/homebrew/Cellar/dav1d/1.5.4",
+              "sizeBytes" : 1024000,
+              "version" : "1.5.4"
+            },
+            {
+              "id" : "brew.formulae/libffi",
+              "name" : "libffi",
+              "path" : "/opt/homebrew/Cellar/libffi/3.8.0",
+              "sizeBytes" : 987136,
+              "version" : "3.8.0"
+            },
+            {
+              "id" : "brew.formulae/libnghttp2",
+              "name" : "libnghttp2",
+              "path" : "/opt/homebrew/Cellar/libnghttp2/1.70.0",
+              "sizeBytes" : 892928,
+              "version" : "1.70.0"
+            },
+            {
+              "id" : "brew.formulae/libtasn1",
+              "name" : "libtasn1",
+              "path" : "/opt/homebrew/Cellar/libtasn1/4.21.0",
+              "sizeBytes" : 872448,
+              "version" : "4.21.0"
+            },
+            {
+              "id" : "brew.formulae/m4",
+              "name" : "m4",
+              "path" : "/opt/homebrew/Cellar/m4/1.4.21",
+              "sizeBytes" : 847872,
+              "version" : "1.4.21"
+            },
+            {
+              "id" : "brew.formulae/pkgconf",
+              "name" : "pkgconf",
+              "path" : "/opt/homebrew/Cellar/pkgconf/3.0.6",
+              "sizeBytes" : 815104,
+              "version" : "3.0.6"
+            },
+            {
+              "id" : "brew.formulae/lz4",
+              "name" : "lz4",
+              "path" : "/opt/homebrew/Cellar/lz4/1.10.0",
+              "sizeBytes" : 761856,
+              "version" : "1.10.0"
+            },
+            {
+              "id" : "brew.formulae/fribidi",
+              "name" : "fribidi",
+              "path" : "/opt/homebrew/Cellar/fribidi/1.0.16",
+              "sizeBytes" : 716800,
+              "version" : "1.0.16"
+            },
+            {
+              "id" : "brew.formulae/libxext",
+              "name" : "libxext",
+              "path" : "/opt/homebrew/Cellar/libxext/1.3.7",
+              "sizeBytes" : 708608,
+              "version" : "1.3.7"
+            },
+            {
+              "id" : "brew.formulae/mpdecimal",
+              "name" : "mpdecimal",
+              "path" : "/opt/homebrew/Cellar/mpdecimal/4.0.1",
+              "sizeBytes" : 700416,
+              "version" : "4.0.1"
+            },
+            {
+              "id" : "brew.formulae/libusb",
+              "name" : "libusb",
+              "path" : "/opt/homebrew/Cellar/libusb/1.0.30",
+              "sizeBytes" : 692224,
+              "version" : "1.0.30"
+            },
+            {
+              "id" : "brew.formulae/lzo",
+              "name" : "lzo",
+              "path" : "/opt/homebrew/Cellar/lzo/2.10",
+              "sizeBytes" : 655360,
+              "version" : "2.10"
+            },
+            {
+              "id" : "brew.formulae/libnghttp3",
+              "name" : "libnghttp3",
+              "path" : "/opt/homebrew/Cellar/libnghttp3/1.18.0",
+              "sizeBytes" : 647168,
+              "version" : "1.18.0"
+            },
+            {
+              "id" : "brew.formulae/yyjson",
+              "name" : "yyjson",
+              "path" : "/opt/homebrew/Cellar/yyjson/0.12.0",
+              "sizeBytes" : 638976,
+              "version" : "0.12.0"
+            },
+            {
+              "id" : "brew.formulae/libassuan",
+              "name" : "libassuan",
+              "path" : "/opt/homebrew/Cellar/libassuan/3.0.2",
+              "sizeBytes" : 618496,
+              "version" : "3.0.2"
+            },
+            {
+              "id" : "brew.formulae/bzip2",
+              "name" : "bzip2",
+              "path" : "/opt/homebrew/Cellar/bzip2/1.0.8",
+              "sizeBytes" : 577536,
+              "version" : "1.0.8"
+            },
+            {
+              "id" : "brew.formulae/libksba",
+              "name" : "libksba",
+              "path" : "/opt/homebrew/Cellar/libksba/1.8.1",
+              "sizeBytes" : 577536,
+              "version" : "1.8.1"
+            },
+            {
+              "id" : "brew.formulae/libmpc",
+              "name" : "libmpc",
+              "path" : "/opt/homebrew/Cellar/libmpc/1.4.1",
+              "sizeBytes" : 573440,
+              "version" : "1.4.1"
+            },
+            {
+              "id" : "brew.formulae/libtommath",
+              "name" : "libtommath",
+              "path" : "/opt/homebrew/Cellar/libtommath/1.3.0",
+              "sizeBytes" : 573440,
+              "version" : "1.3.0"
+            },
+            {
+              "id" : "brew.formulae/giflib",
+              "name" : "giflib",
+              "path" : "/opt/homebrew/Cellar/giflib/6.1.3",
+              "sizeBytes" : 569344,
+              "version" : "6.1.3"
+            },
+            {
+              "id" : "brew.formulae/pinentry",
+              "name" : "pinentry",
+              "path" : "/opt/homebrew/Cellar/pinentry/1.3.3",
+              "sizeBytes" : 499712,
+              "version" : "1.3.3"
+            },
+            {
+              "id" : "brew.formulae/zlib",
+              "name" : "zlib",
+              "path" : "/opt/homebrew/Cellar/zlib/1.3.2",
+              "sizeBytes" : 458752,
+              "version" : "1.3.2"
+            },
+            {
+              "id" : "brew.formulae/json-c",
+              "name" : "json-c",
+              "path" : "/opt/homebrew/Cellar/json-c/0.19",
+              "sizeBytes" : 450560,
+              "version" : "0.19"
+            },
+            {
+              "id" : "brew.formulae/libyaml",
+              "name" : "libyaml",
+              "path" : "/opt/homebrew/Cellar/libyaml/0.2.5",
+              "sizeBytes" : 389120,
+              "version" : "0.2.5"
+            },
+            {
+              "id" : "brew.formulae/libdatrie",
+              "name" : "libdatrie",
+              "path" : "/opt/homebrew/Cellar/libdatrie/0.2.14",
+              "sizeBytes" : 356352,
+              "version" : "0.2.14"
+            },
+            {
+              "id" : "brew.formulae/uvwasi",
+              "name" : "uvwasi",
+              "path" : "/opt/homebrew/Cellar/uvwasi/0.0.23",
+              "sizeBytes" : 327680,
+              "version" : "0.0.23"
+            },
+            {
+              "id" : "brew.formulae/graphite2",
+              "name" : "graphite2",
+              "path" : "/opt/homebrew/Cellar/graphite2/1.3.15",
+              "sizeBytes" : 315392,
+              "version" : "1.3.15"
+            },
+            {
+              "id" : "brew.formulae/libxrender",
+              "name" : "libxrender",
+              "path" : "/opt/homebrew/Cellar/libxrender/0.9.12",
+              "sizeBytes" : 258048,
+              "version" : "0.9.12"
+            },
+            {
+              "id" : "brew.formulae/nvm",
+              "name" : "nvm",
+              "path" : "/opt/homebrew/Cellar/nvm/0.40.7",
+              "sizeBytes" : 258048,
+              "version" : "0.40.7"
+            },
+            {
+              "id" : "brew.formulae/hdrhistogram_c",
+              "name" : "hdrhistogram_c",
+              "path" : "/opt/homebrew/Cellar/hdrhistogram_c/0.11.10",
+              "sizeBytes" : 225280,
+              "version" : "0.11.10"
+            },
+            {
+              "id" : "brew.formulae/ca-certificates",
+              "name" : "ca-certificates",
+              "path" : "/opt/homebrew/Cellar/ca-certificates/2026-08-13",
+              "sizeBytes" : 217088,
+              "version" : "2026-08-13"
+            },
+            {
+              "id" : "brew.formulae/libxau",
+              "name" : "libxau",
+              "path" : "/opt/homebrew/Cellar/libxau/1.0.12",
+              "sizeBytes" : 196608,
+              "version" : "1.0.12"
+            },
+            {
+              "id" : "brew.formulae/npth",
+              "name" : "npth",
+              "path" : "/opt/homebrew/Cellar/npth/1.8",
+              "sizeBytes" : 196608,
+              "version" : "1.8"
+            },
+            {
+              "id" : "brew.casks/antigravity-ide",
+              "name" : "Antigravity IDE",
+              "path" : "/opt/homebrew/Caskroom/antigravity-ide/2.5.5,4923483625488384",
+              "sizeBytes" : 184320,
+              "version" : "2.5.5"
+            },
+            {
+              "id" : "brew.formulae/llhttp",
+              "name" : "llhttp",
+              "path" : "/opt/homebrew/Cellar/llhttp/9.4.3",
+              "sizeBytes" : 180224,
+              "version" : "9.4.3"
+            },
+            {
+              "id" : "brew.formulae/libxdmcp",
+              "name" : "libxdmcp",
+              "path" : "/opt/homebrew/Cellar/libxdmcp/1.1.5",
+              "sizeBytes" : 176128,
+              "version" : "1.1.5"
+            },
+            {
+              "id" : "brew.formulae/merve",
+              "name" : "merve",
+              "path" : "/opt/homebrew/Cellar/merve/1.2.2_2",
+              "sizeBytes" : 176128,
+              "version" : "1.2.2_2"
+            },
+            {
+              "id" : "brew.formulae/libb2",
+              "name" : "libb2",
+              "path" : "/opt/homebrew/Cellar/libb2/0.98.1",
+              "sizeBytes" : 147456,
+              "version" : "0.98.1"
+            },
+            {
+              "id" : "brew.formulae/nbytes",
+              "name" : "nbytes",
+              "path" : "/opt/homebrew/Cellar/nbytes/0.1.4",
+              "sizeBytes" : 114688,
+              "version" : "0.1.4"
+            },
+            {
+              "id" : "brew.formulae/duti",
+              "name" : "duti",
+              "path" : "/opt/homebrew/Cellar/duti/1.5.4_1",
+              "sizeBytes" : 102400,
+              "version" : "1.5.4_1"
+            },
+            {
+              "id" : "brew.formulae/certifi",
+              "name" : "certifi",
+              "path" : "/opt/homebrew/Cellar/certifi/2026.7.22",
+              "sizeBytes" : 57344,
+              "version" : "2026.7.22"
+            },
+            {
+              "id" : "brew.casks/vlc",
+              "name" : "VLC",
+              "path" : "/opt/homebrew/Caskroom/vlc/3.0.23",
+              "sizeBytes" : 57344,
+              "version" : "3.0.23"
+            },
+            {
+              "id" : "brew.casks/google-chrome",
+              "name" : "Google Chrome",
+              "path" : "/opt/homebrew/Caskroom/google-chrome/152.0.7977.76",
+              "sizeBytes" : 53248,
+              "version" : "152.0.7977.76"
+            },
+            {
+              "id" : "brew.casks/icon-composer",
+              "name" : "Icon Composer",
+              "path" : "/opt/homebrew/Caskroom/icon-composer/1.2",
+              "sizeBytes" : 40960,
+              "version" : "1.2"
+            },
+            {
+              "id" : "brew.casks/obsidian",
+              "name" : "Obsidian",
+              "path" : "/opt/homebrew/Caskroom/obsidian/1.13.7",
+              "sizeBytes" : 36864,
+              "version" : "1.13.7"
+            },
+            {
+              "id" : "brew.casks/reminders-menubar",
+              "name" : "Reminders MenuBar",
+              "path" : "/opt/homebrew/Caskroom/reminders-menubar/2.1.0",
+              "sizeBytes" : 36864,
+              "version" : "2.1.0"
+            },
+            {
+              "id" : "brew.casks/linear",
+              "name" : "Linear",
+              "path" : "/opt/homebrew/Caskroom/linear/1.31.1",
+              "sizeBytes" : 20480,
+              "version" : "1.31.1"
+            },
+            {
+              "id" : "brew.casks/cursor",
+              "name" : "Cursor",
+              "path" : "/opt/homebrew/Caskroom/cursor/3.18.9,2ba48ff3f7514cc4643c52ca9f7b3173d9b66137",
+              "sizeBytes" : 16384,
+              "version" : "3.18.9"
+            },
+            {
+              "id" : "brew.casks/font-meslo-lg-nerd-font",
+              "name" : "font-meslo-lg-nerd-font",
+              "path" : "/opt/homebrew/Caskroom/font-meslo-lg-nerd-font/3.5.1",
+              "sizeBytes" : 12288,
+              "version" : "3.5.1"
+            },
+            {
+              "id" : "brew.casks/ethernet-connection-status",
+              "name" : "Ethernet Connection Status",
+              "path" : "/opt/homebrew/Caskroom/ethernet-connection-status/1.0.0",
+              "sizeBytes" : 4096,
+              "version" : "1.0.0"
+            },
+            {
+              "id" : "brew.casks/intellij-idea-ce",
+              "name" : "IntelliJ IDEA CE",
+              "path" : "/opt/homebrew/Caskroom/intellij-idea-ce/2025.1.3,251.26927.53",
+              "sizeBytes" : 4096,
+              "version" : "2025.1.3"
+            },
+            {
+              "id" : "brew.casks/agentnotch",
+              "name" : "AgentNotch",
+              "path" : "/opt/homebrew/Caskroom/agentnotch/1.1.2",
+              "sizeBytes" : 0,
+              "version" : "1.1.2"
+            },
+            {
+              "id" : "brew.casks/batfi",
+              "name" : "BatFi",
+              "path" : "/opt/homebrew/Caskroom/batfi/3.1.1",
+              "sizeBytes" : 0,
+              "version" : "3.1.1"
+            },
+            {
+              "id" : "brew.casks/chatgpt",
+              "name" : "ChatGPT",
+              "path" : "/opt/homebrew/Caskroom/chatgpt/26.901.20858",
+              "sizeBytes" : 0,
+              "version" : "26.901.20858"
+            },
+            {
+              "id" : "brew.casks/claude",
+              "name" : "Claude",
+              "path" : "/opt/homebrew/Caskroom/claude/1.44121.0,a670de389e37e5e93692c0aedf350fe0d2cde4c1",
+              "sizeBytes" : 0,
+              "version" : "1.44121.0"
+            },
+            {
+              "id" : "brew.casks/claudebar",
+              "name" : "ClaudeBar",
+              "path" : "/opt/homebrew/Caskroom/claudebar/0.4.88",
+              "sizeBytes" : 0,
+              "version" : "0.4.88"
+            },
+            {
+              "id" : "brew.casks/discord",
+              "name" : "Discord",
+              "path" : "/opt/homebrew/Caskroom/discord/0.0.364",
+              "sizeBytes" : 0,
+              "version" : "0.0.364"
+            },
+            {
+              "id" : "brew.casks/dockdoor",
+              "name" : "DockDoor",
+              "path" : "/opt/homebrew/Caskroom/dockdoor/1.25.3",
+              "sizeBytes" : 0,
+              "version" : "1.25.3"
+            },
+            {
+              "id" : "brew.casks/flux-markdown",
+              "name" : "FluxMarkdown",
+              "path" : "/opt/homebrew/Caskroom/flux-markdown/1.34.475",
+              "sizeBytes" : 0,
+              "version" : "1.34.475"
+            },
+            {
+              "id" : "brew.casks/gcloud-cli",
+              "name" : "gcloud-cli",
+              "path" : "/opt/homebrew/Caskroom/gcloud-cli/latest",
+              "sizeBytes" : 0,
+              "version" : "latest"
+            },
+            {
+              "id" : "brew.casks/grammarly-desktop",
+              "name" : "Grammarly Installer",
+              "path" : "/opt/homebrew/Caskroom/grammarly-desktop/1.189.2.0",
+              "sizeBytes" : 0,
+              "version" : "1.189.2.0"
+            },
+            {
+              "id" : "brew.casks/jordanbaird-ice",
+              "name" : "Ice",
+              "path" : "/opt/homebrew/Caskroom/jordanbaird-ice/0.11.12",
+              "sizeBytes" : 0,
+              "version" : "0.11.12"
+            },
+            {
+              "id" : "brew.casks/imageoptim",
+              "name" : "ImageOptim",
+              "path" : "/opt/homebrew/Caskroom/imageoptim/1.9.3",
+              "sizeBytes" : 0,
+              "version" : "1.9.3"
+            },
+            {
+              "id" : "brew.casks/itsycal",
+              "name" : "Itsycal",
+              "path" : "/opt/homebrew/Caskroom/itsycal/0.15.12",
+              "sizeBytes" : 0,
+              "version" : "0.15.12"
+            },
+            {
+              "id" : "brew.casks/logi-options+",
+              "name" : "logioptionsplus_installer",
+              "path" : "/opt/homebrew/Caskroom/logi-options+/2.7.961922",
+              "sizeBytes" : 0,
+              "version" : "2.7.961922"
+            },
+            {
+              "id" : "brew.casks/loop",
+              "name" : "Loop",
+              "path" : "/opt/homebrew/Caskroom/loop/1.4.2",
+              "sizeBytes" : 0,
+              "version" : "1.4.2"
+            },
+            {
+              "id" : "brew.casks/maccy",
+              "name" : "Maccy",
+              "path" : "/opt/homebrew/Caskroom/maccy/2.6.1",
+              "sizeBytes" : 0,
+              "version" : "2.6.1"
+            },
+            {
+              "id" : "brew.casks/macwhisper",
+              "name" : "MacWhisper",
+              "path" : "/opt/homebrew/Caskroom/macwhisper/14.8,1480",
+              "sizeBytes" : 0,
+              "version" : "14.8"
+            },
+            {
+              "id" : "brew.casks/mark-text",
+              "name" : "MarkText",
+              "path" : "/opt/homebrew/Caskroom/mark-text/0.17.1",
+              "sizeBytes" : 0,
+              "version" : "0.17.1"
+            },
+            {
+              "id" : "brew.casks/minisim",
+              "name" : "MiniSim",
+              "path" : "/opt/homebrew/Caskroom/minisim/0.10.0",
+              "sizeBytes" : 0,
+              "version" : "0.10.0"
+            },
+            {
+              "id" : "brew.casks/notchi",
+              "name" : "Notchi",
+              "path" : "/opt/homebrew/Caskroom/notchi/1.2.5",
+              "sizeBytes" : 0,
+              "version" : "1.2.5"
+            },
+            {
+              "id" : "brew.casks/notion",
+              "name" : "Notion",
+              "path" : "/opt/homebrew/Caskroom/notion/7.32.0",
+              "sizeBytes" : 0,
+              "version" : "7.32.0"
+            },
+            {
+              "id" : "brew.casks/postman",
+              "name" : "Postman",
+              "path" : "/opt/homebrew/Caskroom/postman/12.26.4",
+              "sizeBytes" : 0,
+              "version" : "12.26.4"
+            },
+            {
+              "id" : "brew.casks/qlcolorcode",
+              "name" : "qlcolorcode",
+              "path" : "/opt/homebrew/Caskroom/qlcolorcode/4.1.0",
+              "sizeBytes" : 0,
+              "version" : "4.1.0"
+            },
+            {
+              "id" : "brew.casks/raycast",
+              "name" : "Raycast",
+              "path" : "/opt/homebrew/Caskroom/raycast/2.0.5.0",
+              "sizeBytes" : 0,
+              "version" : "2.0.5.0"
+            },
+            {
+              "id" : "brew.casks/repobar",
+              "name" : "RepoBar",
+              "path" : "/opt/homebrew/Caskroom/repobar/0.1.1",
+              "sizeBytes" : 0,
+              "version" : "0.1.1"
+            },
+            {
+              "id" : "brew.casks/shottr",
+              "name" : "Shottr",
+              "path" : "/opt/homebrew/Caskroom/shottr/1.9.1",
+              "sizeBytes" : 0,
+              "version" : "1.9.1"
+            },
+            {
+              "id" : "brew.casks/skilldeck",
+              "name" : "SkillDeck",
+              "path" : "/opt/homebrew/Caskroom/skilldeck/0.0.17",
+              "sizeBytes" : 0,
+              "version" : "0.0.17"
+            },
+            {
+              "id" : "brew.casks/sourcetree",
+              "name" : "Sourcetree",
+              "path" : "/opt/homebrew/Caskroom/sourcetree/4.2.19,317",
+              "sizeBytes" : 0,
+              "version" : "4.2.19"
+            },
+            {
+              "id" : "brew.casks/sublime-text",
+              "name" : "Sublime Text",
+              "path" : "/opt/homebrew/Caskroom/sublime-text/4200",
+              "sizeBytes" : 0,
+              "version" : "4200"
+            },
+            {
+              "id" : "brew.casks/syntax-highlight",
+              "name" : "Syntax Highlight",
+              "path" : "/opt/homebrew/Caskroom/syntax-highlight/2.1.26",
+              "sizeBytes" : 0,
+              "version" : "2.1.26"
+            },
+            {
+              "id" : "brew.casks/tabtab",
+              "name" : "TabTab",
+              "path" : "/opt/homebrew/Caskroom/tabtab/2.1.3",
+              "sizeBytes" : 0,
+              "version" : "2.1.3"
+            },
+            {
+              "id" : "brew.casks/transmission",
+              "name" : "Transmission",
+              "path" : "/opt/homebrew/Caskroom/transmission/4.1.3",
+              "sizeBytes" : 0,
+              "version" : "4.1.3"
+            },
+            {
+              "id" : "brew.casks/visual-studio-code",
+              "name" : "Visual Studio Code",
+              "path" : "/opt/homebrew/Caskroom/visual-studio-code/1.136.0",
+              "sizeBytes" : 0,
+              "version" : "1.136.0"
+            },
+            {
+              "id" : "brew.casks/warp",
+              "name" : "Warp",
+              "path" : "/opt/homebrew/Caskroom/warp/0.2026.08.26.17.59.stable_01",
+              "sizeBytes" : 0,
+              "version" : "0.2026.08.26.17.59.stable_01"
+            },
+            {
+              "id" : "brew.casks/whatsapp",
+              "name" : "WhatsApp",
+              "path" : "/opt/homebrew/Caskroom/whatsapp/26.35.18",
+              "sizeBytes" : 0,
+              "version" : "26.35.18"
+            }
+          ],
+          "id" : "pkg.homebrew",
+          "managedBy" : "self",
+          "name" : "Homebrew",
+          "path" : "/opt/homebrew",
+          "sizeBytes" : 8034471936,
+          "status" : "ok",
+          "version" : "147 formulae · 52 casks",
+          "website" : "https://brew.sh"
+        },
+        {
+          "id" : "pkg.maven",
+          "managedBy" : "Homebrew formula",
+          "name" : "Maven",
+          "path" : "/opt/homebrew/Cellar/maven/3.9.16",
+          "sizeBytes" : 11063296,
+          "status" : "ok",
+          "version" : "3.9.16 · Homebrew",
+          "website" : "https://maven.apache.org"
+        },
+        {
+          "contents" : [
+            {
+              "id" : "pkg.npm/xcodebuildmcp",
+              "name" : "xcodebuildmcp",
+              "path" : "~/.nvm/versions/node/v22.19.0/lib/node_modules/xcodebuildmcp",
+              "sizeBytes" : 100204544,
+              "version" : "2.5.2"
+            },
+            {
+              "id" : "pkg.npm/@houtini/gemini-mcp",
+              "name" : "@houtini/gemini-mcp",
+              "path" : "~/.nvm/versions/node/v22.19.0/lib/node_modules/@houtini/gemini-mcp",
+              "sizeBytes" : 49303552,
+              "version" : "2.4.1"
+            },
+            {
+              "id" : "pkg.npm/claude-code-templates",
+              "name" : "claude-code-templates",
+              "path" : "~/.nvm/versions/node/v22.19.0/lib/node_modules/claude-code-templates",
+              "sizeBytes" : 28581888,
+              "version" : "1.24.17"
+            },
+            {
+              "id" : "pkg.npm/npm",
+              "name" : "npm",
+              "path" : "/opt/homebrew/lib/node_modules/npm",
+              "sizeBytes" : 17117184,
+              "version" : "11.19.0"
+            },
+            {
+              "id" : "pkg.npm/@playwright/mcp",
+              "name" : "@playwright/mcp",
+              "path" : "~/.nvm/versions/node/v22.19.0/lib/node_modules/@playwright/mcp",
+              "sizeBytes" : 15175680,
+              "version" : "0.0.70"
+            },
+            {
+              "id" : "pkg.npm/corepack",
+              "name" : "corepack",
+              "path" : "~/.nvm/versions/node/v22.19.0/lib/node_modules/corepack",
+              "sizeBytes" : 1224704,
+              "version" : "0.34.0"
+            }
+          ],
+          "id" : "pkg.npm",
+          "managedBy" : "Homebrew",
+          "name" : "npm",
+          "path" : "/opt/homebrew/lib/node_modules/npm/bin/npm-cli.js",
+          "sizeBytes" : 45056,
+          "status" : "ok",
+          "version" : "installed · Homebrew",
+          "website" : "https://npmjs.com"
+        },
+        {
+          "contents" : [
+            {
+              "id" : "pkg.nvm/22.19.0",
+              "name" : "22.19.0",
+              "path" : "~/.nvm/versions/node/v22.19.0",
+              "sizeBytes" : 380096512,
+              "version" : "nvm"
+            }
+          ],
+          "id" : "pkg.nvm",
+          "managedBy" : "Manual install",
+          "name" : "nvm",
+          "path" : "~/.nvm",
+          "sizeBytes" : 405086208,
+          "status" : "ok",
+          "version" : "1 version installed",
+          "website" : "https://github.com/nvm-sh/nvm"
+        },
+        {
+          "contents" : [
+            {
+              "id" : "pkg.pip/scipy",
+              "name" : "scipy",
+              "path" : "~/.pyenv/versions/3.11.6/lib/python3.11/site-packages/scipy",
+              "sizeBytes" : 104267776,
+              "version" : "1.17.1"
+            },
+            {
+              "id" : "pkg.pip/numpy",
+              "name" : "numpy",
+              "path" : "~/.pyenv/versions/3.11.6/lib/python3.11/site-packages/numpy",
+              "sizeBytes" : 37781504,
+              "version" : "2.4.4"
+            },
+            {
+              "id" : "pkg.pip/yt_dlp",
+              "name" : "yt_dlp",
+              "path" : "~/.pyenv/versions/3.11.6/lib/python3.11/site-packages/yt_dlp",
+              "sizeBytes" : 27492352,
+              "version" : "2026.3.17"
+            },
+            {
+              "id" : "pkg.pip/pip",
+              "name" : "pip",
+              "path" : "~/.pyenv/versions/3.11.6/lib/python3.11/site-packages/pip",
+              "sizeBytes" : 16437248,
+              "version" : "23.2.1"
+            },
+            {
+              "id" : "pkg.pip/setuptools",
+              "name" : "setuptools",
+              "path" : "~/.pyenv/versions/3.11.6/lib/python3.11/site-packages/setuptools",
+              "sizeBytes" : 6832128,
+              "version" : "65.5.0"
+            },
+            {
+              "id" : "pkg.pip/pypdf",
+              "name" : "pypdf",
+              "path" : "~/.pyenv/versions/3.11.6/lib/python3.11/site-packages/pypdf",
+              "sizeBytes" : 4100096,
+              "version" : "6.16.2"
+            },
+            {
+              "id" : "pkg.pip/openpyxl",
+              "name" : "openpyxl",
+              "path" : "~/.pyenv/versions/3.11.6/lib/python3.11/site-packages/openpyxl",
+              "sizeBytes" : 2953216,
+              "version" : "3.1.5"
+            },
+            {
+              "id" : "pkg.pip/youtube_transcript_api",
+              "name" : "youtube_transcript_api",
+              "path" : "~/.pyenv/versions/3.11.6/lib/python3.11/site-packages/youtube_transcript_api",
+              "sizeBytes" : 2428928,
+              "version" : "1.2.4"
+            },
+            {
+              "id" : "pkg.pip/urllib3",
+              "name" : "urllib3",
+              "path" : "~/.pyenv/versions/3.11.6/lib/python3.11/site-packages/urllib3",
+              "sizeBytes" : 1085440,
+              "version" : "2.7.0"
+            },
+            {
+              "id" : "pkg.pip/grpclib",
+              "name" : "grpclib",
+              "path" : "~/.pyenv/versions/3.11.6/lib/python3.11/site-packages/grpclib",
+              "sizeBytes" : 765952,
+              "version" : "0.4.9"
+            },
+            {
+              "id" : "pkg.pip/svgwrite",
+              "name" : "svgwrite",
+              "path" : "~/.pyenv/versions/3.11.6/lib/python3.11/site-packages/svgwrite",
+              "sizeBytes" : 688128,
+              "version" : "1.4.3"
+            },
+            {
+              "id" : "pkg.pip/idna",
+              "name" : "idna",
+              "path" : "~/.pyenv/versions/3.11.6/lib/python3.11/site-packages/idna",
+              "sizeBytes" : 684032,
+              "version" : "3.16"
+            },
+            {
+              "id" : "pkg.pip/lz4",
+              "name" : "lz4",
+              "path" : "~/.pyenv/versions/3.11.6/lib/python3.11/site-packages/lz4",
+              "sizeBytes" : 663552,
+              "version" : "4.4.5"
+            },
+            {
+              "id" : "pkg.pip/requests",
+              "name" : "requests",
+              "path" : "~/.pyenv/versions/3.11.6/lib/python3.11/site-packages/requests",
+              "sizeBytes" : 581632,
+              "version" : "2.34.2"
+            },
+            {
+              "id" : "pkg.pip/svgpathtools",
+              "name" : "svgpathtools",
+              "path" : "~/.pyenv/versions/3.11.6/lib/python3.11/site-packages/svgpathtools",
+              "sizeBytes" : 565248,
+              "version" : "1.7.2"
+            },
+            {
+              "id" : "pkg.pip/charset_normalizer",
+              "name" : "charset_normalizer",
+              "path" : "~/.pyenv/versions/3.11.6/lib/python3.11/site-packages/charset_normalizer",
+              "sizeBytes" : 544768,
+              "version" : "3.4.7"
+            },
+            {
+              "id" : "pkg.pip/h2",
+              "name" : "h2",
+              "path" : "~/.pyenv/versions/3.11.6/lib/python3.11/site-packages/h2",
+              "sizeBytes" : 544768,
+              "version" : "4.4.1"
+            },
+            {
+              "id" : "pkg.pip/hpack",
+              "name" : "hpack",
+              "path" : "~/.pyenv/versions/3.11.6/lib/python3.11/site-packages/hpack",
+              "sizeBytes" : 458752,
+              "version" : "4.2.0"
+            },
+            {
+              "id" : "pkg.pip/certifi",
+              "name" : "certifi",
+              "path" : "~/.pyenv/versions/3.11.6/lib/python3.11/site-packages/certifi",
+              "sizeBytes" : 315392,
+              "version" : "2025.8.3"
+            },
+            {
+              "id" : "pkg.pip/multidict",
+              "name" : "multidict",
+              "path" : "~/.pyenv/versions/3.11.6/lib/python3.11/site-packages/multidict",
+              "sizeBytes" : 270336,
+              "version" : "6.7.1"
+            },
+            {
+              "id" : "pkg.pip/treelib",
+              "name" : "treelib",
+              "path" : "~/.pyenv/versions/3.11.6/lib/python3.11/site-packages/treelib",
+              "sizeBytes" : 253952,
+              "version" : "1.8.0"
+            },
+            {
+              "id" : "pkg.pip/browser_cookie3",
+              "name" : "browser_cookie3",
+              "path" : "~/.pyenv/versions/3.11.6/lib/python3.11/site-packages/browser_cookie3",
+              "sizeBytes" : 151552,
+              "version" : "0.20.1"
+            },
+            {
+              "id" : "pkg.pip/defusedxml",
+              "name" : "defusedxml",
+              "path" : "~/.pyenv/versions/3.11.6/lib/python3.11/site-packages/defusedxml",
+              "sizeBytes" : 122880,
+              "version" : "0.7.1"
+            },
+            {
+              "id" : "pkg.pip/pillow",
+              "name" : "pillow",
+              "path" : "~/.pyenv/versions/3.11.6/lib/python3.11/site-packages/pillow-12.2.0.dist-info",
+              "sizeBytes" : 114688,
+              "version" : "12.2.0"
+            },
+            {
+              "id" : "pkg.pip/aiofiles",
+              "name" : "aiofiles",
+              "path" : "~/.pyenv/versions/3.11.6/lib/python3.11/site-packages/aiofiles",
+              "sizeBytes" : 110592,
+              "version" : "25.1.0"
+            },
+            {
+              "id" : "pkg.pip/hyperframe",
+              "name" : "hyperframe",
+              "path" : "~/.pyenv/versions/3.11.6/lib/python3.11/site-packages/hyperframe",
+              "sizeBytes" : 106496,
+              "version" : "6.1.0"
+            },
+            {
+              "id" : "pkg.pip/et_xmlfile",
+              "name" : "et_xmlfile",
+              "path" : "~/.pyenv/versions/3.11.6/lib/python3.11/site-packages/et_xmlfile",
+              "sizeBytes" : 90112,
+              "version" : "2.0.0"
+            },
+            {
+              "id" : "pkg.pip/pycryptodomex",
+              "name" : "pycryptodomex",
+              "path" : "~/.pyenv/versions/3.11.6/lib/python3.11/site-packages/pycryptodomex-3.23.0.dist-info",
+              "sizeBytes" : 69632,
+              "version" : "3.23.0"
+            },
+            {
+              "id" : "pkg.pip/fb_idb",
+              "name" : "fb_idb",
+              "path" : "~/.pyenv/versions/3.11.6/lib/python3.11/site-packages/fb_idb-1.1.7.dist-info",
+              "sizeBytes" : 45056,
+              "version" : "1.1.7"
+            },
+            {
+              "id" : "pkg.pip/protobuf",
+              "name" : "protobuf",
+              "path" : "~/.pyenv/versions/3.11.6/lib/python3.11/site-packages/protobuf-7.35.1.dist-info",
+              "sizeBytes" : 28672,
+              "version" : "7.35.1"
+            },
+            {
+              "id" : "pkg.pip/six",
+              "name" : "six",
+              "path" : "~/.pyenv/versions/3.11.6/lib/python3.11/site-packages/six-1.17.0.dist-info",
+              "sizeBytes" : 24576,
+              "version" : "1.17.0"
+            },
+            {
+              "id" : "pkg.pip/pybind11",
+              "name" : "pybind11",
+              "path" : "/opt/homebrew/lib/python3.13/site-packages/pybind11",
+              "sizeBytes" : 0,
+              "version" : "3.1.0"
+            },
+            {
+              "id" : "pkg.pip/wheel",
+              "name" : "wheel",
+              "path" : "/opt/homebrew/lib/python3.14/site-packages/wheel",
+              "sizeBytes" : 0,
+              "version" : "0.47.0"
+            }
+          ],
+          "id" : "pkg.pip",
+          "managedBy" : "Homebrew",
+          "name" : "pip",
+          "path" : "/opt/homebrew/Cellar/python@3.14/3.14.7/bin/pip3",
+          "sizeBytes" : 12288,
+          "status" : "ok",
+          "version" : "3.14.7",
+          "website" : "https://pip.pypa.io"
+        },
+        {
+          "id" : "pkg.poetry",
+          "managedBy" : "Manual install",
+          "name" : "poetry",
+          "path" : "~/Library/Application Support/pypoetry/venv/bin/poetry",
+          "sizeBytes" : 208896,
+          "status" : "ok",
+          "version" : "installed",
+          "website" : "https://python-poetry.org"
+        },
+        {
+          "contents" : [
+            {
+              "id" : "pkg.pyenv/3.11.6",
+              "name" : "3.11.6",
+              "path" : "~/.pyenv/versions/3.11.6",
+              "sizeBytes" : 488783872,
+              "version" : "pyenv"
+            }
+          ],
+          "id" : "pkg.pyenv",
+          "managedBy" : "Manual install",
+          "name" : "pyenv",
+          "path" : "~/.pyenv",
+          "sizeBytes" : 488902656,
+          "status" : "ok",
+          "version" : "1 version installed",
+          "website" : "https://github.com/pyenv/pyenv"
+        },
+        {
+          "id" : "pkg.gem",
+          "managedBy" : "macOS",
+          "name" : "RubyGems",
+          "path" : "/usr/bin/gem",
+          "sizeBytes" : 0,
+          "status" : "ok",
+          "version" : "system",
+          "website" : "https://rubygems.org"
+        },
+        {
+          "id" : "pkg.sdkman",
+          "managedBy" : "Manual install",
+          "name" : "SDKMAN!",
+          "path" : "~/.sdkman",
+          "sizeBytes" : 372080640,
+          "status" : "ok",
+          "version" : "installed",
+          "website" : "https://sdkman.io"
+        },
+        {
+          "id" : "pkg.spm",
+          "managedBy" : "macOS",
+          "name" : "Swift Package Manager",
+          "path" : "/usr/bin/swift",
+          "sizeBytes" : 0,
+          "status" : "ok",
+          "version" : "Apple toolchain",
+          "website" : "https://swift.org/package-manager"
+        },
+        {
+          "id" : "pkg.uv",
+          "managedBy" : "Homebrew formula",
+          "name" : "uv",
+          "path" : "/opt/homebrew/Cellar/uv/0.12.9",
+          "sizeBytes" : 44388352,
+          "status" : "ok",
+          "version" : "0.12.9 · Homebrew",
+          "website" : "https://docs.astral.sh/uv"
+        }
+      ],
+      "totalBytes" : 9416630272
+    },
+    {
+      "id" : "brew",
+      "title" : "Homebrew",
+      "toolCount" : 4,
+      "tools" : [
+        {
+          "contents" : [
+            {
+              "id" : "brew.casks/claude-code",
+              "name" : "claude-code",
+              "path" : "/opt/homebrew/Caskroom/claude-code/2.1.236",
+              "sizeBytes" : 317046784,
+              "version" : "2.1.236"
+            },
+            {
+              "id" : "brew.casks/codex",
+              "name" : "codex",
+              "path" : "/opt/homebrew/Caskroom/codex/0.153.0",
+              "sizeBytes" : 288034816,
+              "version" : "0.153.0"
+            },
+            {
+              "id" : "brew.casks/zoom",
+              "name" : "zoom",
+              "path" : "/opt/homebrew/Caskroom/zoom/7.1.5.84650",
+              "sizeBytes" : 204992512,
+              "version" : "7.1.5.84650"
+            },
+            {
+              "id" : "brew.casks/google-drive",
+              "name" : "Google Drive",
+              "path" : "/opt/homebrew/Caskroom/google-drive/130.0.2",
+              "sizeBytes" : 140558336,
+              "version" : "130.0.2"
+            },
+            {
+              "id" : "brew.casks/xquartz",
+              "name" : "xquartz",
+              "path" : "/opt/homebrew/Caskroom/xquartz/2.8.6",
+              "sizeBytes" : 122036224,
+              "version" : "2.8.6"
+            },
+            {
+              "id" : "brew.casks/goplaces",
+              "name" : "goplaces",
+              "path" : "/opt/homebrew/Caskroom/goplaces/0.4.9",
+              "sizeBytes" : 7770112,
+              "version" : "0.4.9"
+            },
+            {
+              "id" : "brew.casks/antigravity-ide",
+              "name" : "Antigravity IDE",
+              "path" : "/opt/homebrew/Caskroom/antigravity-ide/2.5.5,4923483625488384",
+              "sizeBytes" : 184320,
+              "version" : "2.5.5"
+            },
+            {
+              "id" : "brew.casks/vlc",
+              "name" : "VLC",
+              "path" : "/opt/homebrew/Caskroom/vlc/3.0.23",
+              "sizeBytes" : 57344,
+              "version" : "3.0.23"
+            },
+            {
+              "id" : "brew.casks/google-chrome",
+              "name" : "Google Chrome",
+              "path" : "/opt/homebrew/Caskroom/google-chrome/152.0.7977.76",
+              "sizeBytes" : 53248,
+              "version" : "152.0.7977.76"
+            },
+            {
+              "id" : "brew.casks/icon-composer",
+              "name" : "Icon Composer",
+              "path" : "/opt/homebrew/Caskroom/icon-composer/1.2",
+              "sizeBytes" : 40960,
+              "version" : "1.2"
+            },
+            {
+              "id" : "brew.casks/obsidian",
+              "name" : "Obsidian",
+              "path" : "/opt/homebrew/Caskroom/obsidian/1.13.7",
+              "sizeBytes" : 36864,
+              "version" : "1.13.7"
+            },
+            {
+              "id" : "brew.casks/reminders-menubar",
+              "name" : "Reminders MenuBar",
+              "path" : "/opt/homebrew/Caskroom/reminders-menubar/2.1.0",
+              "sizeBytes" : 36864,
+              "version" : "2.1.0"
+            },
+            {
+              "id" : "brew.casks/linear",
+              "name" : "Linear",
+              "path" : "/opt/homebrew/Caskroom/linear/1.31.1",
+              "sizeBytes" : 20480,
+              "version" : "1.31.1"
+            },
+            {
+              "id" : "brew.casks/cursor",
+              "name" : "Cursor",
+              "path" : "/opt/homebrew/Caskroom/cursor/3.18.9,2ba48ff3f7514cc4643c52ca9f7b3173d9b66137",
+              "sizeBytes" : 16384,
+              "version" : "3.18.9"
+            },
+            {
+              "id" : "brew.casks/font-meslo-lg-nerd-font",
+              "name" : "font-meslo-lg-nerd-font",
+              "path" : "/opt/homebrew/Caskroom/font-meslo-lg-nerd-font/3.5.1",
+              "sizeBytes" : 12288,
+              "version" : "3.5.1"
+            },
+            {
+              "id" : "brew.casks/ethernet-connection-status",
+              "name" : "Ethernet Connection Status",
+              "path" : "/opt/homebrew/Caskroom/ethernet-connection-status/1.0.0",
+              "sizeBytes" : 4096,
+              "version" : "1.0.0"
+            },
+            {
+              "id" : "brew.casks/intellij-idea-ce",
+              "name" : "IntelliJ IDEA CE",
+              "path" : "/opt/homebrew/Caskroom/intellij-idea-ce/2025.1.3,251.26927.53",
+              "sizeBytes" : 4096,
+              "version" : "2025.1.3"
+            },
+            {
+              "id" : "brew.casks/agentnotch",
+              "name" : "AgentNotch",
+              "path" : "/opt/homebrew/Caskroom/agentnotch/1.1.2",
+              "sizeBytes" : 0,
+              "version" : "1.1.2"
+            },
+            {
+              "id" : "brew.casks/batfi",
+              "name" : "BatFi",
+              "path" : "/opt/homebrew/Caskroom/batfi/3.1.1",
+              "sizeBytes" : 0,
+              "version" : "3.1.1"
+            },
+            {
+              "id" : "brew.casks/chatgpt",
+              "name" : "ChatGPT",
+              "path" : "/opt/homebrew/Caskroom/chatgpt/26.901.20858",
+              "sizeBytes" : 0,
+              "version" : "26.901.20858"
+            },
+            {
+              "id" : "brew.casks/claude",
+              "name" : "Claude",
+              "path" : "/opt/homebrew/Caskroom/claude/1.44121.0,a670de389e37e5e93692c0aedf350fe0d2cde4c1",
+              "sizeBytes" : 0,
+              "version" : "1.44121.0"
+            },
+            {
+              "id" : "brew.casks/claudebar",
+              "name" : "ClaudeBar",
+              "path" : "/opt/homebrew/Caskroom/claudebar/0.4.88",
+              "sizeBytes" : 0,
+              "version" : "0.4.88"
+            },
+            {
+              "id" : "brew.casks/discord",
+              "name" : "Discord",
+              "path" : "/opt/homebrew/Caskroom/discord/0.0.364",
+              "sizeBytes" : 0,
+              "version" : "0.0.364"
+            },
+            {
+              "id" : "brew.casks/dockdoor",
+              "name" : "DockDoor",
+              "path" : "/opt/homebrew/Caskroom/dockdoor/1.25.3",
+              "sizeBytes" : 0,
+              "version" : "1.25.3"
+            },
+            {
+              "id" : "brew.casks/flux-markdown",
+              "name" : "FluxMarkdown",
+              "path" : "/opt/homebrew/Caskroom/flux-markdown/1.34.475",
+              "sizeBytes" : 0,
+              "version" : "1.34.475"
+            },
+            {
+              "id" : "brew.casks/gcloud-cli",
+              "name" : "gcloud-cli",
+              "path" : "/opt/homebrew/Caskroom/gcloud-cli/latest",
+              "sizeBytes" : 0,
+              "version" : "latest"
+            },
+            {
+              "id" : "brew.casks/grammarly-desktop",
+              "name" : "Grammarly Installer",
+              "path" : "/opt/homebrew/Caskroom/grammarly-desktop/1.189.2.0",
+              "sizeBytes" : 0,
+              "version" : "1.189.2.0"
+            },
+            {
+              "id" : "brew.casks/jordanbaird-ice",
+              "name" : "Ice",
+              "path" : "/opt/homebrew/Caskroom/jordanbaird-ice/0.11.12",
+              "sizeBytes" : 0,
+              "version" : "0.11.12"
+            },
+            {
+              "id" : "brew.casks/imageoptim",
+              "name" : "ImageOptim",
+              "path" : "/opt/homebrew/Caskroom/imageoptim/1.9.3",
+              "sizeBytes" : 0,
+              "version" : "1.9.3"
+            },
+            {
+              "id" : "brew.casks/itsycal",
+              "name" : "Itsycal",
+              "path" : "/opt/homebrew/Caskroom/itsycal/0.15.12",
+              "sizeBytes" : 0,
+              "version" : "0.15.12"
+            },
+            {
+              "id" : "brew.casks/logi-options+",
+              "name" : "logioptionsplus_installer",
+              "path" : "/opt/homebrew/Caskroom/logi-options+/2.7.961922",
+              "sizeBytes" : 0,
+              "version" : "2.7.961922"
+            },
+            {
+              "id" : "brew.casks/loop",
+              "name" : "Loop",
+              "path" : "/opt/homebrew/Caskroom/loop/1.4.2",
+              "sizeBytes" : 0,
+              "version" : "1.4.2"
+            },
+            {
+              "id" : "brew.casks/maccy",
+              "name" : "Maccy",
+              "path" : "/opt/homebrew/Caskroom/maccy/2.6.1",
+              "sizeBytes" : 0,
+              "version" : "2.6.1"
+            },
+            {
+              "id" : "brew.casks/macwhisper",
+              "name" : "MacWhisper",
+              "path" : "/opt/homebrew/Caskroom/macwhisper/14.8,1480",
+              "sizeBytes" : 0,
+              "version" : "14.8"
+            },
+            {
+              "id" : "brew.casks/mark-text",
+              "name" : "MarkText",
+              "path" : "/opt/homebrew/Caskroom/mark-text/0.17.1",
+              "sizeBytes" : 0,
+              "version" : "0.17.1"
+            },
+            {
+              "id" : "brew.casks/minisim",
+              "name" : "MiniSim",
+              "path" : "/opt/homebrew/Caskroom/minisim/0.10.0",
+              "sizeBytes" : 0,
+              "version" : "0.10.0"
+            },
+            {
+              "id" : "brew.casks/notchi",
+              "name" : "Notchi",
+              "path" : "/opt/homebrew/Caskroom/notchi/1.2.5",
+              "sizeBytes" : 0,
+              "version" : "1.2.5"
+            },
+            {
+              "id" : "brew.casks/notion",
+              "name" : "Notion",
+              "path" : "/opt/homebrew/Caskroom/notion/7.32.0",
+              "sizeBytes" : 0,
+              "version" : "7.32.0"
+            },
+            {
+              "id" : "brew.casks/postman",
+              "name" : "Postman",
+              "path" : "/opt/homebrew/Caskroom/postman/12.26.4",
+              "sizeBytes" : 0,
+              "version" : "12.26.4"
+            },
+            {
+              "id" : "brew.casks/qlcolorcode",
+              "name" : "qlcolorcode",
+              "path" : "/opt/homebrew/Caskroom/qlcolorcode/4.1.0",
+              "sizeBytes" : 0,
+              "version" : "4.1.0"
+            },
+            {
+              "id" : "brew.casks/raycast",
+              "name" : "Raycast",
+              "path" : "/opt/homebrew/Caskroom/raycast/2.0.5.0",
+              "sizeBytes" : 0,
+              "version" : "2.0.5.0"
+            },
+            {
+              "id" : "brew.casks/repobar",
+              "name" : "RepoBar",
+              "path" : "/opt/homebrew/Caskroom/repobar/0.1.1",
+              "sizeBytes" : 0,
+              "version" : "0.1.1"
+            },
+            {
+              "id" : "brew.casks/shottr",
+              "name" : "Shottr",
+              "path" : "/opt/homebrew/Caskroom/shottr/1.9.1",
+              "sizeBytes" : 0,
+              "version" : "1.9.1"
+            },
+            {
+              "id" : "brew.casks/skilldeck",
+              "name" : "SkillDeck",
+              "path" : "/opt/homebrew/Caskroom/skilldeck/0.0.17",
+              "sizeBytes" : 0,
+              "version" : "0.0.17"
+            },
+            {
+              "id" : "brew.casks/sourcetree",
+              "name" : "Sourcetree",
+              "path" : "/opt/homebrew/Caskroom/sourcetree/4.2.19,317",
+              "sizeBytes" : 0,
+              "version" : "4.2.19"
+            },
+            {
+              "id" : "brew.casks/sublime-text",
+              "name" : "Sublime Text",
+              "path" : "/opt/homebrew/Caskroom/sublime-text/4200",
+              "sizeBytes" : 0,
+              "version" : "4200"
+            },
+            {
+              "id" : "brew.casks/syntax-highlight",
+              "name" : "Syntax Highlight",
+              "path" : "/opt/homebrew/Caskroom/syntax-highlight/2.1.26",
+              "sizeBytes" : 0,
+              "version" : "2.1.26"
+            },
+            {
+              "id" : "brew.casks/tabtab",
+              "name" : "TabTab",
+              "path" : "/opt/homebrew/Caskroom/tabtab/2.1.3",
+              "sizeBytes" : 0,
+              "version" : "2.1.3"
+            },
+            {
+              "id" : "brew.casks/transmission",
+              "name" : "Transmission",
+              "path" : "/opt/homebrew/Caskroom/transmission/4.1.3",
+              "sizeBytes" : 0,
+              "version" : "4.1.3"
+            },
+            {
+              "id" : "brew.casks/visual-studio-code",
+              "name" : "Visual Studio Code",
+              "path" : "/opt/homebrew/Caskroom/visual-studio-code/1.136.0",
+              "sizeBytes" : 0,
+              "version" : "1.136.0"
+            },
+            {
+              "id" : "brew.casks/warp",
+              "name" : "Warp",
+              "path" : "/opt/homebrew/Caskroom/warp/0.2026.08.26.17.59.stable_01",
+              "sizeBytes" : 0,
+              "version" : "0.2026.08.26.17.59.stable_01"
+            },
+            {
+              "id" : "brew.casks/whatsapp",
+              "name" : "WhatsApp",
+              "path" : "/opt/homebrew/Caskroom/whatsapp/26.35.18",
+              "sizeBytes" : 0,
+              "version" : "26.35.18"
+            }
+          ],
+          "id" : "brew.casks",
+          "managedBy" : "Homebrew",
+          "name" : "Casks",
+          "path" : "/opt/homebrew/Caskroom",
+          "sizeBytes" : 1081552896,
+          "status" : "ok",
+          "version" : "52 installed",
+          "website" : "https://formulae.brew.sh/cask"
+        },
+        {
+          "id" : "brew.cache",
+          "managedBy" : "Manual install",
+          "name" : "Download cache",
+          "path" : "~/Library/Caches/Homebrew",
+          "sizeBytes" : 2265038848,
+          "status" : "ok",
+          "version" : "download cache"
+        },
+        {
+          "contents" : [
+            {
+              "id" : "brew.formulae/llvm@22",
+              "name" : "llvm@22",
+              "path" : "/opt/homebrew/Cellar/llvm@22/22.1.8",
+              "sizeBytes" : 1587945472,
+              "version" : "22.1.8"
+            },
+            {
+              "id" : "brew.formulae/gcc",
+              "name" : "gcc",
+              "path" : "/opt/homebrew/Cellar/gcc/16.2.0",
+              "sizeBytes" : 519315456,
+              "version" : "16.2.0"
+            },
+            {
+              "id" : "brew.formulae/pytorch",
+              "name" : "pytorch",
+              "path" : "/opt/homebrew/Cellar/pytorch/2.13.0_3",
+              "sizeBytes" : 512626688,
+              "version" : "2.13.0_3"
+            },
+            {
+              "id" : "brew.formulae/openjdk",
+              "name" : "openjdk",
+              "path" : "/opt/homebrew/Cellar/openjdk/26.0.2.1",
+              "sizeBytes" : 398209024,
+              "version" : "26.0.2.1"
+            },
+            {
+              "id" : "brew.formulae/go",
+              "name" : "go",
+              "path" : "/opt/homebrew/Cellar/go/1.27.1",
+              "sizeBytes" : 283271168,
+              "version" : "1.27.1"
+            },
+            {
+              "id" : "brew.formulae/xcodebuildmcp",
+              "name" : "xcodebuildmcp",
+              "path" : "/opt/homebrew/Cellar/xcodebuildmcp/2.1.0",
+              "sizeBytes" : 257286144,
+              "version" : "2.1.0"
+            },
+            {
+              "id" : "brew.formulae/summarize",
+              "name" : "summarize",
+              "path" : "/opt/homebrew/Cellar/summarize/0.21.11",
+              "sizeBytes" : 172617728,
+              "version" : "0.21.11"
+            },
+            {
+              "id" : "brew.formulae/deno",
+              "name" : "deno",
+              "path" : "/opt/homebrew/Cellar/deno/2.9.6",
+              "sizeBytes" : 125030400,
+              "version" : "2.9.6"
+            },
+            {
+              "id" : "brew.formulae/gemini-cli",
+              "name" : "gemini-cli",
+              "path" : "/opt/homebrew/Cellar/gemini-cli/0.46.0",
+              "sizeBytes" : 102440960,
+              "version" : "0.46.0"
+            },
+            {
+              "id" : "brew.formulae/python@3.14",
+              "name" : "python@3.14",
+              "path" : "/opt/homebrew/Cellar/python@3.14/3.14.7",
+              "sizeBytes" : 88723456,
+              "version" : "3.14.7"
+            },
+            {
+              "id" : "brew.formulae/icu4c@78",
+              "name" : "icu4c@78",
+              "path" : "/opt/homebrew/Cellar/icu4c@78/78.3",
+              "sizeBytes" : 88211456,
+              "version" : "78.3"
+            },
+            {
+              "id" : "brew.formulae/idb-companion",
+              "name" : "idb-companion",
+              "path" : "/opt/homebrew/Cellar/idb-companion/1.5.2",
+              "sizeBytes" : 78110720,
+              "version" : "1.5.2"
+            },
+            {
+              "id" : "brew.formulae/node",
+              "name" : "node",
+              "path" : "/opt/homebrew/Cellar/node/26.8.1",
+              "sizeBytes" : 75452416,
+              "version" : "26.8.1"
+            },
+            {
+              "id" : "brew.formulae/tcl-tk",
+              "name" : "tcl-tk",
+              "path" : "/opt/homebrew/Cellar/tcl-tk/9.0.4",
+              "sizeBytes" : 66416640,
+              "version" : "9.0.4"
+            },
+            {
+              "id" : "brew.formulae/bun",
+              "name" : "bun",
+              "path" : "/opt/homebrew/Cellar/bun/1.3.9",
+              "sizeBytes" : 60370944,
+              "version" : "1.3.9"
+            },
+            {
+              "id" : "brew.formulae/postgresql@14",
+              "name" : "postgresql@14",
+              "path" : "/opt/homebrew/Cellar/postgresql@14/14.24",
+              "sizeBytes" : 56344576,
+              "version" : "14.24"
+            },
+            {
+              "id" : "brew.formulae/ffmpeg",
+              "name" : "ffmpeg",
+              "path" : "/opt/homebrew/Cellar/ffmpeg/9.0.1_1",
+              "sizeBytes" : 54444032,
+              "version" : "9.0.1_1"
+            },
+            {
+              "id" : "brew.formulae/uv",
+              "name" : "uv",
+              "path" : "/opt/homebrew/Cellar/uv/0.12.9",
+              "sizeBytes" : 44388352,
+              "version" : "0.12.9"
+            },
+            {
+              "id" : "brew.formulae/openai-whisper",
+              "name" : "openai-whisper",
+              "path" : "/opt/homebrew/Cellar/openai-whisper/20250625_6",
+              "sizeBytes" : 44294144,
+              "version" : "20250625_6"
+            },
+            {
+              "id" : "brew.formulae/numpy",
+              "name" : "numpy",
+              "path" : "/opt/homebrew/Cellar/numpy/2.5.2",
+              "sizeBytes" : 43753472,
+              "version" : "2.5.2"
+            },
+            {
+              "id" : "brew.formulae/gettext",
+              "name" : "gettext",
+              "path" : "/opt/homebrew/Cellar/gettext/1.0",
+              "sizeBytes" : 42459136,
+              "version" : "1.0"
+            },
+            {
+              "id" : "brew.formulae/openssl@3",
+              "name" : "openssl@3",
+              "path" : "/opt/homebrew/Cellar/openssl@3/3.6.4",
+              "sizeBytes" : 41332736,
+              "version" : "3.6.4"
+            },
+            {
+              "id" : "brew.formulae/libpq",
+              "name" : "libpq",
+              "path" : "/opt/homebrew/Cellar/libpq/18.6",
+              "sizeBytes" : 40767488,
+              "version" : "18.6"
+            },
+            {
+              "id" : "brew.formulae/glib",
+              "name" : "glib",
+              "path" : "/opt/homebrew/Cellar/glib/2.88.3",
+              "sizeBytes" : 40562688,
+              "version" : "2.88.3"
+            },
+            {
+              "id" : "brew.formulae/openblas",
+              "name" : "openblas",
+              "path" : "/opt/homebrew/Cellar/openblas/0.3.34",
+              "sizeBytes" : 40423424,
+              "version" : "0.3.34"
+            },
+            {
+              "id" : "brew.formulae/gh",
+              "name" : "gh",
+              "path" : "/opt/homebrew/Cellar/gh/2.99.0",
+              "sizeBytes" : 40275968,
+              "version" : "2.99.0"
+            },
+            {
+              "id" : "brew.formulae/peekaboo",
+              "name" : "peekaboo",
+              "path" : "/opt/homebrew/Cellar/peekaboo/3.0.0-beta3",
+              "sizeBytes" : 39706624,
+              "version" : "3.0.0-beta3"
+            },
+            {
+              "id" : "brew.formulae/wacli",
+              "name" : "wacli",
+              "path" : "/opt/homebrew/Cellar/wacli/0.2.0",
+              "sizeBytes" : 38223872,
+              "version" : "0.2.0"
+            },
+            {
+              "id" : "brew.formulae/tesseract",
+              "name" : "tesseract",
+              "path" : "/opt/homebrew/Cellar/tesseract/5.5.3",
+              "sizeBytes" : 34758656,
+              "version" : "5.5.3"
+            },
+            {
+              "id" : "brew.formulae/llmfit",
+              "name" : "llmfit",
+              "path" : "/opt/homebrew/Cellar/llmfit/1.1.12",
+              "sizeBytes" : 27852800,
+              "version" : "1.1.12"
+            },
+            {
+              "id" : "brew.formulae/yt-dlp",
+              "name" : "yt-dlp",
+              "path" : "/opt/homebrew/Cellar/yt-dlp/2026.8.19",
+              "sizeBytes" : 24539136,
+              "version" : "2026.8.19"
+            },
+            {
+              "id" : "brew.formulae/gogcli",
+              "name" : "gogcli",
+              "path" : "/opt/homebrew/Cellar/gogcli/0.11.0",
+              "sizeBytes" : 21258240,
+              "version" : "0.11.0"
+            },
+            {
+              "id" : "brew.formulae/sag",
+              "name" : "sag",
+              "path" : "/opt/homebrew/Cellar/sag/0.2.2",
+              "sizeBytes" : 19484672,
+              "version" : "0.2.2"
+            },
+            {
+              "id" : "brew.formulae/protobuf",
+              "name" : "protobuf",
+              "path" : "/opt/homebrew/Cellar/protobuf/36.0",
+              "sizeBytes" : 18661376,
+              "version" : "36.0"
+            },
+            {
+              "id" : "brew.formulae/x265",
+              "name" : "x265",
+              "path" : "/opt/homebrew/Cellar/x265/4.3",
+              "sizeBytes" : 17367040,
+              "version" : "4.3"
+            },
+            {
+              "id" : "brew.formulae/libxcb",
+              "name" : "libxcb",
+              "path" : "/opt/homebrew/Cellar/libxcb/1.17.0",
+              "sizeBytes" : 16236544,
+              "version" : "1.17.0"
+            },
+            {
+              "id" : "brew.formulae/gnupg",
+              "name" : "gnupg",
+              "path" : "/opt/homebrew/Cellar/gnupg/2.5.22",
+              "sizeBytes" : 16195584,
+              "version" : "2.5.22"
+            },
+            {
+              "id" : "brew.formulae/openjpeg",
+              "name" : "openjpeg",
+              "path" : "/opt/homebrew/Cellar/openjpeg/2.5.4",
+              "sizeBytes" : 15716352,
+              "version" : "2.5.4"
+            },
+            {
+              "id" : "brew.formulae/gnutls",
+              "name" : "gnutls",
+              "path" : "/opt/homebrew/Cellar/gnutls/3.8.13_2",
+              "sizeBytes" : 14438400,
+              "version" : "3.8.13_2"
+            },
+            {
+              "id" : "brew.formulae/harfbuzz",
+              "name" : "harfbuzz",
+              "path" : "/opt/homebrew/Cellar/harfbuzz/14.4.0",
+              "sizeBytes" : 13672448,
+              "version" : "14.4.0"
+            },
+            {
+              "id" : "brew.formulae/abseil",
+              "name" : "abseil",
+              "path" : "/opt/homebrew/Cellar/abseil/20260817.0",
+              "sizeBytes" : 13524992,
+              "version" : "20260817.0"
+            },
+            {
+              "id" : "brew.formulae/pyenv",
+              "name" : "pyenv",
+              "path" : "/opt/homebrew/Cellar/pyenv/2.8.5",
+              "sizeBytes" : 11866112,
+              "version" : "2.8.5"
+            },
+            {
+              "id" : "brew.formulae/eigen",
+              "name" : "eigen",
+              "path" : "/opt/homebrew/Cellar/eigen/5.0.1",
+              "sizeBytes" : 11493376,
+              "version" : "5.0.1"
+            },
+            {
+              "id" : "brew.formulae/maven",
+              "name" : "maven",
+              "path" : "/opt/homebrew/Cellar/maven/3.9.16",
+              "sizeBytes" : 11063296,
+              "version" : "3.9.16"
+            },
+            {
+              "id" : "brew.formulae/mole",
+              "name" : "mole",
+              "path" : "/opt/homebrew/Cellar/mole/1.53.0",
+              "sizeBytes" : 10928128,
+              "version" : "1.53.0"
+            },
+            {
+              "id" : "brew.formulae/agent-browser",
+              "name" : "agent-browser",
+              "path" : "/opt/homebrew/Cellar/agent-browser/0.36.0",
+              "sizeBytes" : 10833920,
+              "version" : "0.36.0"
+            },
+            {
+              "id" : "brew.formulae/libx11",
+              "name" : "libx11",
+              "path" : "/opt/homebrew/Cellar/libx11/1.8.13",
+              "sizeBytes" : 10493952,
+              "version" : "1.8.13"
+            },
+            {
+              "id" : "brew.formulae/libtiff",
+              "name" : "libtiff",
+              "path" : "/opt/homebrew/Cellar/libtiff/4.7.2",
+              "sizeBytes" : 10276864,
+              "version" : "4.7.2"
+            },
+            {
+              "id" : "brew.formulae/libvmaf",
+              "name" : "libvmaf",
+              "path" : "/opt/homebrew/Cellar/libvmaf/3.2.0",
+              "sizeBytes" : 8871936,
+              "version" : "3.2.0"
+            },
+            {
+              "id" : "brew.formulae/isl",
+              "name" : "isl",
+              "path" : "/opt/homebrew/Cellar/isl/0.28",
+              "sizeBytes" : 8208384,
+              "version" : "0.28"
+            },
+            {
+              "id" : "brew.formulae/gifgrep",
+              "name" : "gifgrep",
+              "path" : "/opt/homebrew/Cellar/gifgrep/0.2.1",
+              "sizeBytes" : 8015872,
+              "version" : "0.2.1"
+            },
+            {
+              "id" : "brew.formulae/simdjson",
+              "name" : "simdjson",
+              "path" : "/opt/homebrew/Cellar/simdjson/4.6.9",
+              "sizeBytes" : 8003584,
+              "version" : "4.6.9"
+            },
+            {
+              "id" : "brew.formulae/pcre2",
+              "name" : "pcre2",
+              "path" : "/opt/homebrew/Cellar/pcre2/10.48",
+              "sizeBytes" : 7880704,
+              "version" : "10.48"
+            },
+            {
+              "id" : "brew.formulae/goplaces",
+              "name" : "goplaces",
+              "path" : "/opt/homebrew/Cellar/goplaces/0.3.0",
+              "sizeBytes" : 7585792,
+              "version" : "0.3.0"
+            },
+            {
+              "id" : "brew.formulae/leptonica",
+              "name" : "leptonica",
+              "path" : "/opt/homebrew/Cellar/leptonica/1.87.0",
+              "sizeBytes" : 7327744,
+              "version" : "1.87.0"
+            },
+            {
+              "id" : "brew.formulae/onnx",
+              "name" : "onnx",
+              "path" : "/opt/homebrew/Cellar/onnx/1.22.0_3",
+              "sizeBytes" : 6893568,
+              "version" : "1.22.0_3"
+            },
+            {
+              "id" : "brew.formulae/witr",
+              "name" : "witr",
+              "path" : "/opt/homebrew/Cellar/witr/0.3.3",
+              "sizeBytes" : 6864896,
+              "version" : "0.3.3"
+            },
+            {
+              "id" : "brew.formulae/rtk",
+              "name" : "rtk",
+              "path" : "/opt/homebrew/Cellar/rtk/0.47.0",
+              "sizeBytes" : 6860800,
+              "version" : "0.47.0"
+            },
+            {
+              "id" : "brew.formulae/sdl3",
+              "name" : "sdl3",
+              "path" : "/opt/homebrew/Cellar/sdl3/3.4.16",
+              "sizeBytes" : 6516736,
+              "version" : "3.4.16"
+            },
+            {
+              "id" : "brew.formulae/krb5",
+              "name" : "krb5",
+              "path" : "/opt/homebrew/Cellar/krb5/1.22.2",
+              "sizeBytes" : 6197248,
+              "version" : "1.22.2"
+            },
+            {
+              "id" : "brew.formulae/libunistring",
+              "name" : "libunistring",
+              "path" : "/opt/homebrew/Cellar/libunistring/1.4.2",
+              "sizeBytes" : 5873664,
+              "version" : "1.4.2"
+            },
+            {
+              "id" : "brew.formulae/sqlite",
+              "name" : "sqlite",
+              "path" : "/opt/homebrew/Cellar/sqlite/3.53.4",
+              "sizeBytes" : 5353472,
+              "version" : "3.53.4"
+            },
+            {
+              "id" : "brew.formulae/p11-kit",
+              "name" : "p11-kit",
+              "path" : "/opt/homebrew/Cellar/p11-kit/0.26.5",
+              "sizeBytes" : 4861952,
+              "version" : "0.26.5"
+            },
+            {
+              "id" : "brew.formulae/cairo",
+              "name" : "cairo",
+              "path" : "/opt/homebrew/Cellar/cairo/1.18.4",
+              "sizeBytes" : 4804608,
+              "version" : "1.18.4"
+            },
+            {
+              "id" : "brew.formulae/xorgproto",
+              "name" : "xorgproto",
+              "path" : "/opt/homebrew/Cellar/xorgproto/2025.1",
+              "sizeBytes" : 4743168,
+              "version" : "2025.1"
+            },
+            {
+              "id" : "brew.formulae/x264",
+              "name" : "x264",
+              "path" : "/opt/homebrew/Cellar/x264/r3222",
+              "sizeBytes" : 4431872,
+              "version" : "r3222"
+            },
+            {
+              "id" : "brew.formulae/libvpx",
+              "name" : "libvpx",
+              "path" : "/opt/homebrew/Cellar/libvpx/1.17.0",
+              "sizeBytes" : 4423680,
+              "version" : "1.17.0"
+            },
+            {
+              "id" : "brew.formulae/libtool",
+              "name" : "libtool",
+              "path" : "/opt/homebrew/Cellar/libtool/2.6.2",
+              "sizeBytes" : 4390912,
+              "version" : "2.6.2"
+            },
+            {
+              "id" : "brew.formulae/jpeg-turbo",
+              "name" : "jpeg-turbo",
+              "path" : "/opt/homebrew/Cellar/jpeg-turbo/3.2.0",
+              "sizeBytes" : 4354048,
+              "version" : "3.2.0"
+            },
+            {
+              "id" : "brew.formulae/libgcrypt",
+              "name" : "libgcrypt",
+              "path" : "/opt/homebrew/Cellar/libgcrypt/1.12.3",
+              "sizeBytes" : 4161536,
+              "version" : "1.12.3"
+            },
+            {
+              "id" : "brew.formulae/automake",
+              "name" : "automake",
+              "path" : "/opt/homebrew/Cellar/automake/1.18.1_1",
+              "sizeBytes" : 4149248,
+              "version" : "1.18.1_1"
+            },
+            {
+              "id" : "brew.formulae/libarchive",
+              "name" : "libarchive",
+              "path" : "/opt/homebrew/Cellar/libarchive/3.8.9",
+              "sizeBytes" : 4149248,
+              "version" : "3.8.9"
+            },
+            {
+              "id" : "brew.formulae/sleef",
+              "name" : "sleef",
+              "path" : "/opt/homebrew/Cellar/sleef/3.9.0",
+              "sizeBytes" : 4014080,
+              "version" : "3.9.0"
+            },
+            {
+              "id" : "brew.formulae/autoconf",
+              "name" : "autoconf",
+              "path" : "/opt/homebrew/Cellar/autoconf/2.73",
+              "sizeBytes" : 4005888,
+              "version" : "2.73"
+            },
+            {
+              "id" : "brew.formulae/pango",
+              "name" : "pango",
+              "path" : "/opt/homebrew/Cellar/pango/1.58.2",
+              "sizeBytes" : 3837952,
+              "version" : "1.58.2"
+            },
+            {
+              "id" : "brew.formulae/sdl2-compat",
+              "name" : "sdl2-compat",
+              "path" : "/opt/homebrew/Cellar/sdl2-compat/2.32.72",
+              "sizeBytes" : 3563520,
+              "version" : "2.32.72"
+            },
+            {
+              "id" : "brew.formulae/gmp",
+              "name" : "gmp",
+              "path" : "/opt/homebrew/Cellar/gmp/6.3.0",
+              "sizeBytes" : 3473408,
+              "version" : "6.3.0"
+            },
+            {
+              "id" : "brew.formulae/mpfr",
+              "name" : "mpfr",
+              "path" : "/opt/homebrew/Cellar/mpfr/4.2.2",
+              "sizeBytes" : 3371008,
+              "version" : "4.2.2"
+            },
+            {
+              "id" : "brew.formulae/svt-av1",
+              "name" : "svt-av1",
+              "path" : "/opt/homebrew/Cellar/svt-av1/4.2.0",
+              "sizeBytes" : 3358720,
+              "version" : "4.2.0"
+            },
+            {
+              "id" : "brew.formulae/nettle",
+              "name" : "nettle",
+              "path" : "/opt/homebrew/Cellar/nettle/4.0",
+              "sizeBytes" : 3035136,
+              "version" : "4.0"
+            },
+            {
+              "id" : "brew.formulae/freetype",
+              "name" : "freetype",
+              "path" : "/opt/homebrew/Cellar/freetype/2.14.3",
+              "sizeBytes" : 2871296,
+              "version" : "2.14.3"
+            },
+            {
+              "id" : "brew.formulae/xz",
+              "name" : "xz",
+              "path" : "/opt/homebrew/Cellar/xz/5.8.3",
+              "sizeBytes" : 2850816,
+              "version" : "5.8.3"
+            },
+            {
+              "id" : "brew.formulae/readline",
+              "name" : "readline",
+              "path" : "/opt/homebrew/Cellar/readline/8.3.3",
+              "sizeBytes" : 2764800,
+              "version" : "8.3.3"
+            },
+            {
+              "id" : "brew.formulae/webp",
+              "name" : "webp",
+              "path" : "/opt/homebrew/Cellar/webp/1.6.0",
+              "sizeBytes" : 2723840,
+              "version" : "1.6.0"
+            },
+            {
+              "id" : "brew.formulae/zstd",
+              "name" : "zstd",
+              "path" : "/opt/homebrew/Cellar/zstd/1.5.7_1",
+              "sizeBytes" : 2367488,
+              "version" : "1.5.7_1"
+            },
+            {
+              "id" : "brew.formulae/simdutf",
+              "name" : "simdutf",
+              "path" : "/opt/homebrew/Cellar/simdutf/9.1.0",
+              "sizeBytes" : 2191360,
+              "version" : "9.1.0"
+            },
+            {
+              "id" : "brew.formulae/memo",
+              "name" : "memo",
+              "path" : "/opt/homebrew/Cellar/memo/0.3.6",
+              "sizeBytes" : 2174976,
+              "version" : "0.3.6"
+            },
+            {
+              "id" : "brew.formulae/fontconfig",
+              "name" : "fontconfig",
+              "path" : "/opt/homebrew/Cellar/fontconfig/2.18.3",
+              "sizeBytes" : 2117632,
+              "version" : "2.18.3"
+            },
+            {
+              "id" : "brew.formulae/mpg123",
+              "name" : "mpg123",
+              "path" : "/opt/homebrew/Cellar/mpg123/1.33.7",
+              "sizeBytes" : 2011136,
+              "version" : "1.33.7"
+            },
+            {
+              "id" : "brew.formulae/lame",
+              "name" : "lame",
+              "path" : "/opt/homebrew/Cellar/lame/4.0",
+              "sizeBytes" : 2002944,
+              "version" : "4.0"
+            },
+            {
+              "id" : "brew.formulae/libgpg-error",
+              "name" : "libgpg-error",
+              "path" : "/opt/homebrew/Cellar/libgpg-error/1.61",
+              "sizeBytes" : 1982464,
+              "version" : "1.61"
+            },
+            {
+              "id" : "brew.formulae/brotli",
+              "name" : "brotli",
+              "path" : "/opt/homebrew/Cellar/brotli/1.2.0",
+              "sizeBytes" : 1966080,
+              "version" : "1.2.0"
+            },
+            {
+              "id" : "brew.formulae/fastfetch",
+              "name" : "fastfetch",
+              "path" : "/opt/homebrew/Cellar/fastfetch/2.68.1",
+              "sizeBytes" : 1859584,
+              "version" : "2.68.1"
+            },
+            {
+              "id" : "brew.formulae/libomp",
+              "name" : "libomp",
+              "path" : "/opt/homebrew/Cellar/libomp/23.1.0",
+              "sizeBytes" : 1835008,
+              "version" : "23.1.0"
+            },
+            {
+              "id" : "brew.formulae/c-ares",
+              "name" : "c-ares",
+              "path" : "/opt/homebrew/Cellar/c-ares/1.34.8",
+              "sizeBytes" : 1609728,
+              "version" : "1.34.8"
+            },
+            {
+              "id" : "brew.formulae/pixman",
+              "name" : "pixman",
+              "path" : "/opt/homebrew/Cellar/pixman/0.46.4",
+              "sizeBytes" : 1458176,
+              "version" : "0.46.4"
+            },
+            {
+              "id" : "brew.formulae/libngtcp2",
+              "name" : "libngtcp2",
+              "path" : "/opt/homebrew/Cellar/libngtcp2/1.25.0",
+              "sizeBytes" : 1454080,
+              "version" : "1.25.0"
+            },
+            {
+              "id" : "brew.formulae/pybind11",
+              "name" : "pybind11",
+              "path" : "/opt/homebrew/Cellar/pybind11/3.1.0",
+              "sizeBytes" : 1454080,
+              "version" : "3.1.0"
+            },
+            {
+              "id" : "brew.formulae/libpng",
+              "name" : "libpng",
+              "path" : "/opt/homebrew/Cellar/libpng/1.6.58",
+              "sizeBytes" : 1437696,
+              "version" : "1.6.58"
+            },
+            {
+              "id" : "brew.formulae/little-cms2",
+              "name" : "little-cms2",
+              "path" : "/opt/homebrew/Cellar/little-cms2/2.19.1",
+              "sizeBytes" : 1425408,
+              "version" : "2.19.1"
+            },
+            {
+              "id" : "brew.formulae/remindctl",
+              "name" : "remindctl",
+              "path" : "/opt/homebrew/Cellar/remindctl/0.1.1",
+              "sizeBytes" : 1355776,
+              "version" : "0.1.1"
+            },
+            {
+              "id" : "brew.formulae/libuv",
+              "name" : "libuv",
+              "path" : "/opt/homebrew/Cellar/libuv/1.52.1",
+              "sizeBytes" : 1351680,
+              "version" : "1.52.1"
+            },
+            {
+              "id" : "brew.formulae/ada-url",
+              "name" : "ada-url",
+              "path" : "/opt/homebrew/Cellar/ada-url/4.0.0",
+              "sizeBytes" : 1224704,
+              "version" : "4.0.0"
+            },
+            {
+              "id" : "brew.formulae/fmt",
+              "name" : "fmt",
+              "path" : "/opt/homebrew/Cellar/fmt/12.2.0",
+              "sizeBytes" : 1175552,
+              "version" : "12.2.0"
+            },
+            {
+              "id" : "brew.formulae/opus",
+              "name" : "opus",
+              "path" : "/opt/homebrew/Cellar/opus/1.6.1",
+              "sizeBytes" : 1146880,
+              "version" : "1.6.1"
+            },
+            {
+              "id" : "brew.formulae/libidn2",
+              "name" : "libidn2",
+              "path" : "/opt/homebrew/Cellar/libidn2/2.3.8",
+              "sizeBytes" : 1118208,
+              "version" : "2.3.8"
+            },
+            {
+              "id" : "brew.formulae/libthai",
+              "name" : "libthai",
+              "path" : "/opt/homebrew/Cellar/libthai/0.1.30",
+              "sizeBytes" : 1040384,
+              "version" : "0.1.30"
+            },
+            {
+              "id" : "brew.formulae/dav1d",
+              "name" : "dav1d",
+              "path" : "/opt/homebrew/Cellar/dav1d/1.5.4",
+              "sizeBytes" : 1024000,
+              "version" : "1.5.4"
+            },
+            {
+              "id" : "brew.formulae/libffi",
+              "name" : "libffi",
+              "path" : "/opt/homebrew/Cellar/libffi/3.8.0",
+              "sizeBytes" : 987136,
+              "version" : "3.8.0"
+            },
+            {
+              "id" : "brew.formulae/libnghttp2",
+              "name" : "libnghttp2",
+              "path" : "/opt/homebrew/Cellar/libnghttp2/1.70.0",
+              "sizeBytes" : 892928,
+              "version" : "1.70.0"
+            },
+            {
+              "id" : "brew.formulae/libtasn1",
+              "name" : "libtasn1",
+              "path" : "/opt/homebrew/Cellar/libtasn1/4.21.0",
+              "sizeBytes" : 872448,
+              "version" : "4.21.0"
+            },
+            {
+              "id" : "brew.formulae/m4",
+              "name" : "m4",
+              "path" : "/opt/homebrew/Cellar/m4/1.4.21",
+              "sizeBytes" : 847872,
+              "version" : "1.4.21"
+            },
+            {
+              "id" : "brew.formulae/pkgconf",
+              "name" : "pkgconf",
+              "path" : "/opt/homebrew/Cellar/pkgconf/3.0.6",
+              "sizeBytes" : 815104,
+              "version" : "3.0.6"
+            },
+            {
+              "id" : "brew.formulae/lz4",
+              "name" : "lz4",
+              "path" : "/opt/homebrew/Cellar/lz4/1.10.0",
+              "sizeBytes" : 761856,
+              "version" : "1.10.0"
+            },
+            {
+              "id" : "brew.formulae/fribidi",
+              "name" : "fribidi",
+              "path" : "/opt/homebrew/Cellar/fribidi/1.0.16",
+              "sizeBytes" : 716800,
+              "version" : "1.0.16"
+            },
+            {
+              "id" : "brew.formulae/libxext",
+              "name" : "libxext",
+              "path" : "/opt/homebrew/Cellar/libxext/1.3.7",
+              "sizeBytes" : 708608,
+              "version" : "1.3.7"
+            },
+            {
+              "id" : "brew.formulae/mpdecimal",
+              "name" : "mpdecimal",
+              "path" : "/opt/homebrew/Cellar/mpdecimal/4.0.1",
+              "sizeBytes" : 700416,
+              "version" : "4.0.1"
+            },
+            {
+              "id" : "brew.formulae/libusb",
+              "name" : "libusb",
+              "path" : "/opt/homebrew/Cellar/libusb/1.0.30",
+              "sizeBytes" : 692224,
+              "version" : "1.0.30"
+            },
+            {
+              "id" : "brew.formulae/lzo",
+              "name" : "lzo",
+              "path" : "/opt/homebrew/Cellar/lzo/2.10",
+              "sizeBytes" : 655360,
+              "version" : "2.10"
+            },
+            {
+              "id" : "brew.formulae/libnghttp3",
+              "name" : "libnghttp3",
+              "path" : "/opt/homebrew/Cellar/libnghttp3/1.18.0",
+              "sizeBytes" : 647168,
+              "version" : "1.18.0"
+            },
+            {
+              "id" : "brew.formulae/yyjson",
+              "name" : "yyjson",
+              "path" : "/opt/homebrew/Cellar/yyjson/0.12.0",
+              "sizeBytes" : 638976,
+              "version" : "0.12.0"
+            },
+            {
+              "id" : "brew.formulae/libassuan",
+              "name" : "libassuan",
+              "path" : "/opt/homebrew/Cellar/libassuan/3.0.2",
+              "sizeBytes" : 618496,
+              "version" : "3.0.2"
+            },
+            {
+              "id" : "brew.formulae/bzip2",
+              "name" : "bzip2",
+              "path" : "/opt/homebrew/Cellar/bzip2/1.0.8",
+              "sizeBytes" : 577536,
+              "version" : "1.0.8"
+            },
+            {
+              "id" : "brew.formulae/libksba",
+              "name" : "libksba",
+              "path" : "/opt/homebrew/Cellar/libksba/1.8.1",
+              "sizeBytes" : 577536,
+              "version" : "1.8.1"
+            },
+            {
+              "id" : "brew.formulae/libmpc",
+              "name" : "libmpc",
+              "path" : "/opt/homebrew/Cellar/libmpc/1.4.1",
+              "sizeBytes" : 573440,
+              "version" : "1.4.1"
+            },
+            {
+              "id" : "brew.formulae/libtommath",
+              "name" : "libtommath",
+              "path" : "/opt/homebrew/Cellar/libtommath/1.3.0",
+              "sizeBytes" : 573440,
+              "version" : "1.3.0"
+            },
+            {
+              "id" : "brew.formulae/giflib",
+              "name" : "giflib",
+              "path" : "/opt/homebrew/Cellar/giflib/6.1.3",
+              "sizeBytes" : 569344,
+              "version" : "6.1.3"
+            },
+            {
+              "id" : "brew.formulae/pinentry",
+              "name" : "pinentry",
+              "path" : "/opt/homebrew/Cellar/pinentry/1.3.3",
+              "sizeBytes" : 499712,
+              "version" : "1.3.3"
+            },
+            {
+              "id" : "brew.formulae/zlib",
+              "name" : "zlib",
+              "path" : "/opt/homebrew/Cellar/zlib/1.3.2",
+              "sizeBytes" : 458752,
+              "version" : "1.3.2"
+            },
+            {
+              "id" : "brew.formulae/json-c",
+              "name" : "json-c",
+              "path" : "/opt/homebrew/Cellar/json-c/0.19",
+              "sizeBytes" : 450560,
+              "version" : "0.19"
+            },
+            {
+              "id" : "brew.formulae/libyaml",
+              "name" : "libyaml",
+              "path" : "/opt/homebrew/Cellar/libyaml/0.2.5",
+              "sizeBytes" : 389120,
+              "version" : "0.2.5"
+            },
+            {
+              "id" : "brew.formulae/libdatrie",
+              "name" : "libdatrie",
+              "path" : "/opt/homebrew/Cellar/libdatrie/0.2.14",
+              "sizeBytes" : 356352,
+              "version" : "0.2.14"
+            },
+            {
+              "id" : "brew.formulae/uvwasi",
+              "name" : "uvwasi",
+              "path" : "/opt/homebrew/Cellar/uvwasi/0.0.23",
+              "sizeBytes" : 327680,
+              "version" : "0.0.23"
+            },
+            {
+              "id" : "brew.formulae/graphite2",
+              "name" : "graphite2",
+              "path" : "/opt/homebrew/Cellar/graphite2/1.3.15",
+              "sizeBytes" : 315392,
+              "version" : "1.3.15"
+            },
+            {
+              "id" : "brew.formulae/libxrender",
+              "name" : "libxrender",
+              "path" : "/opt/homebrew/Cellar/libxrender/0.9.12",
+              "sizeBytes" : 258048,
+              "version" : "0.9.12"
+            },
+            {
+              "id" : "brew.formulae/nvm",
+              "name" : "nvm",
+              "path" : "/opt/homebrew/Cellar/nvm/0.40.7",
+              "sizeBytes" : 258048,
+              "version" : "0.40.7"
+            },
+            {
+              "id" : "brew.formulae/hdrhistogram_c",
+              "name" : "hdrhistogram_c",
+              "path" : "/opt/homebrew/Cellar/hdrhistogram_c/0.11.10",
+              "sizeBytes" : 225280,
+              "version" : "0.11.10"
+            },
+            {
+              "id" : "brew.formulae/ca-certificates",
+              "name" : "ca-certificates",
+              "path" : "/opt/homebrew/Cellar/ca-certificates/2026-08-13",
+              "sizeBytes" : 217088,
+              "version" : "2026-08-13"
+            },
+            {
+              "id" : "brew.formulae/libxau",
+              "name" : "libxau",
+              "path" : "/opt/homebrew/Cellar/libxau/1.0.12",
+              "sizeBytes" : 196608,
+              "version" : "1.0.12"
+            },
+            {
+              "id" : "brew.formulae/npth",
+              "name" : "npth",
+              "path" : "/opt/homebrew/Cellar/npth/1.8",
+              "sizeBytes" : 196608,
+              "version" : "1.8"
+            },
+            {
+              "id" : "brew.formulae/llhttp",
+              "name" : "llhttp",
+              "path" : "/opt/homebrew/Cellar/llhttp/9.4.3",
+              "sizeBytes" : 180224,
+              "version" : "9.4.3"
+            },
+            {
+              "id" : "brew.formulae/libxdmcp",
+              "name" : "libxdmcp",
+              "path" : "/opt/homebrew/Cellar/libxdmcp/1.1.5",
+              "sizeBytes" : 176128,
+              "version" : "1.1.5"
+            },
+            {
+              "id" : "brew.formulae/merve",
+              "name" : "merve",
+              "path" : "/opt/homebrew/Cellar/merve/1.2.2_2",
+              "sizeBytes" : 176128,
+              "version" : "1.2.2_2"
+            },
+            {
+              "id" : "brew.formulae/libb2",
+              "name" : "libb2",
+              "path" : "/opt/homebrew/Cellar/libb2/0.98.1",
+              "sizeBytes" : 147456,
+              "version" : "0.98.1"
+            },
+            {
+              "id" : "brew.formulae/nbytes",
+              "name" : "nbytes",
+              "path" : "/opt/homebrew/Cellar/nbytes/0.1.4",
+              "sizeBytes" : 114688,
+              "version" : "0.1.4"
+            },
+            {
+              "id" : "brew.formulae/duti",
+              "name" : "duti",
+              "path" : "/opt/homebrew/Cellar/duti/1.5.4_1",
+              "sizeBytes" : 102400,
+              "version" : "1.5.4_1"
+            },
+            {
+              "id" : "brew.formulae/certifi",
+              "name" : "certifi",
+              "path" : "/opt/homebrew/Cellar/certifi/2026.7.22",
+              "sizeBytes" : 57344,
+              "version" : "2026.7.22"
+            }
+          ],
+          "id" : "brew.formulae",
+          "managedBy" : "Homebrew",
+          "name" : "Formulae",
+          "path" : "/opt/homebrew/Cellar",
+          "sizeBytes" : 5555777536,
+          "status" : "ok",
+          "version" : "147 installed",
+          "website" : "https://formulae.brew.sh"
+        },
+        {
+          "contents" : [
+            {
+              "id" : "brew.taps/steipete/homebrew-tap",
+              "name" : "steipete/tap",
+              "path" : "/opt/homebrew/Library/Taps/steipete/homebrew-tap",
+              "sizeBytes" : 7331840,
+              "version" : "tap"
+            },
+            {
+              "id" : "brew.taps/facebook/homebrew-fb",
+              "name" : "facebook/fb",
+              "path" : "/opt/homebrew/Library/Taps/facebook/homebrew-fb",
+              "sizeBytes" : 6176768,
+              "version" : "tap"
+            },
+            {
+              "id" : "brew.taps/montanaflynn/homebrew-ethernetconnectionstatus",
+              "name" : "montanaflynn/ethernetconnectionstatus",
+              "path" : "/opt/homebrew/Library/Taps/montanaflynn/homebrew-ethernetconnectionstatus",
+              "sizeBytes" : 5935104,
+              "version" : "tap"
+            },
+            {
+              "id" : "brew.taps/openclaw/homebrew-tap",
+              "name" : "openclaw/tap",
+              "path" : "/opt/homebrew/Library/Taps/openclaw/homebrew-tap",
+              "sizeBytes" : 5242880,
+              "version" : "tap"
+            },
+            {
+              "id" : "brew.taps/oven-sh/homebrew-bun",
+              "name" : "oven-sh/bun",
+              "path" : "/opt/homebrew/Library/Taps/oven-sh/homebrew-bun",
+              "sizeBytes" : 1122304,
+              "version" : "tap"
+            },
+            {
+              "id" : "brew.taps/xykong/homebrew-tap",
+              "name" : "xykong/tap",
+              "path" : "/opt/homebrew/Library/Taps/xykong/homebrew-tap",
+              "sizeBytes" : 323584,
+              "version" : "tap"
+            },
+            {
+              "id" : "brew.taps/getsentry/homebrew-xcodebuildmcp",
+              "name" : "getsentry/xcodebuildmcp",
+              "path" : "/opt/homebrew/Library/Taps/getsentry/homebrew-xcodebuildmcp",
+              "sizeBytes" : 274432,
+              "version" : "tap"
+            },
+            {
+              "id" : "brew.taps/crossoverjie/homebrew-skilldeck",
+              "name" : "crossoverjie/skilldeck",
+              "path" : "/opt/homebrew/Library/Taps/crossoverjie/homebrew-skilldeck",
+              "sizeBytes" : 241664,
+              "version" : "tap"
+            },
+            {
+              "id" : "brew.taps/antoniorodr/homebrew-memo",
+              "name" : "antoniorodr/memo",
+              "path" : "/opt/homebrew/Library/Taps/antoniorodr/homebrew-memo",
+              "sizeBytes" : 196608,
+              "version" : "tap"
+            },
+            {
+              "id" : "brew.taps/appgram/homebrew-tap",
+              "name" : "appgram/tap",
+              "path" : "/opt/homebrew/Library/Taps/appgram/homebrew-tap",
+              "sizeBytes" : 110592,
+              "version" : "tap"
+            }
+          ],
+          "id" : "brew.taps",
+          "managedBy" : "Homebrew",
+          "name" : "Taps",
+          "path" : "/opt/homebrew/Library/Taps",
+          "sizeBytes" : 26955776,
+          "status" : "ok",
+          "version" : "10 taps"
+        }
+      ],
+      "totalBytes" : 8929325056
+    },
+    {
+      "id" : "sdk",
+      "title" : "Dev Kits & SDKs",
+      "toolCount" : 8,
+      "tools" : [
+        {
+          "id" : "sdk.clt",
+          "managedBy" : "Command Line Tools",
+          "name" : "Command Line Tools",
+          "path" : "/Library/Developer/CommandLineTools",
+          "sizeBytes" : 2252476416,
+          "status" : "ok",
+          "version" : "26.6",
+          "website" : "https://developer.apple.com/xcode/resources"
+        },
+        {
+          "id" : "sdk.coredevice",
+          "managedBy" : "Manual install",
+          "name" : "CoreDevice",
+          "path" : "/Library/Developer/CoreDevice",
+          "sizeBytes" : 96194560,
+          "status" : "ok",
+          "version" : "installed"
+        },
+        {
+          "id" : "sdk.coresimulator",
+          "managedBy" : "Manual install",
+          "name" : "CoreSimulator",
+          "path" : "~/Library/Developer/CoreSimulator",
+          "sizeBytes" : 1462018048,
+          "status" : "ok",
+          "version" : "installed"
+        },
+        {
+          "id" : "sdk.ddi",
+          "managedBy" : "Manual install",
+          "name" : "DeveloperDiskImages",
+          "path" : "/Library/Developer/DeveloperDiskImages",
+          "sizeBytes" : 97464320,
+          "status" : "ok",
+          "version" : "installed"
+        },
+        {
+          "id" : "sdk.gcloud",
+          "managedBy" : "Homebrew",
+          "name" : "Google Cloud SDK",
+          "path" : "/opt/homebrew/share/google-cloud-sdk/bin/gcloud",
+          "sizeBytes" : 2920448,
+          "status" : "ok",
+          "version" : "installed · Homebrew",
+          "website" : "https://cloud.google.com/sdk"
+        },
+        {
+          "id" : "sdk.jdk@22.0.1",
+          "managedBy" : "JVM install",
+          "name" : "JDK",
+          "path" : "/Library/Java/JavaVirtualMachines/jdk-22.0.1.jdk",
+          "sizeBytes" : 339435520,
+          "status" : "ok",
+          "version" : "22.0.1 · JVM install",
+          "website" : "https://openjdk.org"
+        },
+        {
+          "id" : "sdk.xcode",
+          "managedBy" : "Application",
+          "name" : "Xcode",
+          "path" : "/Applications/Xcode.app",
+          "sizeBytes" : 2890670080,
+          "status" : "ok",
+          "version" : "26.6 (24959)",
+          "website" : "https://developer.apple.com/xcode"
+        },
+        {
+          "id" : "sdk.xcodedata",
+          "managedBy" : "Manual install",
+          "name" : "Xcode support data",
+          "path" : "~/Library/Developer/Xcode",
+          "sizeBytes" : 1436270592,
+          "status" : "ok",
+          "version" : "installed"
+        }
+      ],
+      "totalBytes" : 8577449984
+    },
+    {
+      "id" : "ide",
+      "title" : "IDEs & Dev Tools",
+      "toolCount" : 8,
+      "tools" : [
+        {
+          "id" : "ide.cursor",
+          "managedBy" : "Application",
+          "name" : "Cursor",
+          "path" : "/Applications/Cursor.app",
+          "sizeBytes" : 887062528,
+          "status" : "ok",
+          "version" : "3.18.25",
+          "website" : "https://cursor.com"
+        },
+        {
+          "id" : "ide.cursordata",
+          "managedBy" : "Manual install",
+          "name" : "Cursor data",
+          "path" : "~/.cursor",
+          "sizeBytes" : 1055371264,
+          "status" : "ok",
+          "version" : "installed"
+        },
+        {
+          "id" : "ide.postman",
+          "managedBy" : "Application",
+          "name" : "Postman",
+          "path" : "/Applications/Postman.app",
+          "sizeBytes" : 385232896,
+          "status" : "ok",
+          "version" : "12.26.4",
+          "website" : "https://postman.com"
+        },
+        {
+          "id" : "ide.sublime",
+          "managedBy" : "Application",
+          "name" : "Sublime Text",
+          "path" : "/Applications/Sublime Text.app",
+          "sizeBytes" : 103514112,
+          "status" : "ok",
+          "version" : "Build 4200 (4200)",
+          "website" : "https://sublimetext.com"
+        },
+        {
+          "id" : "ide.vscode",
+          "managedBy" : "Application",
+          "name" : "VS Code",
+          "path" : "/Applications/Visual Studio Code.app",
+          "sizeBytes" : 976601088,
+          "status" : "ok",
+          "version" : "1.136.0",
+          "website" : "https://code.visualstudio.com"
+        },
+        {
+          "contents" : [
+            {
+              "id" : "ide.vscodeext/anthropic.claude-code",
+              "name" : "claude-code",
+              "path" : "~/.vscode/extensions/anthropic.claude-code-2.1.250-darwin-arm64",
+              "sizeBytes" : 207822848,
+              "version" : "2.1.250"
+            },
+            {
+              "id" : "ide.vscodeext/anthropic.claude-code",
+              "name" : "claude-code",
+              "path" : "~/.vscode/extensions/anthropic.claude-code-2.1.252-darwin-arm64",
+              "sizeBytes" : 207822848,
+              "version" : "2.1.252"
+            },
+            {
+              "id" : "ide.vscodeext/ms-python.vscode-pylance",
+              "name" : "vscode-pylance",
+              "path" : "~/.vscode/extensions/ms-python.vscode-pylance-2026.3.1",
+              "sizeBytes" : 116723712,
+              "version" : "2026.3.1"
+            },
+            {
+              "id" : "ide.vscodeext/ms-python.debugpy",
+              "name" : "debugpy",
+              "path" : "~/.vscode/extensions/ms-python.debugpy-2026.6.0-darwin-arm64",
+              "sizeBytes" : 43048960,
+              "version" : "2026.6.0"
+            },
+            {
+              "id" : "ide.vscodeext/ms-python.python",
+              "name" : "python",
+              "path" : "~/.vscode/extensions/ms-python.python-2026.4.0-darwin-arm64",
+              "sizeBytes" : 38113280,
+              "version" : "2026.4.0"
+            },
+            {
+              "id" : "ide.vscodeext/swiftlang.swift-vscode",
+              "name" : "swift-vscode",
+              "path" : "~/.vscode/extensions/swiftlang.swift-vscode-2.16.7",
+              "sizeBytes" : 30404608,
+              "version" : "2.16.7"
+            },
+            {
+              "id" : "ide.vscodeext/vscode-icons-team.vscode-icons",
+              "name" : "vscode-icons",
+              "path" : "~/.vscode/extensions/vscode-icons-team.vscode-icons-12.19.0",
+              "sizeBytes" : 11083776,
+              "version" : "12.19.0"
+            },
+            {
+              "id" : "ide.vscodeext/ms-python.vscode-python-envs",
+              "name" : "vscode-python-envs",
+              "path" : "~/.vscode/extensions/ms-python.vscode-python-envs-1.36.0-darwin-arm64",
+              "sizeBytes" : 10596352,
+              "version" : "1.36.0"
+            },
+            {
+              "id" : "ide.vscodeext/llvm-vs-code-extensions.lldb-dap",
+              "name" : "lldb-dap",
+              "path" : "~/.vscode/extensions/llvm-vs-code-extensions.lldb-dap-0.4.1",
+              "sizeBytes" : 1335296,
+              "version" : "0.4.1"
+            }
+          ],
+          "id" : "ide.vscodeext",
+          "managedBy" : "Manual install",
+          "name" : "VS Code extensions",
+          "path" : "~/.vscode/extensions",
+          "sizeBytes" : 676204544,
+          "status" : "ok",
+          "version" : "9 extensions"
+        },
+        {
+          "id" : "ide.warp",
+          "managedBy" : "Application",
+          "name" : "Warp",
+          "path" : "/Applications/Warp.app",
+          "sizeBytes" : 453767168,
+          "status" : "ok",
+          "version" : "0.2026.08.26.17.59.01",
+          "website" : "https://warp.dev"
+        },
+        {
+          "id" : "ide.xcodeapp",
+          "managedBy" : "Application",
+          "name" : "Xcode",
+          "path" : "/Applications/Xcode.app",
+          "sizeBytes" : 2890670080,
+          "status" : "ok",
+          "version" : "26.6 (24959)",
+          "website" : "https://developer.apple.com/xcode"
+        }
+      ],
+      "totalBytes" : 7428423680
+    },
+    {
+      "id" : "shell",
+      "title" : "Shell & Core Tooling",
+      "toolCount" : 11,
+      "tools" : [
+        {
+          "id" : "shell.bash",
+          "managedBy" : "macOS",
+          "name" : "bash",
+          "path" : "/bin/bash",
+          "sizeBytes" : 0,
+          "status" : "ok",
+          "version" : "system",
+          "website" : "https://gnu.org/software/bash"
+        },
+        {
+          "id" : "shell.curl",
+          "managedBy" : "macOS",
+          "name" : "curl",
+          "path" : "/usr/bin/curl",
+          "sizeBytes" : 0,
+          "status" : "ok",
+          "version" : "system",
+          "website" : "https://curl.se"
+        },
+        {
+          "id" : "shell.git",
+          "managedBy" : "Command Line Tools",
+          "name" : "git",
+          "path" : "/Library/Developer/CommandLineTools/usr/bin/git",
+          "sizeBytes" : 0,
+          "status" : "ok",
+          "version" : "26.6 · CLT",
+          "website" : "https://git-scm.com"
+        },
+        {
+          "id" : "shell.gh",
+          "managedBy" : "Homebrew formula",
+          "name" : "GitHub CLI",
+          "path" : "/opt/homebrew/Cellar/gh/2.99.0",
+          "sizeBytes" : 40275968,
+          "status" : "ok",
+          "version" : "2.99.0 · Homebrew",
+          "website" : "https://cli.github.com"
+        },
+        {
+          "id" : "shell.jq",
+          "managedBy" : "macOS",
+          "name" : "jq",
+          "path" : "/usr/bin/jq",
+          "sizeBytes" : 0,
+          "status" : "ok",
+          "version" : "system",
+          "website" : "https://jqlang.github.io/jq"
+        },
+        {
+          "id" : "shell.omz",
+          "managedBy" : "Manual install",
+          "name" : "oh-my-zsh",
+          "path" : "~/.oh-my-zsh",
+          "sizeBytes" : 19341312,
+          "status" : "ok",
+          "version" : "installed",
+          "website" : "https://ohmyz.sh"
+        },
+        {
+          "id" : "shell.postgres",
+          "managedBy" : "Homebrew",
+          "name" : "PostgreSQL",
+          "path" : "/opt/homebrew/Cellar/postgresql@14/14.24/bin/psql",
+          "sizeBytes" : 13275136,
+          "status" : "ok",
+          "version" : "14.24",
+          "website" : "https://postgresql.org"
+        },
+        {
+          "id" : "shell.p10k",
+          "managedBy" : "Manual install",
+          "name" : "powerlevel10k",
+          "path" : "~/.oh-my-zsh/custom/themes/powerlevel10k",
+          "sizeBytes" : 3543040,
+          "status" : "ok",
+          "version" : "installed",
+          "website" : "https://github.com/romkatv/powerlevel10k"
+        },
+        {
+          "id" : "shell.rosetta",
+          "managedBy" : "Manual install",
+          "name" : "Rosetta 2",
+          "path" : "/Library/Apple/usr/share/rosetta",
+          "sizeBytes" : 4096,
+          "status" : "ok",
+          "version" : "x86_64 translation"
+        },
+        {
+          "id" : "shell.sqlite",
+          "managedBy" : "macOS",
+          "name" : "SQLite",
+          "path" : "/usr/bin/sqlite3",
+          "sizeBytes" : 0,
+          "status" : "ok",
+          "version" : "system",
+          "website" : "https://sqlite.org"
+        },
+        {
+          "id" : "shell.zsh",
+          "managedBy" : "macOS",
+          "name" : "zsh",
+          "path" : "/bin/zsh",
+          "sizeBytes" : 0,
+          "status" : "ok",
+          "version" : "system",
+          "website" : "https://zsh.org"
+        }
+      ],
+      "totalBytes" : 76439552
+    },
+    {
+      "id" : "notInstalled",
+      "title" : "Not Installed",
+      "toolCount" : 80,
+      "tools" : [
+        {
+          "id" : "lang.dotnet",
+          "managedBy" : "—",
+          "name" : ".NET",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "no SDK",
+          "website" : "https://dotnet.microsoft.com"
+        },
+        {
+          "id" : "sdk.android",
+          "managedBy" : "—",
+          "name" : "Android SDK",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "no platform-tools",
+          "website" : "https://developer.android.com"
+        },
+        {
+          "id" : "ide.androidstudio",
+          "managedBy" : "—",
+          "name" : "Android Studio",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not present",
+          "website" : "https://developer.android.com/studio"
+        },
+        {
+          "id" : "sdk.ansible",
+          "managedBy" : "—",
+          "name" : "Ansible",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not present",
+          "website" : "https://ansible.com"
+        },
+        {
+          "id" : "pkg.asdf",
+          "managedBy" : "—",
+          "name" : "asdf",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not present",
+          "website" : "https://asdf-vm.com"
+        },
+        {
+          "id" : "sdk.aws",
+          "managedBy" : "—",
+          "name" : "AWS CLI",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not present",
+          "website" : "https://aws.amazon.com/cli"
+        },
+        {
+          "id" : "sdk.azure",
+          "managedBy" : "—",
+          "name" : "Azure CLI",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not present",
+          "website" : "https://learn.microsoft.com/cli/azure"
+        },
+        {
+          "id" : "pkg.cargo",
+          "managedBy" : "—",
+          "name" : "cargo",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "no Rust toolchain",
+          "website" : "https://doc.rust-lang.org/cargo"
+        },
+        {
+          "id" : "lang.clojure",
+          "managedBy" : "—",
+          "name" : "Clojure",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not installed",
+          "website" : "https://clojure.org"
+        },
+        {
+          "id" : "pkg.cocoapods",
+          "managedBy" : "—",
+          "name" : "CocoaPods",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not installed",
+          "website" : "https://cocoapods.org"
+        },
+        {
+          "id" : "ide.colima",
+          "managedBy" : "—",
+          "name" : "Colima",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not present",
+          "website" : "https://github.com/abiosoft/colima"
+        },
+        {
+          "id" : "pkg.composer",
+          "managedBy" : "—",
+          "name" : "Composer",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "no PHP toolchain",
+          "website" : "https://getcomposer.org"
+        },
+        {
+          "id" : "pkg.conda",
+          "managedBy" : "—",
+          "name" : "conda",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not present",
+          "website" : "https://conda.io"
+        },
+        {
+          "id" : "lang.crystal",
+          "managedBy" : "—",
+          "name" : "Crystal",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not installed",
+          "website" : "https://crystal-lang.org"
+        },
+        {
+          "id" : "lang.dart",
+          "managedBy" : "—",
+          "name" : "Dart / Flutter",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "no SDK",
+          "website" : "https://dart.dev"
+        },
+        {
+          "id" : "ide.docker",
+          "managedBy" : "—",
+          "name" : "Docker Desktop",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "no container runtime",
+          "website" : "https://docker.com"
+        },
+        {
+          "id" : "lang.elixir",
+          "managedBy" : "—",
+          "name" : "Elixir",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not present",
+          "website" : "https://elixir-lang.org"
+        },
+        {
+          "id" : "lang.erlang",
+          "managedBy" : "—",
+          "name" : "Erlang",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not installed",
+          "website" : "https://erlang.org"
+        },
+        {
+          "id" : "shell.fd",
+          "managedBy" : "—",
+          "name" : "fd",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not present",
+          "website" : "https://github.com/sharkdp/fd"
+        },
+        {
+          "id" : "ide.figma",
+          "managedBy" : "—",
+          "name" : "Figma",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not present",
+          "website" : "https://figma.com"
+        },
+        {
+          "id" : "sdk.firebase",
+          "managedBy" : "—",
+          "name" : "Firebase CLI",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not present",
+          "website" : "https://firebase.google.com/docs/cli"
+        },
+        {
+          "id" : "shell.fish",
+          "managedBy" : "—",
+          "name" : "fish",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not present",
+          "website" : "https://fishshell.com"
+        },
+        {
+          "id" : "sdk.flutter",
+          "managedBy" : "—",
+          "name" : "Flutter SDK",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "no SDK",
+          "website" : "https://flutter.dev"
+        },
+        {
+          "id" : "shell.fzf",
+          "managedBy" : "—",
+          "name" : "fzf",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not present",
+          "website" : "https://github.com/junegunn/fzf"
+        },
+        {
+          "id" : "ide.ghostty",
+          "managedBy" : "—",
+          "name" : "Ghostty",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not present",
+          "website" : "https://ghostty.org"
+        },
+        {
+          "id" : "shell.gitlfs",
+          "managedBy" : "—",
+          "name" : "Git LFS",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not present",
+          "website" : "https://git-lfs.com"
+        },
+        {
+          "id" : "sdk.godot",
+          "managedBy" : "—",
+          "name" : "Godot",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not present",
+          "website" : "https://godotengine.org"
+        },
+        {
+          "id" : "ide.goland",
+          "managedBy" : "—",
+          "name" : "GoLand",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not present",
+          "website" : "https://jetbrains.com/go"
+        },
+        {
+          "id" : "pkg.gradle",
+          "managedBy" : "—",
+          "name" : "Gradle",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "wrapper-based",
+          "website" : "https://gradle.org"
+        },
+        {
+          "id" : "lang.groovy",
+          "managedBy" : "—",
+          "name" : "Groovy",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not installed",
+          "website" : "https://groovy-lang.org"
+        },
+        {
+          "id" : "lang.haskell",
+          "managedBy" : "—",
+          "name" : "Haskell",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not installed",
+          "website" : "https://haskell.org"
+        },
+        {
+          "id" : "ide.insomnia",
+          "managedBy" : "—",
+          "name" : "Insomnia",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not present",
+          "website" : "https://insomnia.rest"
+        },
+        {
+          "id" : "ide.intellij",
+          "managedBy" : "—",
+          "name" : "IntelliJ IDEA",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not present",
+          "website" : "https://jetbrains.com/idea"
+        },
+        {
+          "id" : "ide.iterm",
+          "managedBy" : "—",
+          "name" : "iTerm2",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not present",
+          "website" : "https://iterm2.com"
+        },
+        {
+          "id" : "pkg.jenv",
+          "managedBy" : "—",
+          "name" : "jenv",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not present",
+          "website" : "https://jenv.be"
+        },
+        {
+          "id" : "lang.julia",
+          "managedBy" : "—",
+          "name" : "Julia",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not installed",
+          "website" : "https://julialang.org"
+        },
+        {
+          "id" : "lang.kotlin",
+          "managedBy" : "—",
+          "name" : "Kotlin",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "standalone compiler",
+          "website" : "https://kotlinlang.org"
+        },
+        {
+          "id" : "sdk.kubectl",
+          "managedBy" : "—",
+          "name" : "kubectl",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not present",
+          "website" : "https://kubernetes.io"
+        },
+        {
+          "id" : "shell.lazygit",
+          "managedBy" : "—",
+          "name" : "lazygit",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not present",
+          "website" : "https://github.com/jesseduffield/lazygit"
+        },
+        {
+          "id" : "lang.lua",
+          "managedBy" : "—",
+          "name" : "Lua",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not installed",
+          "website" : "https://lua.org"
+        },
+        {
+          "id" : "pkg.macports",
+          "managedBy" : "—",
+          "name" : "MacPorts",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not present",
+          "website" : "https://macports.org"
+        },
+        {
+          "id" : "pkg.mise",
+          "managedBy" : "—",
+          "name" : "mise",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not present",
+          "website" : "https://mise.jdx.dev"
+        },
+        {
+          "id" : "shell.mongodb",
+          "managedBy" : "—",
+          "name" : "MongoDB",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not present",
+          "website" : "https://mongodb.com"
+        },
+        {
+          "id" : "shell.mysql",
+          "managedBy" : "—",
+          "name" : "MySQL",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not present",
+          "website" : "https://mysql.com"
+        },
+        {
+          "id" : "ide.neovim",
+          "managedBy" : "—",
+          "name" : "Neovim",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not installed",
+          "website" : "https://neovim.io"
+        },
+        {
+          "id" : "lang.nim",
+          "managedBy" : "—",
+          "name" : "Nim",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not installed",
+          "website" : "https://nim-lang.org"
+        },
+        {
+          "id" : "pkg.nuget",
+          "managedBy" : "—",
+          "name" : "NuGet",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "no .NET toolchain",
+          "website" : "https://nuget.org"
+        },
+        {
+          "id" : "shell.nushell",
+          "managedBy" : "—",
+          "name" : "Nushell",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not present",
+          "website" : "https://nushell.sh"
+        },
+        {
+          "id" : "lang.ocaml",
+          "managedBy" : "—",
+          "name" : "OCaml",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not installed",
+          "website" : "https://ocaml.org"
+        },
+        {
+          "id" : "lang.ollama",
+          "managedBy" : "—",
+          "name" : "Ollama",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not installed",
+          "website" : "https://ollama.com"
+        },
+        {
+          "id" : "ide.orbstack",
+          "managedBy" : "—",
+          "name" : "OrbStack",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not present",
+          "website" : "https://orbstack.dev"
+        },
+        {
+          "id" : "lang.php",
+          "managedBy" : "—",
+          "name" : "PHP",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not present",
+          "website" : "https://php.net"
+        },
+        {
+          "id" : "pkg.pipx",
+          "managedBy" : "—",
+          "name" : "pipx",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not installed",
+          "website" : "https://pipx.pypa.io"
+        },
+        {
+          "id" : "pkg.pnpm",
+          "managedBy" : "—",
+          "name" : "pnpm",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not installed",
+          "website" : "https://pnpm.io"
+        },
+        {
+          "id" : "ide.podman",
+          "managedBy" : "—",
+          "name" : "Podman",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not present",
+          "website" : "https://podman.io"
+        },
+        {
+          "id" : "ide.pycharm",
+          "managedBy" : "—",
+          "name" : "PyCharm",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not present",
+          "website" : "https://jetbrains.com/pycharm"
+        },
+        {
+          "id" : "lang.r",
+          "managedBy" : "—",
+          "name" : "R",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not present",
+          "website" : "https://r-project.org"
+        },
+        {
+          "id" : "lang.racket",
+          "managedBy" : "—",
+          "name" : "Racket",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not installed",
+          "website" : "https://racket-lang.org"
+        },
+        {
+          "id" : "pkg.rbenv",
+          "managedBy" : "—",
+          "name" : "rbenv",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not installed",
+          "website" : "https://github.com/rbenv/rbenv"
+        },
+        {
+          "id" : "sdk.reactnative",
+          "managedBy" : "—",
+          "name" : "React Native CLI",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not present",
+          "website" : "https://reactnative.dev"
+        },
+        {
+          "id" : "shell.redis",
+          "managedBy" : "—",
+          "name" : "Redis",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not present",
+          "website" : "https://redis.io"
+        },
+        {
+          "id" : "shell.ripgrep",
+          "managedBy" : "—",
+          "name" : "ripgrep",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not present",
+          "website" : "https://github.com/BurntSushi/ripgrep"
+        },
+        {
+          "id" : "lang.rust",
+          "managedBy" : "—",
+          "name" : "Rust",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "no rustup / cargo",
+          "website" : "https://rust-lang.org"
+        },
+        {
+          "id" : "pkg.rustup",
+          "managedBy" : "—",
+          "name" : "rustup",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not present",
+          "website" : "https://rustup.rs"
+        },
+        {
+          "id" : "pkg.sbt",
+          "managedBy" : "—",
+          "name" : "sbt",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not installed",
+          "website" : "https://scala-sbt.org"
+        },
+        {
+          "id" : "lang.scala",
+          "managedBy" : "—",
+          "name" : "Scala",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not installed",
+          "website" : "https://scala-lang.org"
+        },
+        {
+          "id" : "shell.starship",
+          "managedBy" : "—",
+          "name" : "Starship",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not present",
+          "website" : "https://starship.rs"
+        },
+        {
+          "id" : "sdk.toolchains",
+          "managedBy" : "—",
+          "name" : "Swift toolchains",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not installed"
+        },
+        {
+          "id" : "ide.tableplus",
+          "managedBy" : "—",
+          "name" : "TablePlus",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not present",
+          "website" : "https://tableplus.com"
+        },
+        {
+          "id" : "sdk.terraform",
+          "managedBy" : "—",
+          "name" : "Terraform",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not present",
+          "website" : "https://terraform.io"
+        },
+        {
+          "id" : "shell.tmux",
+          "managedBy" : "—",
+          "name" : "tmux",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not present",
+          "website" : "https://github.com/tmux/tmux"
+        },
+        {
+          "id" : "lang.typescript",
+          "managedBy" : "—",
+          "name" : "TypeScript",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not installed",
+          "website" : "https://typescriptlang.org"
+        },
+        {
+          "id" : "sdk.unity",
+          "managedBy" : "—",
+          "name" : "Unity",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "no editor",
+          "website" : "https://unity.com"
+        },
+        {
+          "id" : "lang.v",
+          "managedBy" : "—",
+          "name" : "V",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not installed",
+          "website" : "https://vlang.io"
+        },
+        {
+          "id" : "sdk.vagrant",
+          "managedBy" : "—",
+          "name" : "Vagrant",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not present",
+          "website" : "https://vagrantup.com"
+        },
+        {
+          "id" : "ide.webstorm",
+          "managedBy" : "—",
+          "name" : "WebStorm",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not present",
+          "website" : "https://jetbrains.com/webstorm"
+        },
+        {
+          "id" : "shell.wget",
+          "managedBy" : "—",
+          "name" : "wget",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not present",
+          "website" : "https://gnu.org/software/wget"
+        },
+        {
+          "id" : "pkg.yarn",
+          "managedBy" : "—",
+          "name" : "yarn",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not installed",
+          "website" : "https://yarnpkg.com"
+        },
+        {
+          "id" : "ide.zed",
+          "managedBy" : "—",
+          "name" : "Zed",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not present",
+          "website" : "https://zed.dev"
+        },
+        {
+          "id" : "lang.zig",
+          "managedBy" : "—",
+          "name" : "Zig",
+          "sizeBytes" : 0,
+          "status" : "missing",
+          "version" : "not installed",
+          "website" : "https://ziglang.org"
+        }
+      ],
+      "totalBytes" : 0
+    }
+  ],
+  "exportedAt" : "2026-09-03T20:59:05Z",
+  "findings" : [
+    {
+      "detail" : "Managed by nvm — a newer line can be installed alongside.",
+      "id" : "eol.Node.js 22",
+      "scope" : "Languages & Runtimes · Node.js",
+      "tier" : "warning",
+      "title" : "Node.js 22 reaches end of life in 6 months",
+      "toolIDs" : [
+        "lang.node@22.19.0"
+      ]
+    },
+    {
+      "detail" : "Managed by pyenv — a newer line can be installed alongside.",
+      "id" : "eol.Python 3.11",
+      "scope" : "Languages & Runtimes · Python",
+      "tier" : "warning",
+      "title" : "Python 3.11 reaches end of life in 12 months",
+      "toolIDs" : [
+        "lang.python@3.11.6"
+      ]
+    },
+    {
+      "detail" : "Docker Desktop, OrbStack, Podman and Colima are all absent. Anything with a Dockerfile or a devcontainer will not run locally.",
+      "id" : "containers.none",
+      "scope" : "IDEs & Dev Tools · Containers",
+      "tier" : "info",
+      "title" : "No container runtime is installed",
+      "toolIDs" : [
+        "ide.docker",
+        "ide.orbstack",
+        "ide.podman",
+        "ide.colima"
+      ]
+    },
+    {
+      "detail" : "x86_64 translation stays on disk once installed. Some casks still need it, so removing it is only safe when nothing Intel-only is left.",
+      "id" : "rosetta",
+      "scope" : "Shell & Core Tooling · Rosetta 2",
+      "tier" : "info",
+      "title" : "Rosetta 2 is still installed",
+      "toolIDs" : [
+        "shell.rosetta"
+      ]
+    }
+  ],
+  "machine" : {
+    "architecture" : "arm64",
+    "chip" : "Apple M1 Pro",
+    "diskFreeBytes" : 754753167702,
+    "diskTotalBytes" : 994662584320,
+    "diskUsedBytes" : 239909416618,
+    "memory" : "32 GB",
+    "model" : "MacBookPro18,1",
+    "os" : "macOS 26.6.2"
+  },
+  "schemaVersion" : 1,
+  "summary" : {
+    "applicationCount" : 113,
+    "applicationsInstalled" : 67,
+    "categoryBytes" : {
+      "brew" : 8929325056,
+      "ide" : 7428423680,
+      "lang" : 2715619328,
+      "notInstalled" : 0,
+      "pkg" : 9416630272,
+      "sdk" : 8577449984,
+      "shell" : 76439552
+    },
+    "developmentBytes" : 45557723136,
+    "healthScore" : 88,
+    "healthStatus" : "mostlyHealthy",
+    "homebrew" : {
+      "casks" : 52,
+      "formulae" : 147,
+      "formulaeKeepingOldVersions" : [
+
+      ],
+      "installed" : true
+    },
+    "sizesMeasuredAt" : "2026-09-03T20:45:26Z",
+    "toolsInstalled" : 57,
+    "toolsMissing" : 80
+  }
+}

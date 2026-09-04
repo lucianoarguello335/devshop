@@ -1,0 +1,2879 @@
+[
+ {
+  "id": "lang.swift",
+  "name": "Swift",
+  "category": "lang",
+  "icon": "swift",
+  "symbol": "swift",
+  "color": "f05138",
+  "website": "https://swift.org",
+  "rules": [
+   {
+    "kind": "executable",
+    "names": [
+     "swift"
+    ]
+   },
+   {
+    "kind": "directory",
+    "path": "/Library/Developer/CommandLineTools/usr/bin/swift"
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "lang.python",
+  "name": "Python",
+  "category": "lang",
+  "icon": "python",
+  "symbol": "chevron.left.forwardslash.chevron.right",
+  "color": "3776ab",
+  "website": "https://python.org",
+  "rules": [
+   {
+    "kind": "versionManager",
+    "manager": "pyenv"
+   },
+   {
+    "kind": "brewFormula",
+    "name": "python@3.13"
+   },
+   {
+    "kind": "brewFormula",
+    "name": "python@3.12"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "python3"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "lang.node",
+  "name": "Node.js",
+  "category": "lang",
+  "icon": "nodedotjs",
+  "symbol": "hexagon.fill",
+  "color": "43853d",
+  "website": "https://nodejs.org",
+  "rules": [
+   {
+    "kind": "versionManager",
+    "manager": "nvm"
+   },
+   {
+    "kind": "brewFormula",
+    "name": "node"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "node"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "lang.ruby",
+  "name": "Ruby",
+  "category": "lang",
+  "icon": "ruby",
+  "symbol": "diamond.fill",
+  "color": "cc342d",
+  "website": "https://ruby-lang.org",
+  "rules": [
+   {
+    "kind": "versionManager",
+    "manager": "rbenv"
+   },
+   {
+    "kind": "brewFormula",
+    "name": "ruby"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "ruby"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "lang.go",
+  "name": "Go",
+  "category": "lang",
+  "icon": "go",
+  "symbol": "figure.run",
+  "color": "00add8",
+  "website": "https://go.dev",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "go"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "go"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "lang.rust",
+  "name": "Rust",
+  "category": "lang",
+  "icon": "rust",
+  "symbol": "gearshape.2.fill",
+  "color": "dea584",
+  "website": "https://rust-lang.org",
+  "rules": [
+   {
+    "kind": "directory",
+    "path": "~/.rustup"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "rustc"
+    ]
+   }
+  ],
+  "missingNote": "no rustup / cargo"
+ },
+ {
+  "id": "lang.java",
+  "name": "Java",
+  "category": "lang",
+  "icon": "openjdk",
+  "symbol": "cup.and.saucer.fill",
+  "color": "e76f00",
+  "website": "https://openjdk.org",
+  "rules": [
+   {
+    "kind": "versionManager",
+    "manager": "jvm"
+   },
+   {
+    "kind": "brewFormula",
+    "name": "openjdk"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "java"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "lang.kotlin",
+  "name": "Kotlin",
+  "category": "lang",
+  "icon": "kotlin",
+  "symbol": "k.square.fill",
+  "color": "7f52ff",
+  "website": "https://kotlinlang.org",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "kotlin"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "kotlinc",
+     "kotlin"
+    ]
+   }
+  ],
+  "missingNote": "standalone compiler"
+ },
+ {
+  "id": "lang.scala",
+  "name": "Scala",
+  "category": "lang",
+  "icon": "scala",
+  "symbol": "s.square.fill",
+  "color": "dc322f",
+  "website": "https://scala-lang.org",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "scala"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "scala"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "lang.clojure",
+  "name": "Clojure",
+  "category": "lang",
+  "icon": "clojure",
+  "symbol": "c.square.fill",
+  "color": "5881d8",
+  "website": "https://clojure.org",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "clojure"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "clj",
+     "clojure"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "lang.clang",
+  "name": "Clang / GCC",
+  "category": "lang",
+  "icon": "c",
+  "symbol": "c.square.fill",
+  "color": "7a5cff",
+  "website": "https://clang.llvm.org",
+  "rules": [
+   {
+    "kind": "directory",
+    "path": "/Library/Developer/CommandLineTools/usr/bin/clang"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "clang"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "lang.cpp",
+  "name": "C++",
+  "category": "lang",
+  "icon": "cplusplus",
+  "symbol": "plus.square.fill",
+  "color": "00599c",
+  "website": "https://isocpp.org",
+  "rules": [
+   {
+    "kind": "directory",
+    "path": "/Library/Developer/CommandLineTools/usr/bin/clang++"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "clang++",
+     "g++"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "lang.gcc",
+  "name": "GNU GCC",
+  "category": "lang",
+  "icon": "gnu",
+  "symbol": "cpu.fill",
+  "color": "a42e2b",
+  "website": "https://gcc.gnu.org",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "gcc"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "gcc-14",
+     "gcc-13"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "lang.dotnet",
+  "name": ".NET",
+  "category": "lang",
+  "icon": "dotnet",
+  "symbol": "square.stack.3d.up.fill",
+  "color": "512bd4",
+  "website": "https://dotnet.microsoft.com",
+  "rules": [
+   {
+    "kind": "directory",
+    "path": "/usr/local/share/dotnet"
+   },
+   {
+    "kind": "directory",
+    "path": "~/.dotnet"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "dotnet"
+    ]
+   }
+  ],
+  "missingNote": "no SDK"
+ },
+ {
+  "id": "lang.php",
+  "name": "PHP",
+  "category": "lang",
+  "icon": "php",
+  "symbol": "p.square.fill",
+  "color": "777bb4",
+  "website": "https://php.net",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "php"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "php"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "lang.perl",
+  "name": "Perl",
+  "category": "lang",
+  "icon": "perl",
+  "symbol": "p.circle.fill",
+  "color": "0298c3",
+  "website": "https://perl.org",
+  "rules": [
+   {
+    "kind": "executable",
+    "names": [
+     "perl"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "lang.lua",
+  "name": "Lua",
+  "category": "lang",
+  "icon": "lua",
+  "symbol": "moon.fill",
+  "color": "2c2d72",
+  "website": "https://lua.org",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "lua"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "lua"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "lang.r",
+  "name": "R",
+  "category": "lang",
+  "icon": "r",
+  "symbol": "r.square.fill",
+  "color": "276dc3",
+  "website": "https://r-project.org",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "r"
+   },
+   {
+    "kind": "appBundle",
+    "paths": [
+     "/Applications/R.app"
+    ]
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "R",
+     "Rscript"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "lang.julia",
+  "name": "Julia",
+  "category": "lang",
+  "icon": "julia",
+  "symbol": "circle.hexagongrid.fill",
+  "color": "9558b2",
+  "website": "https://julialang.org",
+  "rules": [
+   {
+    "kind": "appBundle",
+    "paths": [
+     "/Applications/Julia.app"
+    ]
+   },
+   {
+    "kind": "brewFormula",
+    "name": "julia"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "julia"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "lang.haskell",
+  "name": "Haskell",
+  "category": "lang",
+  "icon": "haskell",
+  "symbol": "lambda",
+  "color": "5d4f85",
+  "website": "https://haskell.org",
+  "rules": [
+   {
+    "kind": "directory",
+    "path": "~/.ghcup"
+   },
+   {
+    "kind": "brewFormula",
+    "name": "ghc"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "ghc"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "lang.ocaml",
+  "name": "OCaml",
+  "category": "lang",
+  "icon": "ocaml",
+  "symbol": "camera.macro",
+  "color": "ec6813",
+  "website": "https://ocaml.org",
+  "rules": [
+   {
+    "kind": "directory",
+    "path": "~/.opam"
+   },
+   {
+    "kind": "brewFormula",
+    "name": "ocaml"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "ocaml"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "lang.elixir",
+  "name": "Elixir",
+  "category": "lang",
+  "icon": "elixir",
+  "symbol": "drop.fill",
+  "color": "4b275f",
+  "website": "https://elixir-lang.org",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "elixir"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "elixir"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "lang.erlang",
+  "name": "Erlang",
+  "category": "lang",
+  "icon": "erlang",
+  "symbol": "antenna.radiowaves.left.and.right",
+  "color": "a90533",
+  "website": "https://erlang.org",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "erlang"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "erl"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "lang.dart",
+  "name": "Dart / Flutter",
+  "category": "lang",
+  "icon": "dart",
+  "symbol": "bird.fill",
+  "color": "0175c2",
+  "website": "https://dart.dev",
+  "rules": [
+   {
+    "kind": "directory",
+    "path": "~/development/flutter"
+   },
+   {
+    "kind": "directory",
+    "path": "~/flutter"
+   },
+   {
+    "kind": "brewFormula",
+    "name": "dart"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "dart",
+     "flutter"
+    ]
+   }
+  ],
+  "missingNote": "no SDK"
+ },
+ {
+  "id": "lang.zig",
+  "name": "Zig",
+  "category": "lang",
+  "icon": "zig",
+  "symbol": "bolt.fill",
+  "color": "f7a41d",
+  "website": "https://ziglang.org",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "zig"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "zig"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "lang.nim",
+  "name": "Nim",
+  "category": "lang",
+  "icon": "nim",
+  "symbol": "crown.fill",
+  "color": "ffe953",
+  "website": "https://nim-lang.org",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "nim"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "nim"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "lang.crystal",
+  "name": "Crystal",
+  "category": "lang",
+  "icon": "crystal",
+  "symbol": "sparkles",
+  "color": "000000",
+  "website": "https://crystal-lang.org",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "crystal"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "crystal"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "lang.v",
+  "name": "V",
+  "category": "lang",
+  "icon": "v",
+  "symbol": "v.square.fill",
+  "color": "5d87bf",
+  "website": "https://vlang.io",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "vlang"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "v"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "lang.groovy",
+  "name": "Groovy",
+  "category": "lang",
+  "icon": "apachegroovy",
+  "symbol": "g.square.fill",
+  "color": "4298b8",
+  "website": "https://groovy-lang.org",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "groovy"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "groovy"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "lang.racket",
+  "name": "Racket",
+  "category": "lang",
+  "icon": "racket",
+  "symbol": "circle.circle.fill",
+  "color": "9f1d20",
+  "website": "https://racket-lang.org",
+  "rules": [
+   {
+    "kind": "appBundle",
+    "paths": [
+     "/Applications/Racket"
+    ]
+   },
+   {
+    "kind": "brewFormula",
+    "name": "racket"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "racket"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "lang.fortran",
+  "name": "Fortran",
+  "category": "lang",
+  "icon": "fortran",
+  "symbol": "function",
+  "color": "734f96",
+  "website": "https://fortran-lang.org",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "gcc"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "gfortran",
+     "gfortran-14"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "lang.typescript",
+  "name": "TypeScript",
+  "category": "lang",
+  "icon": "typescript",
+  "symbol": "t.square.fill",
+  "color": "3178c6",
+  "website": "https://typescriptlang.org",
+  "rules": [
+   {
+    "kind": "executable",
+    "names": [
+     "tsc"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "lang.bunrt",
+  "name": "Bun",
+  "category": "lang",
+  "icon": "bun",
+  "symbol": "takeoutbag.and.cup.and.straw.fill",
+  "color": "fbf0df",
+  "website": "https://bun.sh",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "bun"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "bun"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "lang.deno",
+  "name": "Deno",
+  "category": "lang",
+  "icon": "deno",
+  "symbol": "pawprint.fill",
+  "color": "4f4f4f",
+  "website": "https://deno.com",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "deno"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "deno"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "lang.ollama",
+  "name": "Ollama",
+  "category": "lang",
+  "icon": "ollama",
+  "symbol": "brain",
+  "color": "1f2937",
+  "website": "https://ollama.com",
+  "rules": [
+   {
+    "kind": "appBundle",
+    "paths": [
+     "/Applications/Ollama.app"
+    ]
+   },
+   {
+    "kind": "brewFormula",
+    "name": "ollama"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "ollama"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "pkg.homebrew",
+  "name": "Homebrew",
+  "category": "pkg",
+  "icon": "homebrew",
+  "symbol": "mug.fill",
+  "color": "fbb040",
+  "website": "https://brew.sh",
+  "rules": [
+   {
+    "kind": "directory",
+    "path": "/opt/homebrew"
+   },
+   {
+    "kind": "directory",
+    "path": "/usr/local/Homebrew"
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "pkg.macports",
+  "name": "MacPorts",
+  "category": "pkg",
+  "icon": "macports",
+  "symbol": "sailboat.fill",
+  "color": "0b5cab",
+  "website": "https://macports.org",
+  "rules": [
+   {
+    "kind": "directory",
+    "path": "/opt/local/bin/port"
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "pkg.npm",
+  "name": "npm",
+  "category": "pkg",
+  "icon": "npm",
+  "symbol": "shippingbox.fill",
+  "color": "cb3837",
+  "website": "https://npmjs.com",
+  "rules": [
+   {
+    "kind": "executable",
+    "names": [
+     "npm"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "pkg.pnpm",
+  "name": "pnpm",
+  "category": "pkg",
+  "icon": "pnpm",
+  "symbol": "cube.box.fill",
+  "color": "f9ad00",
+  "website": "https://pnpm.io",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "pnpm"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "pnpm"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "pkg.yarn",
+  "name": "yarn",
+  "category": "pkg",
+  "icon": "yarn",
+  "symbol": "circle.grid.cross.fill",
+  "color": "2c8ebb",
+  "website": "https://yarnpkg.com",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "yarn"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "yarn"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "pkg.bun",
+  "name": "bun",
+  "category": "pkg",
+  "icon": "bun",
+  "symbol": "takeoutbag.and.cup.and.straw.fill",
+  "color": "f472b6",
+  "website": "https://bun.sh",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "bun"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "bun"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "pkg.pip",
+  "name": "pip",
+  "category": "pkg",
+  "icon": "pypi",
+  "symbol": "arrow.down.circle.fill",
+  "color": "3776ab",
+  "website": "https://pip.pypa.io",
+  "rules": [
+   {
+    "kind": "executable",
+    "names": [
+     "pip3",
+     "pip"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "pkg.pipx",
+  "name": "pipx",
+  "category": "pkg",
+  "icon": "python",
+  "symbol": "shippingbox.circle.fill",
+  "color": "2b579a",
+  "website": "https://pipx.pypa.io",
+  "rules": [
+   {
+    "kind": "directory",
+    "path": "~/.local/pipx"
+   },
+   {
+    "kind": "brewFormula",
+    "name": "pipx"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "pipx"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "pkg.poetry",
+  "name": "poetry",
+  "category": "pkg",
+  "icon": "poetry",
+  "symbol": "text.book.closed.fill",
+  "color": "60a5fa",
+  "website": "https://python-poetry.org",
+  "rules": [
+   {
+    "kind": "directory",
+    "path": "~/Library/pypoetry"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "poetry"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "pkg.uv",
+  "name": "uv",
+  "category": "pkg",
+  "icon": "uv",
+  "symbol": "bolt.horizontal.fill",
+  "color": "7c3aed",
+  "website": "https://docs.astral.sh/uv",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "uv"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "uv"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "pkg.conda",
+  "name": "conda",
+  "category": "pkg",
+  "icon": "anaconda",
+  "symbol": "circle.circle",
+  "color": "44a833",
+  "website": "https://conda.io",
+  "rules": [
+   {
+    "kind": "directory",
+    "path": "~/miniconda3"
+   },
+   {
+    "kind": "directory",
+    "path": "~/anaconda3"
+   },
+   {
+    "kind": "directory",
+    "path": "/opt/homebrew/Caskroom/miniconda"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "conda"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "pkg.cargo",
+  "name": "cargo",
+  "category": "pkg",
+  "icon": "rust",
+  "symbol": "shippingbox.fill",
+  "color": "dea584",
+  "website": "https://doc.rust-lang.org/cargo",
+  "rules": [
+   {
+    "kind": "directory",
+    "path": "~/.cargo"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "cargo"
+    ]
+   }
+  ],
+  "missingNote": "no Rust toolchain"
+ },
+ {
+  "id": "pkg.gem",
+  "name": "RubyGems",
+  "category": "pkg",
+  "icon": "rubygems",
+  "symbol": "diamond.fill",
+  "color": "e9573f",
+  "website": "https://rubygems.org",
+  "rules": [
+   {
+    "kind": "executable",
+    "names": [
+     "gem"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "pkg.bundler",
+  "name": "Bundler",
+  "category": "pkg",
+  "icon": "ruby",
+  "symbol": "archivebox.fill",
+  "color": "cc342d",
+  "website": "https://bundler.io",
+  "rules": [
+   {
+    "kind": "executable",
+    "names": [
+     "bundle",
+     "bundler"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "pkg.maven",
+  "name": "Maven",
+  "category": "pkg",
+  "icon": "apachemaven",
+  "symbol": "m.square.fill",
+  "color": "c71a36",
+  "website": "https://maven.apache.org",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "maven"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "mvn"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "pkg.gradle",
+  "name": "Gradle",
+  "category": "pkg",
+  "icon": "gradle",
+  "symbol": "g.square.fill",
+  "color": "02303a",
+  "website": "https://gradle.org",
+  "rules": [
+   {
+    "kind": "directory",
+    "path": "~/.gradle"
+   },
+   {
+    "kind": "brewFormula",
+    "name": "gradle"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "gradle"
+    ]
+   }
+  ],
+  "missingNote": "wrapper-based"
+ },
+ {
+  "id": "pkg.sbt",
+  "name": "sbt",
+  "category": "pkg",
+  "icon": "scala",
+  "symbol": "s.circle.fill",
+  "color": "dc322f",
+  "website": "https://scala-sbt.org",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "sbt"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "sbt"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "pkg.cocoapods",
+  "name": "CocoaPods",
+  "category": "pkg",
+  "icon": "cocoapods",
+  "symbol": "cube.box.fill",
+  "color": "ee3322",
+  "website": "https://cocoapods.org",
+  "rules": [
+   {
+    "kind": "executable",
+    "names": [
+     "pod"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "pkg.spm",
+  "name": "Swift Package Manager",
+  "category": "pkg",
+  "icon": "swift",
+  "symbol": "shippingbox.fill",
+  "color": "f05138",
+  "website": "https://swift.org/package-manager",
+  "rules": [
+   {
+    "kind": "executable",
+    "names": [
+     "swift"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "pkg.composer",
+  "name": "Composer",
+  "category": "pkg",
+  "icon": "composer",
+  "symbol": "music.note.list",
+  "color": "885630",
+  "website": "https://getcomposer.org",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "composer"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "composer"
+    ]
+   }
+  ],
+  "missingNote": "no PHP toolchain"
+ },
+ {
+  "id": "pkg.nuget",
+  "name": "NuGet",
+  "category": "pkg",
+  "icon": "nuget",
+  "symbol": "n.square.fill",
+  "color": "004880",
+  "website": "https://nuget.org",
+  "rules": [
+   {
+    "kind": "directory",
+    "path": "~/.nuget"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "nuget"
+    ]
+   }
+  ],
+  "missingNote": "no .NET toolchain"
+ },
+ {
+  "id": "pkg.asdf",
+  "name": "asdf",
+  "category": "pkg",
+  "icon": null,
+  "symbol": "square.stack.3d.down.right.fill",
+  "color": "1f2937",
+  "website": "https://asdf-vm.com",
+  "rules": [
+   {
+    "kind": "directory",
+    "path": "~/.asdf"
+   },
+   {
+    "kind": "brewFormula",
+    "name": "asdf"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "asdf"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "pkg.mise",
+  "name": "mise",
+  "category": "pkg",
+  "icon": null,
+  "symbol": "dial.high.fill",
+  "color": "6366f1",
+  "website": "https://mise.jdx.dev",
+  "rules": [
+   {
+    "kind": "directory",
+    "path": "~/.local/share/mise"
+   },
+   {
+    "kind": "brewFormula",
+    "name": "mise"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "mise"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "pkg.nvm",
+  "name": "nvm",
+  "category": "pkg",
+  "icon": "nodedotjs",
+  "symbol": "arrow.triangle.branch",
+  "color": "43853d",
+  "website": "https://github.com/nvm-sh/nvm",
+  "rules": [
+   {
+    "kind": "directory",
+    "path": "~/.nvm"
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "pkg.pyenv",
+  "name": "pyenv",
+  "category": "pkg",
+  "icon": "python",
+  "symbol": "arrow.triangle.branch",
+  "color": "3776ab",
+  "website": "https://github.com/pyenv/pyenv",
+  "rules": [
+   {
+    "kind": "directory",
+    "path": "~/.pyenv"
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "pkg.rbenv",
+  "name": "rbenv",
+  "category": "pkg",
+  "icon": "ruby",
+  "symbol": "arrow.triangle.branch",
+  "color": "cc342d",
+  "website": "https://github.com/rbenv/rbenv",
+  "rules": [
+   {
+    "kind": "directory",
+    "path": "~/.rbenv"
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "pkg.jenv",
+  "name": "jenv",
+  "category": "pkg",
+  "icon": "openjdk",
+  "symbol": "arrow.triangle.branch",
+  "color": "e76f00",
+  "website": "https://jenv.be",
+  "rules": [
+   {
+    "kind": "directory",
+    "path": "~/.jenv"
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "pkg.rustup",
+  "name": "rustup",
+  "category": "pkg",
+  "icon": "rust",
+  "symbol": "arrow.triangle.branch",
+  "color": "dea584",
+  "website": "https://rustup.rs",
+  "rules": [
+   {
+    "kind": "directory",
+    "path": "~/.rustup"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "rustup"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "pkg.sdkman",
+  "name": "SDKMAN!",
+  "category": "pkg",
+  "icon": null,
+  "symbol": "arrow.down.app.fill",
+  "color": "0a97b0",
+  "website": "https://sdkman.io",
+  "rules": [
+   {
+    "kind": "directory",
+    "path": "~/.sdkman"
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "brew.formulae",
+  "name": "Formulae",
+  "category": "brew",
+  "icon": "homebrew",
+  "symbol": "mug.fill",
+  "color": "fbb040",
+  "website": "https://formulae.brew.sh",
+  "rules": [
+   {
+    "kind": "directory",
+    "path": "/opt/homebrew/Cellar"
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "brew.casks",
+  "name": "Casks",
+  "category": "brew",
+  "icon": "homebrew",
+  "symbol": "shippingbox.fill",
+  "color": "f59e0b",
+  "website": "https://formulae.brew.sh/cask",
+  "rules": [
+   {
+    "kind": "directory",
+    "path": "/opt/homebrew/Caskroom"
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "brew.cache",
+  "name": "Download cache",
+  "category": "brew",
+  "icon": "homebrew",
+  "symbol": "internaldrive.fill",
+  "color": "a16207",
+  "website": null,
+  "rules": [
+   {
+    "kind": "directory",
+    "path": "~/Library/Caches/Homebrew"
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "brew.taps",
+  "name": "Taps",
+  "category": "brew",
+  "icon": "homebrew",
+  "symbol": "spigot.fill",
+  "color": "d97706",
+  "website": null,
+  "rules": [
+   {
+    "kind": "directory",
+    "path": "/opt/homebrew/Library/Taps"
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "sdk.xcode",
+  "name": "Xcode",
+  "category": "sdk",
+  "icon": "xcode",
+  "symbol": "hammer.fill",
+  "color": "1575f9",
+  "website": "https://developer.apple.com/xcode",
+  "rules": [
+   {
+    "kind": "appBundle",
+    "paths": [
+     "/Applications/Xcode.app",
+     "/Applications/Xcode-beta.app"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "sdk.clt",
+  "name": "Command Line Tools",
+  "category": "sdk",
+  "icon": null,
+  "symbol": "wrench.and.screwdriver.fill",
+  "color": "3b82f6",
+  "website": "https://developer.apple.com/xcode/resources",
+  "rules": [
+   {
+    "kind": "directory",
+    "path": "/Library/Developer/CommandLineTools"
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "sdk.xcodedata",
+  "name": "Xcode support data",
+  "category": "sdk",
+  "icon": "xcode",
+  "symbol": "folder.fill",
+  "color": "60a5fa",
+  "website": null,
+  "rules": [
+   {
+    "kind": "directory",
+    "path": "~/Library/Developer/Xcode"
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "sdk.coresimulator",
+  "name": "CoreSimulator",
+  "category": "sdk",
+  "icon": null,
+  "symbol": "iphone.gen3",
+  "color": "22d3ee",
+  "website": null,
+  "rules": [
+   {
+    "kind": "directory",
+    "path": "~/Library/Developer/CoreSimulator"
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "sdk.coredevice",
+  "name": "CoreDevice",
+  "category": "sdk",
+  "icon": null,
+  "symbol": "cable.connector",
+  "color": "38bdf8",
+  "website": null,
+  "rules": [
+   {
+    "kind": "directory",
+    "path": "/Library/Developer/CoreDevice"
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "sdk.ddi",
+  "name": "DeveloperDiskImages",
+  "category": "sdk",
+  "icon": null,
+  "symbol": "externaldrive.fill",
+  "color": "0ea5e9",
+  "website": null,
+  "rules": [
+   {
+    "kind": "directory",
+    "path": "/Library/Developer/DeveloperDiskImages"
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "sdk.toolchains",
+  "name": "Swift toolchains",
+  "category": "sdk",
+  "icon": "swift",
+  "symbol": "swift",
+  "color": "f05138",
+  "website": null,
+  "rules": [
+   {
+    "kind": "versionManager",
+    "manager": "xcodeToolchains"
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "sdk.jdk",
+  "name": "JDK",
+  "category": "sdk",
+  "icon": "openjdk",
+  "symbol": "cup.and.saucer.fill",
+  "color": "e76f00",
+  "website": "https://openjdk.org",
+  "rules": [
+   {
+    "kind": "versionManager",
+    "manager": "jvm"
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "sdk.android",
+  "name": "Android SDK",
+  "category": "sdk",
+  "icon": "android",
+  "symbol": "candybarphone",
+  "color": "3ddc84",
+  "website": "https://developer.android.com",
+  "rules": [
+   {
+    "kind": "directory",
+    "path": "~/Library/Android/sdk"
+   }
+  ],
+  "missingNote": "no platform-tools"
+ },
+ {
+  "id": "sdk.flutter",
+  "name": "Flutter SDK",
+  "category": "sdk",
+  "icon": "flutter",
+  "symbol": "bird.fill",
+  "color": "02569b",
+  "website": "https://flutter.dev",
+  "rules": [
+   {
+    "kind": "directory",
+    "path": "~/development/flutter"
+   },
+   {
+    "kind": "directory",
+    "path": "~/flutter"
+   },
+   {
+    "kind": "directory",
+    "path": "/opt/homebrew/Caskroom/flutter"
+   }
+  ],
+  "missingNote": "no SDK"
+ },
+ {
+  "id": "sdk.reactnative",
+  "name": "React Native CLI",
+  "category": "sdk",
+  "icon": "react",
+  "symbol": "atom",
+  "color": "61dafb",
+  "website": "https://reactnative.dev",
+  "rules": [
+   {
+    "kind": "executable",
+    "names": [
+     "react-native"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "sdk.unity",
+  "name": "Unity",
+  "category": "sdk",
+  "icon": "unity",
+  "symbol": "cube.transparent.fill",
+  "color": "222c37",
+  "website": "https://unity.com",
+  "rules": [
+   {
+    "kind": "directory",
+    "path": "/Applications/Unity"
+   },
+   {
+    "kind": "appBundle",
+    "paths": [
+     "/Applications/Unity Hub.app"
+    ]
+   }
+  ],
+  "missingNote": "no editor"
+ },
+ {
+  "id": "sdk.godot",
+  "name": "Godot",
+  "category": "sdk",
+  "icon": "godotengine",
+  "symbol": "gamecontroller.fill",
+  "color": "478cbf",
+  "website": "https://godotengine.org",
+  "rules": [
+   {
+    "kind": "appBundle",
+    "paths": [
+     "/Applications/Godot.app"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "sdk.aws",
+  "name": "AWS CLI",
+  "category": "sdk",
+  "icon": null,
+  "symbol": "cloud.fill",
+  "color": "ff9900",
+  "website": "https://aws.amazon.com/cli",
+  "rules": [
+   {
+    "kind": "directory",
+    "path": "/usr/local/aws-cli"
+   },
+   {
+    "kind": "brewFormula",
+    "name": "awscli"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "aws"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "sdk.gcloud",
+  "name": "Google Cloud SDK",
+  "category": "sdk",
+  "icon": "googlecloud",
+  "symbol": "cloud.fill",
+  "color": "4285f4",
+  "website": "https://cloud.google.com/sdk",
+  "rules": [
+   {
+    "kind": "directory",
+    "path": "~/google-cloud-sdk"
+   },
+   {
+    "kind": "directory",
+    "path": "/opt/homebrew/Caskroom/google-cloud-sdk"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "gcloud"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "sdk.azure",
+  "name": "Azure CLI",
+  "category": "sdk",
+  "icon": null,
+  "symbol": "cloud.fill",
+  "color": "0078d4",
+  "website": "https://learn.microsoft.com/cli/azure",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "azure-cli"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "az"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "sdk.firebase",
+  "name": "Firebase CLI",
+  "category": "sdk",
+  "icon": "firebase",
+  "symbol": "flame.fill",
+  "color": "ffca28",
+  "website": "https://firebase.google.com/docs/cli",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "firebase-cli"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "firebase"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "sdk.kubectl",
+  "name": "kubectl",
+  "category": "sdk",
+  "icon": "kubernetes",
+  "symbol": "helm",
+  "color": "326ce5",
+  "website": "https://kubernetes.io",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "kubernetes-cli"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "kubectl"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "sdk.terraform",
+  "name": "Terraform",
+  "category": "sdk",
+  "icon": "terraform",
+  "symbol": "square.grid.3x3.fill",
+  "color": "7b42bc",
+  "website": "https://terraform.io",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "terraform"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "terraform"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "sdk.ansible",
+  "name": "Ansible",
+  "category": "sdk",
+  "icon": "ansible",
+  "symbol": "a.square.fill",
+  "color": "ee0000",
+  "website": "https://ansible.com",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "ansible"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "ansible"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "sdk.vagrant",
+  "name": "Vagrant",
+  "category": "sdk",
+  "icon": "vagrant",
+  "symbol": "shippingbox.fill",
+  "color": "1868f2",
+  "website": "https://vagrantup.com",
+  "rules": [
+   {
+    "kind": "brewCask",
+    "name": "vagrant"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "vagrant"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "ide.xcodeapp",
+  "name": "Xcode",
+  "category": "ide",
+  "icon": "xcode",
+  "symbol": "hammer.fill",
+  "color": "1575f9",
+  "website": "https://developer.apple.com/xcode",
+  "rules": [
+   {
+    "kind": "appBundle",
+    "paths": [
+     "/Applications/Xcode.app"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "ide.vscode",
+  "name": "VS Code",
+  "category": "ide",
+  "icon": null,
+  "symbol": "chevron.left.forwardslash.chevron.right",
+  "color": "0098ff",
+  "website": "https://code.visualstudio.com",
+  "rules": [
+   {
+    "kind": "appBundle",
+    "paths": [
+     "/Applications/Visual Studio Code.app"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "ide.vscodeext",
+  "name": "VS Code extensions",
+  "category": "ide",
+  "icon": null,
+  "symbol": "puzzlepiece.extension.fill",
+  "color": "38bdf8",
+  "website": null,
+  "rules": [
+   {
+    "kind": "directory",
+    "path": "~/.vscode/extensions"
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "ide.cursor",
+  "name": "Cursor",
+  "category": "ide",
+  "icon": null,
+  "symbol": "cursorarrow.rays",
+  "color": "111827",
+  "website": "https://cursor.com",
+  "rules": [
+   {
+    "kind": "appBundle",
+    "paths": [
+     "/Applications/Cursor.app"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "ide.cursordata",
+  "name": "Cursor data",
+  "category": "ide",
+  "icon": null,
+  "symbol": "externaldrive.fill",
+  "color": "374151",
+  "website": null,
+  "rules": [
+   {
+    "kind": "directory",
+    "path": "~/.cursor"
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "ide.zed",
+  "name": "Zed",
+  "category": "ide",
+  "icon": "zedindustries",
+  "symbol": "bolt.square.fill",
+  "color": "084ccf",
+  "website": "https://zed.dev",
+  "rules": [
+   {
+    "kind": "appBundle",
+    "paths": [
+     "/Applications/Zed.app"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "ide.intellij",
+  "name": "IntelliJ IDEA",
+  "category": "ide",
+  "icon": "intellijidea",
+  "symbol": "lightbulb.fill",
+  "color": "000000",
+  "website": "https://jetbrains.com/idea",
+  "rules": [
+   {
+    "kind": "appBundle",
+    "paths": [
+     "/Applications/IntelliJ IDEA.app",
+     "/Applications/IntelliJ IDEA CE.app"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "ide.pycharm",
+  "name": "PyCharm",
+  "category": "ide",
+  "icon": "pycharm",
+  "symbol": "p.square.fill",
+  "color": "21d789",
+  "website": "https://jetbrains.com/pycharm",
+  "rules": [
+   {
+    "kind": "appBundle",
+    "paths": [
+     "/Applications/PyCharm.app",
+     "/Applications/PyCharm CE.app"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "ide.webstorm",
+  "name": "WebStorm",
+  "category": "ide",
+  "icon": "webstorm",
+  "symbol": "globe",
+  "color": "07c3f2",
+  "website": "https://jetbrains.com/webstorm",
+  "rules": [
+   {
+    "kind": "appBundle",
+    "paths": [
+     "/Applications/WebStorm.app"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "ide.goland",
+  "name": "GoLand",
+  "category": "ide",
+  "icon": "goland",
+  "symbol": "g.square.fill",
+  "color": "00acc1",
+  "website": "https://jetbrains.com/go",
+  "rules": [
+   {
+    "kind": "appBundle",
+    "paths": [
+     "/Applications/GoLand.app"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "ide.androidstudio",
+  "name": "Android Studio",
+  "category": "ide",
+  "icon": "androidstudio",
+  "symbol": "candybarphone",
+  "color": "3ddc84",
+  "website": "https://developer.android.com/studio",
+  "rules": [
+   {
+    "kind": "appBundle",
+    "paths": [
+     "/Applications/Android Studio.app"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "ide.sublime",
+  "name": "Sublime Text",
+  "category": "ide",
+  "icon": "sublimetext",
+  "symbol": "doc.text.fill",
+  "color": "ff9800",
+  "website": "https://sublimetext.com",
+  "rules": [
+   {
+    "kind": "appBundle",
+    "paths": [
+     "/Applications/Sublime Text.app"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "ide.neovim",
+  "name": "Neovim",
+  "category": "ide",
+  "icon": "neovim",
+  "symbol": "n.square.fill",
+  "color": "57a143",
+  "website": "https://neovim.io",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "neovim"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "nvim"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "ide.warp",
+  "name": "Warp",
+  "category": "ide",
+  "icon": "warp",
+  "symbol": "terminal.fill",
+  "color": "01a0f7",
+  "website": "https://warp.dev",
+  "rules": [
+   {
+    "kind": "appBundle",
+    "paths": [
+     "/Applications/Warp.app"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "ide.iterm",
+  "name": "iTerm2",
+  "category": "ide",
+  "icon": "iterm2",
+  "symbol": "terminal.fill",
+  "color": "000000",
+  "website": "https://iterm2.com",
+  "rules": [
+   {
+    "kind": "appBundle",
+    "paths": [
+     "/Applications/iTerm.app"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "ide.ghostty",
+  "name": "Ghostty",
+  "category": "ide",
+  "icon": null,
+  "symbol": "terminal.fill",
+  "color": "1d1d1d",
+  "website": "https://ghostty.org",
+  "rules": [
+   {
+    "kind": "appBundle",
+    "paths": [
+     "/Applications/Ghostty.app"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "ide.postman",
+  "name": "Postman",
+  "category": "ide",
+  "icon": "postman",
+  "symbol": "paperplane.fill",
+  "color": "ff6c37",
+  "website": "https://postman.com",
+  "rules": [
+   {
+    "kind": "appBundle",
+    "paths": [
+     "/Applications/Postman.app"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "ide.insomnia",
+  "name": "Insomnia",
+  "category": "ide",
+  "icon": "insomnia",
+  "symbol": "moon.zzz.fill",
+  "color": "4000bf",
+  "website": "https://insomnia.rest",
+  "rules": [
+   {
+    "kind": "appBundle",
+    "paths": [
+     "/Applications/Insomnia.app"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "ide.tableplus",
+  "name": "TablePlus",
+  "category": "ide",
+  "icon": null,
+  "symbol": "tablecells.fill",
+  "color": "3f7dd8",
+  "website": "https://tableplus.com",
+  "rules": [
+   {
+    "kind": "appBundle",
+    "paths": [
+     "/Applications/TablePlus.app"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "ide.docker",
+  "name": "Docker Desktop",
+  "category": "ide",
+  "icon": "docker",
+  "symbol": "shippingbox.fill",
+  "color": "2496ed",
+  "website": "https://docker.com",
+  "rules": [
+   {
+    "kind": "appBundle",
+    "paths": [
+     "/Applications/Docker.app"
+    ]
+   }
+  ],
+  "missingNote": "no container runtime"
+ },
+ {
+  "id": "ide.orbstack",
+  "name": "OrbStack",
+  "category": "ide",
+  "icon": null,
+  "symbol": "circle.hexagongrid.fill",
+  "color": "f24e1e",
+  "website": "https://orbstack.dev",
+  "rules": [
+   {
+    "kind": "appBundle",
+    "paths": [
+     "/Applications/OrbStack.app"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "ide.podman",
+  "name": "Podman",
+  "category": "ide",
+  "icon": "podman",
+  "symbol": "pawprint.fill",
+  "color": "892ca0",
+  "website": "https://podman.io",
+  "rules": [
+   {
+    "kind": "appBundle",
+    "paths": [
+     "/Applications/Podman Desktop.app"
+    ]
+   },
+   {
+    "kind": "brewFormula",
+    "name": "podman"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "podman"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "ide.colima",
+  "name": "Colima",
+  "category": "ide",
+  "icon": null,
+  "symbol": "cloud.fill",
+  "color": "0f9d58",
+  "website": "https://github.com/abiosoft/colima",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "colima"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "colima"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "ide.figma",
+  "name": "Figma",
+  "category": "ide",
+  "icon": "figma",
+  "symbol": "paintbrush.pointed.fill",
+  "color": "f24e1e",
+  "website": "https://figma.com",
+  "rules": [
+   {
+    "kind": "appBundle",
+    "paths": [
+     "/Applications/Figma.app"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "shell.zsh",
+  "name": "zsh",
+  "category": "shell",
+  "icon": null,
+  "symbol": "terminal.fill",
+  "color": "4b5563",
+  "website": "https://zsh.org",
+  "rules": [
+   {
+    "kind": "executable",
+    "names": [
+     "zsh"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "shell.bash",
+  "name": "bash",
+  "category": "shell",
+  "icon": "gnubash",
+  "symbol": "terminal.fill",
+  "color": "4eaa25",
+  "website": "https://gnu.org/software/bash",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "bash"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "bash"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "shell.fish",
+  "name": "fish",
+  "category": "shell",
+  "icon": "fishshell",
+  "symbol": "fish.fill",
+  "color": "4aae47",
+  "website": "https://fishshell.com",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "fish"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "fish"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "shell.nushell",
+  "name": "Nushell",
+  "category": "shell",
+  "icon": null,
+  "symbol": "terminal.fill",
+  "color": "4e9a06",
+  "website": "https://nushell.sh",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "nushell"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "nu"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "shell.omz",
+  "name": "oh-my-zsh",
+  "category": "shell",
+  "icon": null,
+  "symbol": "sparkles",
+  "color": "8b5cf6",
+  "website": "https://ohmyz.sh",
+  "rules": [
+   {
+    "kind": "directory",
+    "path": "~/.oh-my-zsh"
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "shell.starship",
+  "name": "Starship",
+  "category": "shell",
+  "icon": "starship",
+  "symbol": "star.fill",
+  "color": "dd0b78",
+  "website": "https://starship.rs",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "starship"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "starship"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "shell.p10k",
+  "name": "powerlevel10k",
+  "category": "shell",
+  "icon": null,
+  "symbol": "chevron.right.2",
+  "color": "1e88e5",
+  "website": "https://github.com/romkatv/powerlevel10k",
+  "rules": [
+   {
+    "kind": "directory",
+    "path": "~/.oh-my-zsh/custom/themes/powerlevel10k"
+   },
+   {
+    "kind": "directory",
+    "path": "/opt/homebrew/share/powerlevel10k"
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "shell.git",
+  "name": "git",
+  "category": "shell",
+  "icon": "git",
+  "symbol": "arrow.triangle.branch",
+  "color": "f05033",
+  "website": "https://git-scm.com",
+  "rules": [
+   {
+    "kind": "directory",
+    "path": "/Library/Developer/CommandLineTools/usr/bin/git"
+   },
+   {
+    "kind": "brewFormula",
+    "name": "git"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "git"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "shell.gh",
+  "name": "GitHub CLI",
+  "category": "shell",
+  "icon": "github",
+  "symbol": "terminal.fill",
+  "color": "181717",
+  "website": "https://cli.github.com",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "gh"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "gh"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "shell.gitlfs",
+  "name": "Git LFS",
+  "category": "shell",
+  "icon": "gitlfs",
+  "symbol": "arrow.down.doc.fill",
+  "color": "f64935",
+  "website": "https://git-lfs.com",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "git-lfs"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "git-lfs"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "shell.lazygit",
+  "name": "lazygit",
+  "category": "shell",
+  "icon": null,
+  "symbol": "arrow.triangle.pull",
+  "color": "308000",
+  "website": "https://github.com/jesseduffield/lazygit",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "lazygit"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "lazygit"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "shell.tmux",
+  "name": "tmux",
+  "category": "shell",
+  "icon": "tmux",
+  "symbol": "rectangle.split.3x1.fill",
+  "color": "1bb91f",
+  "website": "https://github.com/tmux/tmux",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "tmux"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "tmux"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "shell.ripgrep",
+  "name": "ripgrep",
+  "category": "shell",
+  "icon": null,
+  "symbol": "magnifyingglass",
+  "color": "b8312f",
+  "website": "https://github.com/BurntSushi/ripgrep",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "ripgrep"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "rg"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "shell.fd",
+  "name": "fd",
+  "category": "shell",
+  "icon": null,
+  "symbol": "doc.text.magnifyingglass",
+  "color": "6d28d9",
+  "website": "https://github.com/sharkdp/fd",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "fd"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "fd"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "shell.fzf",
+  "name": "fzf",
+  "category": "shell",
+  "icon": null,
+  "symbol": "line.3.horizontal.decrease.circle.fill",
+  "color": "4a90d9",
+  "website": "https://github.com/junegunn/fzf",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "fzf"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "fzf"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "shell.jq",
+  "name": "jq",
+  "category": "shell",
+  "icon": null,
+  "symbol": "curlybraces.square.fill",
+  "color": "2f6e9e",
+  "website": "https://jqlang.github.io/jq",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "jq"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "jq"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "shell.curl",
+  "name": "curl",
+  "category": "shell",
+  "icon": "curl",
+  "symbol": "arrow.down.circle.fill",
+  "color": "073551",
+  "website": "https://curl.se",
+  "rules": [
+   {
+    "kind": "executable",
+    "names": [
+     "curl"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "shell.wget",
+  "name": "wget",
+  "category": "shell",
+  "icon": null,
+  "symbol": "arrow.down.to.line",
+  "color": "5a5a5a",
+  "website": "https://gnu.org/software/wget",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "wget"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "wget"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "shell.rosetta",
+  "name": "Rosetta 2",
+  "category": "shell",
+  "icon": null,
+  "symbol": "cpu.fill",
+  "color": "8e8e93",
+  "website": null,
+  "rules": [
+   {
+    "kind": "directory",
+    "path": "/Library/Apple/usr/share/rosetta",
+    "version": "x86_64 translation"
+   }
+  ],
+  "missingNote": "not installed"
+ },
+ {
+  "id": "shell.sqlite",
+  "name": "SQLite",
+  "category": "shell",
+  "icon": "sqlite",
+  "symbol": "cylinder.fill",
+  "color": "003b57",
+  "website": "https://sqlite.org",
+  "rules": [
+   {
+    "kind": "executable",
+    "names": [
+     "sqlite3"
+    ]
+   }
+  ],
+  "missingNote": null
+ },
+ {
+  "id": "shell.postgres",
+  "name": "PostgreSQL",
+  "category": "shell",
+  "icon": "postgresql",
+  "symbol": "cylinder.split.1x2.fill",
+  "color": "4169e1",
+  "website": "https://postgresql.org",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "postgresql@17"
+   },
+   {
+    "kind": "brewFormula",
+    "name": "postgresql@16"
+   },
+   {
+    "kind": "appBundle",
+    "paths": [
+     "/Applications/Postgres.app"
+    ]
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "psql"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "shell.mysql",
+  "name": "MySQL",
+  "category": "shell",
+  "icon": "mysql",
+  "symbol": "cylinder.fill",
+  "color": "4479a1",
+  "website": "https://mysql.com",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "mysql"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "mysql"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "shell.mongodb",
+  "name": "MongoDB",
+  "category": "shell",
+  "icon": "mongodb",
+  "symbol": "leaf.fill",
+  "color": "47a248",
+  "website": "https://mongodb.com",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "mongodb-community"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "mongod"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ },
+ {
+  "id": "shell.redis",
+  "name": "Redis",
+  "category": "shell",
+  "icon": "redis",
+  "symbol": "bolt.horizontal.fill",
+  "color": "ff4438",
+  "website": "https://redis.io",
+  "rules": [
+   {
+    "kind": "brewFormula",
+    "name": "redis"
+   },
+   {
+    "kind": "executable",
+    "names": [
+     "redis-server"
+    ]
+   }
+  ],
+  "missingNote": "not present"
+ }
+]
