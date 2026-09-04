@@ -6,41 +6,30 @@ import SwiftUI
 /// size bar the design calls for, and so selection behaves exactly as it does in the grid.
 struct ToolListView: View {
     let panel: Panel
-    @Bindable var model: AppModel
-    @Environment(\.theme) private var theme
-
-    /// Measured once for the table and handed down, so rows lay out without readers of
-    /// their own.
-    @State private var width: CGFloat = 0
+    let sort: ToolSort
+    let selectedToolID: String?
+    let maximumBytes: Int64
+    let theme: DevTheme
+    let onSort: (SortField) -> Void
+    let onSelect: (String) -> Void
 
     var body: some View {
         VStack(spacing: 0) {
-            ListHeader(sort: model.sort, width: width) { model.sortBy($0) }
-            ForEach(Array(panel.tools.enumerated()), id: \.element.id) { index, tool in
-                ToolListRow(tool: tool,
-                            width: width,
-                            bytes: model.bytes(for: tool),
-                            maximumBytes: model.largestToolBytes,
-                            isSelected: model.selectedToolID == tool.id,
+            ListHeader(sort: sort, theme: theme, onSort: onSort)
+            ForEach(Array(panel.tools.enumerated()), id: \.element.id) { index, tile in
+                ToolListRow(tile: tile,
+                            maximumBytes: maximumBytes,
+                            isSelected: selectedToolID == tile.id,
                             isAlternate: !index.isMultiple(of: 2),
-                            findingTier: model.findingTier(for: tool)) {
-                    model.select(tool)
+                            theme: theme) {
+                    onSelect(tile.id)
                 }
+                .equatable()
             }
         }
-        // The table must claim the column's full width before it is measured. Sized to its
-        // own content it would start at zero and never grow, because the column widths are
-        // derived from the measurement.
         .frame(maxWidth: .infinity)
         .devCard(theme)
         .clipShape(.rect(cornerRadius: 10))
-        .background {
-            GeometryReader { proxy in
-                Color.clear
-                    .onAppear { width = proxy.size.width }
-                    .onChange(of: proxy.size.width) { _, new in width = new }
-            }
-        }
     }
 }
 
@@ -57,28 +46,67 @@ private enum ListMetrics {
         (.name, 0.22), (.version, 0.20), (.location, 0.36), (.managedBy, 0.22)
     ]
 
-    /// Width available to the flexible columns once the fixed ones are taken out.
-    static func flexibleWidth(in total: CGFloat) -> CGFloat {
-        max(0, total - leading - size)
+    static let shares = flexible.map(\.share)
+
+    static var layout: TableRowLayout {
+        TableRowLayout(leading: leading, trailing: size, shares: shares)
+    }
+}
+
+/// Lays a table row out in one pass: a fixed column at each end, and the space between split
+/// by share.
+///
+/// This used to be arithmetic over a width the table measured with a `GeometryReader` and fed
+/// back to itself through `@State`. That meant one state write per section per frame of a live
+/// resize, each one re-running the header and every row in the table.
+private struct TableRowLayout: Layout {
+    let leading: CGFloat
+    let trailing: CGFloat
+    let shares: [CGFloat]
+
+    func sizeThatFits(proposal: ProposedViewSize,
+                      subviews: Subviews,
+                      cache: inout ()) -> CGSize {
+        let height = subviews.reduce(CGFloat(0)) {
+            max($0, $1.sizeThatFits(.unspecified).height)
+        }
+        return CGSize(width: proposal.width ?? (leading + trailing),
+                      height: proposal.height ?? height)
+    }
+
+    func placeSubviews(in bounds: CGRect,
+                       proposal: ProposedViewSize,
+                       subviews: Subviews,
+                       cache: inout ()) {
+        var x = bounds.minX
+        for (index, width) in widths(in: bounds.width).enumerated() {
+            guard index < subviews.count else { break }
+            subviews[index].place(at: CGPoint(x: x, y: bounds.midY),
+                                  anchor: .leading,
+                                  proposal: ProposedViewSize(width: width,
+                                                             height: bounds.height))
+            x += width
+        }
+    }
+
+    private func widths(in total: CGFloat) -> [CGFloat] {
+        let flexible = max(0, total - leading - trailing)
+        return [leading] + shares.map { flexible * $0 } + [trailing]
     }
 }
 
 private struct ListHeader: View {
     let sort: ToolSort
-    let width: CGFloat
+    let theme: DevTheme
     let onSort: (SortField) -> Void
-    @Environment(\.theme) private var theme
 
     var body: some View {
-        let flexible = ListMetrics.flexibleWidth(in: width - ListMetrics.inset * 2)
-        return HStack(spacing: 0) {
-                Color.clear.frame(width: ListMetrics.leading)
-                ForEach(ListMetrics.flexible, id: \.field) { column in
-                    label(column.field)
-                        .frame(width: flexible * column.share, alignment: .leading)
-                }
+        ListMetrics.layout {
+            Color.clear
+            ForEach(ListMetrics.flexible, id: \.field) { column in
+                label(column.field)
+            }
             label(.size)
-                .frame(width: ListMetrics.size, alignment: .trailing)
         }
         .frame(maxWidth: .infinity)
         .frame(height: 34)
@@ -109,65 +137,68 @@ private struct ListHeader: View {
     }
 }
 
-/// One tool as a table row.
-private struct ToolListRow: View {
-    let tool: DetectedTool
-    let width: CGFloat
-    let bytes: Int64
+/// One tool as a table row. `Equatable` for the same reason `ToolTile` is.
+private struct ToolListRow: View, Equatable {
+    let tile: TileData
     let maximumBytes: Int64
     let isSelected: Bool
     let isAlternate: Bool
-    /// Most severe finding touching this tool, if any.
-    let findingTier: FindingTier?
+    let theme: DevTheme
     let select: () -> Void
 
-    @Environment(\.theme) private var theme
     @State private var isHovering = false
 
-    private var isMissing: Bool { tool.status == .missing }
+    nonisolated static func == (a: ToolListRow, b: ToolListRow) -> Bool {
+        a.tile == b.tile
+            && a.maximumBytes == b.maximumBytes
+            && a.isSelected == b.isSelected
+            && a.isAlternate == b.isAlternate
+            && a.theme == b.theme
+    }
+
+    private var isMissing: Bool { tile.isMissing }
 
     var body: some View {
-        let flexible = ListMetrics.flexibleWidth(in: width - ListMetrics.inset * 2)
-        return Button(action: select) {
-            HStack(spacing: 0) {
-                    HStack(spacing: 8) {
-                        IconChip(tool: tool, size: 24, theme: theme)
-                        Circle()
-                            .fill(Color(hex: tool.status.hex))
-                            .frame(width: 6, height: 6)
-                    }
-                    .frame(width: ListMetrics.leading, alignment: .leading)
+        Button(action: select) {
+            ListMetrics.layout {
+                HStack(spacing: 8) {
+                    IconChip(tile: tile, size: 24, theme: theme)
+                    Circle()
+                        .fill(Color(hex: tile.status.hex))
+                        .frame(width: 6, height: 6)
+                    Spacer(minLength: 0)
+                }
 
-                    HStack(spacing: 4) {
-                        text(tool.name, size: 12.5, weight: .semibold, color: theme.text)
-                        if let findingTier {
-                            FindingBadge(tier: findingTier, size: 9.5)
-                        }
+                HStack(spacing: 4) {
+                    text(tile.name, size: 12.5, weight: .semibold, color: theme.text)
+                    if let findingTier = tile.findingTier {
+                        FindingBadge(tier: findingTier, size: 9.5)
                     }
-                    .frame(width: flexible * ListMetrics.flexible[0].share, alignment: .leading)
-                    text(tool.subtitle, size: 12, weight: .regular, color: theme.faint)
-                        .frame(width: flexible * ListMetrics.flexible[1].share, alignment: .leading)
-                    Text(tool.path.map(Probes.abbreviate) ?? "—")
-                        .font(.system(size: 11, design: .monospaced))
+                    Spacer(minLength: 0)
+                }
+                text(tile.subtitle, size: 12, weight: .regular, color: theme.faint)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                Text(tile.displayPath ?? "—")
+                    .font(.system(size: 11, design: .monospaced))
+                    .foregroundStyle(theme.muted)
+                    .lineLimit(1)
+                    .truncationMode(.middle)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                text(tile.managedBy, size: 12, weight: .regular, color: theme.faint)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+
+                HStack(spacing: 8) {
+                    Spacer(minLength: 0)
+                    MeterBar(fraction: maximumBytes > 0 && tile.bytes > 0
+                             ? max(0.04, Double(tile.bytes) / Double(maximumBytes)) : 0,
+                             color: isMissing ? theme.muted : Color(hex: tile.colorHex))
+                        .frame(width: 52, height: 4)
+                    Text(tile.bytes > 0 ? ByteFormat.compact(tile.bytes) : "—")
+                        .font(.system(size: 11))
+                        .monospacedDigit()
                         .foregroundStyle(theme.muted)
-                        .lineLimit(1)
-                        .truncationMode(.middle)
-                        .frame(width: flexible * ListMetrics.flexible[2].share, alignment: .leading)
-                    text(tool.managedBy, size: 12, weight: .regular, color: theme.faint)
-                        .frame(width: flexible * ListMetrics.flexible[3].share, alignment: .leading)
-
-                    HStack(spacing: 8) {
-                        MeterBar(fraction: maximumBytes > 0 && bytes > 0
-                                 ? max(0.04, Double(bytes) / Double(maximumBytes)) : 0,
-                                 color: isMissing ? theme.muted : Color(hex: tool.definition.color))
-                            .frame(width: 52, height: 4)
-                        Text(bytes > 0 ? ByteFormat.compact(bytes) : "—")
-                            .font(.system(size: 11))
-                            .monospacedDigit()
-                            .foregroundStyle(theme.muted)
-                            .frame(width: 40, alignment: .trailing)
-                    }
-                .frame(width: ListMetrics.size, alignment: .trailing)
+                        .frame(width: 40, alignment: .trailing)
+                }
             }
             .frame(maxWidth: .infinity)
             .frame(height: 40)
@@ -188,8 +219,8 @@ private struct ToolListRow: View {
     }
 
     private var accessibilityDescription: String {
-        var parts = [tool.name, tool.subtitle, tool.status.label]
-        if let findingTier { parts.append("has \(findingTier.label.lowercased())") }
+        var parts = [tile.name, tile.subtitle, tile.status.label]
+        if let findingTier = tile.findingTier { parts.append("has \(findingTier.label.lowercased())") }
         return parts.joined(separator: ", ")
     }
 

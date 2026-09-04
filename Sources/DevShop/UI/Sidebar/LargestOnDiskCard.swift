@@ -71,22 +71,42 @@ struct LargestOnDiskCard: View {
 }
 
 /// A rounded track with a proportional fill. Used at three sizes across the window.
+///
+/// Drawn as a single animatable `Shape` rather than a `GeometryReader` over two capsules. A
+/// meter appears on every tile, every table row, every package in the inspector and every row
+/// of the card above, so the reader alone put well over a hundred layout-deferring containers
+/// in the window — and the spring re-ran layout for each of them on every size flush.
 struct MeterBar: View {
     let fraction: Double
     let color: Color
     var trackColor: Color?
     @Environment(\.theme) private var theme
+    /// Off while sizes are streaming in: a flush lands every 250ms, and animating every bar
+    /// through a 0.9s spring on each one keeps the whole window redrawing for minutes.
+    @Environment(\.meterAnimated) private var animated
 
     var body: some View {
-        GeometryReader { proxy in
-            let clamped = min(1, max(0, fraction))
-            ZStack(alignment: .leading) {
-                Capsule().fill(trackColor ?? theme.track)
-                Capsule()
-                    .fill(color)
-                    .frame(width: proxy.size.width * clamped)
-            }
-        }
-        .animation(.spring(duration: 0.9, bounce: 0.05), value: fraction)
+        MeterFill(fraction: min(1, max(0, fraction)))
+            .fill(color)
+            .background(Capsule().fill(trackColor ?? theme.track))
+            .animation(animated ? .spring(duration: 0.9, bounce: 0.05) : nil, value: fraction)
+    }
+}
+
+/// The filled portion, as a shape so the fraction animates in the render pass instead of
+/// through a frame the layout system has to recompute.
+private struct MeterFill: Shape {
+    var fraction: Double
+
+    var animatableData: Double {
+        get { fraction }
+        set { fraction = newValue }
+    }
+
+    func path(in rect: CGRect) -> Path {
+        let width = rect.width * fraction
+        guard width > 0, rect.height > 0 else { return Path() }
+        return Capsule().path(in: CGRect(x: rect.minX, y: rect.minY,
+                                         width: width, height: rect.height))
     }
 }

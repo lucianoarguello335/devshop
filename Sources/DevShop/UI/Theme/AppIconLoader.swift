@@ -8,16 +8,63 @@ import SwiftUI
 /// a list of fifty casks would otherwise hit the icon services on every redraw.
 @MainActor
 enum AppIconLoader {
+    /// Contents rows draw at 20pt, so a 40px bitmap covers a Retina display exactly.
+    ///
+    /// `NSWorkspace.icon(forFile:)` hands back the whole icon family — representations up to
+    /// 512pt — and setting `size` only changes how it draws, not what it holds on to. With a
+    /// busy Caskroom that is tens of full icon families retained for the life of the process,
+    /// so each one is redrawn once into a single small bitmap and the original is let go.
+    private static let points: CGFloat = 20
+    private static let scale: CGFloat = 2
+
     private static var cache: [String: Image] = [:]
+    /// Insertion order, for evicting the oldest entry once the cache is full. A plain cap is
+    /// enough here: the working set is one container's contents list.
+    private static var order: [String] = []
+    private static let limit = 256
 
     static func icon(atBundlePath path: String) -> Image? {
         if let cached = cache[path] { return cached }
         guard FileManager.default.fileExists(atPath: path) else { return nil }
-        let native = NSWorkspace.shared.icon(forFile: path)
-        // 64pt is comfortably above the 20pt the rows draw at on a Retina display.
-        native.size = NSSize(width: 64, height: 64)
-        let image = Image(nsImage: native)
+        guard let small = downsampled(NSWorkspace.shared.icon(forFile: path)) else { return nil }
+        let image = Image(nsImage: small)
+        if order.count >= limit, let oldest = order.first {
+            order.removeFirst()
+            cache[oldest] = nil
+        }
         cache[path] = image
+        order.append(path)
+        return image
+    }
+
+    /// Redraws an icon into one bitmap at the size it is actually shown.
+    private static func downsampled(_ icon: NSImage) -> NSImage? {
+        let pixels = Int(points * scale)
+        guard let rep = NSBitmapImageRep(bitmapDataPlanes: nil,
+                                         pixelsWide: pixels,
+                                         pixelsHigh: pixels,
+                                         bitsPerSample: 8,
+                                         samplesPerPixel: 4,
+                                         hasAlpha: true,
+                                         isPlanar: false,
+                                         colorSpaceName: .deviceRGB,
+                                         bytesPerRow: 0,
+                                         bitsPerPixel: 0),
+              let context = NSGraphicsContext(bitmapImageRep: rep) else { return nil }
+
+        NSGraphicsContext.saveGraphicsState()
+        NSGraphicsContext.current = context
+        context.imageInterpolation = .high
+        icon.draw(in: NSRect(x: 0, y: 0, width: CGFloat(pixels), height: CGFloat(pixels)),
+                  from: .zero,
+                  operation: .copy,
+                  fraction: 1)
+        NSGraphicsContext.restoreGraphicsState()
+
+        // Declaring the representation as `points` across is what makes it a 2x rep.
+        rep.size = NSSize(width: points, height: points)
+        let image = NSImage(size: NSSize(width: points, height: points))
+        image.addRepresentation(rep)
         return image
     }
 }
@@ -38,7 +85,7 @@ struct ChildIcon: View {
             icon.resizable()
                 .interpolation(.high)
                 .frame(width: size, height: size)
-        } else if let slug = child.iconSlug, IconStore.path(for: slug) != nil {
+        } else if let slug = child.iconSlug, IconStore.has(slug) {
             BrandMark(slug: slug, symbol: "shippingbox.fill", size: size * 0.62)
                 .foregroundStyle(.white)
                 .frame(width: size, height: size)

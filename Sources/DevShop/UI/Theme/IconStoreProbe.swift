@@ -5,7 +5,7 @@ import Foundation
 enum IconStoreProbe {
     private static let slugs: Set<String> = {
         guard let url = Bundle.module.url(forResource: "icons", withExtension: "json"),
-              let data = try? Data(contentsOf: url),
+              let data = try? Data(contentsOf: url, options: .mappedIfSafe),
               let map = try? JSONDecoder().decode([String: String].self, from: data) else {
             return []
         }

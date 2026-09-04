@@ -362,3 +362,63 @@ struct SizeMeasurementTests {
         #expect(SizeMeasurer.allocatedSize(ofDirectory: "/nope/not/here") == 0)
     }
 }
+
+// MARK: - Tile data
+
+@Suite("Tile data")
+struct TileDataTests {
+    private func tool(path: String?, status: ToolStatus = .ok) -> DetectedTool {
+        DetectedTool(
+            id: "lang.node",
+            definition: ToolDefinition(id: "lang.node", name: "Node.js", category: .lang,
+                                       icon: "nodedotjs", symbol: "circle", color: "339933",
+                                       website: nil, rules: [.executable(names: ["node"])],
+                                       missingNote: nil),
+            status: status,
+            subtitle: "22.19.0 · nvm",
+            path: path,
+            managedBy: "nvm",
+            measurableRoot: path,
+            children: [ToolChild(id: "c", token: "t", name: "n", version: "1", path: "/tmp",
+                                 appBundlePath: nil, iconSlug: nil, color: "0a84ff")]
+        )
+    }
+
+    @Test("a tile carries what its tool draws, and nothing behind it")
+    func mirrorsTheTool() {
+        let source = tool(path: "/opt/homebrew/bin/node")
+        let tile = TileData(tool: source, bytes: 1_500_000, findingTier: .warning)
+
+        #expect(tile.id == source.id)
+        #expect(tile.name == source.name)
+        #expect(tile.subtitle == source.subtitle)
+        #expect(tile.managedBy == source.managedBy)
+        #expect(tile.status == source.status)
+        #expect(tile.iconSlug == source.definition.icon)
+        #expect(tile.symbol == source.definition.symbol)
+        #expect(tile.colorHex == source.definition.color)
+        #expect(tile.bytes == 1_500_000)
+        #expect(tile.findingTier == .warning)
+        #expect(!tile.isMissing)
+    }
+
+    @Test("the path is abbreviated once, where the row used to do it on every redraw")
+    func abbreviatesThePath() {
+        let inside = Probes.home + "/.nvm/versions/node/v22.19.0/bin/node"
+        #expect(TileData(tool: tool(path: inside), bytes: 0, findingTier: nil).displayPath
+            == Probes.abbreviate(inside))
+        #expect(TileData(tool: tool(path: nil, status: .missing),
+                         bytes: 0, findingTier: nil).displayPath == nil)
+    }
+
+    /// Equality is what lets `.equatable()` skip a tile whose inputs did not change, so a
+    /// size landing has to register and an untouched neighbour has to not.
+    @Test("only a real change compares unequal")
+    func equality() {
+        let source = tool(path: "/opt/homebrew/bin/node")
+        let before = TileData(tool: source, bytes: 100, findingTier: nil)
+        #expect(before == TileData(tool: source, bytes: 100, findingTier: nil))
+        #expect(before != TileData(tool: source, bytes: 200, findingTier: nil))
+        #expect(before != TileData(tool: source, bytes: 100, findingTier: .info))
+    }
+}

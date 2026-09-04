@@ -17,6 +17,11 @@ rm -rf "$APP"
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
 cp "$BIN" "$APP/Contents/MacOS/DevShop"
 
+# Local symbols are two thirds of the linked binary and nothing at runtime reads them.
+# Done before signing, because stripping afterwards would invalidate the signature. Crash
+# reports still symbolicate from .build, which keeps the full binary and its debug info.
+strip -x "$APP/Contents/MacOS/DevShop"
+
 # SwiftPM emits resources as a sibling bundle; Bundle.module looks for it next to the
 # executable, so it has to travel with the binary.
 for bundle in ".build/$CONFIG"/*.bundle; do
@@ -43,7 +48,7 @@ cat > "$APP/Contents/Info.plist" <<PLIST
   <key>CFBundlePackageType</key><string>APPL</string>
   <key>CFBundleShortVersionString</key><string>1.0</string>
   <key>CFBundleVersion</key><string>1</string>
-  <key>LSMinimumSystemVersion</key><string>14.0</string>
+  <key>LSMinimumSystemVersion</key><string>15.0</string>
   <key>NSHighResolutionCapable</key><true/>
   <key>NSHumanReadableCopyright</key><string>Read-only viewer. Brand marks from Simple Icons (CC0).</string>
 </dict>
