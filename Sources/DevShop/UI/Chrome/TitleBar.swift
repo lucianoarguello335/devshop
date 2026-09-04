@@ -199,39 +199,53 @@ private struct SearchField: View {
 
 private struct RefreshButton: View {
     @Bindable var model: AppModel
-    @State private var spin = false
 
     var body: some View {
         Button {
             model.refresh()
         } label: {
             HStack(spacing: 7) {
-                SFIcon(symbol: "arrow.clockwise", size: 11, weight: .semibold)
-                    .rotationEffect(.degrees(spin ? 360 : 0))
+                RefreshSpinner(isSpinning: model.isBusy)
                 Text(model.refreshLabel)
                     .font(.system(size: 12.5, weight: .medium))
             }
             .foregroundStyle(.white)
             .padding(.horizontal, 13)
             .frame(height: 28)
-            .background(DevTheme.accent, in: .rect(cornerRadius: 8))
-            .shadow(color: DevTheme.accent.opacity(0.4), radius: 1, y: 1)
+            .background(DevTheme.accent.shadow(
+                .drop(color: DevTheme.accent.opacity(0.4), radius: 1, y: 1)),
+                        in: .rect(cornerRadius: 8))
         }
         .buttonStyle(.plain)
         .disabled(model.isBusy)
         .help("Re-scan the environment and re-measure sizes")
-        .onChange(of: model.isBusy) { _, busy in
-            if busy {
-                withAnimation(.linear(duration: 0.9).repeatForever(autoreverses: false)) {
-                    spin = true
+    }
+}
+
+/// The arrow, and only the arrow.
+///
+/// A `repeatForever` animation invalidates whatever view owns its state on every frame, and
+/// measuring runs for minutes. Kept in its own leaf view so that redraw is one glyph rather
+/// than the entire header — label, search field, switches and all.
+private struct RefreshSpinner: View {
+    let isSpinning: Bool
+    @State private var spin = false
+
+    var body: some View {
+        SFIcon(symbol: "arrow.clockwise", size: 11, weight: .semibold)
+            .rotationEffect(.degrees(spin ? 360 : 0))
+            .onChange(of: isSpinning) { _, busy in
+                if busy {
+                    withAnimation(.linear(duration: 0.9).repeatForever(autoreverses: false)) {
+                        spin = true
+                    }
+                } else {
+                    // A repeatForever animation is not cancelled by changing the value with
+                    // animations disabled — it keeps repeating and the arrow never stops.
+                    // Overriding it with a zero-duration animation both ends the repeat and
+                    // avoids the anticlockwise unwind that animating back to zero produces.
+                    withAnimation(.linear(duration: 0)) { spin = false }
                 }
-            } else {
-                // A repeatForever animation is not cancelled by changing the value with
-                // animations disabled — it keeps repeating and the arrow never stops.
-                // Overriding it with a zero-duration animation both ends the repeat and
-                // avoids the anticlockwise unwind that animating back to zero produces.
-                withAnimation(.linear(duration: 0)) { spin = false }
             }
-        }
     }
 }

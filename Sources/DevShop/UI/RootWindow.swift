@@ -39,6 +39,9 @@ struct RootWindow: View {
         .background { WindowChrome().frame(width: 0, height: 0) }
         .background(theme.background)
         .environment(\.theme, theme)
+        // Sizes stream in a batch at a time while measuring; springing every meter in the
+        // window on each batch keeps the whole app redrawing for as long as it runs.
+        .environment(\.meterAnimated, !model.isMeasuring)
         .preferredColorScheme(theme.colorScheme)
         .tint(DevTheme.accent)
         .foregroundStyle(theme.text)

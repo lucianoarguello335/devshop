@@ -83,6 +83,10 @@ struct DevTheme: Equatable, Sendable {
 extension EnvironmentValues {
     /// Injected once at the window root so no view has to thread the palette through.
     @Entry var theme: DevTheme = .light
+
+    /// Whether size meters animate their fill. Turned off at the root while a measurement is
+    /// running, so a batch of results does not start a spring on every bar in the window.
+    @Entry var meterAnimated: Bool = true
 }
 
 extension Color {
@@ -111,12 +115,19 @@ extension Color {
 
 extension View {
     /// The rounded surface used by every panel in the design.
+    ///
+    /// The shadow is part of the fill style, not a `.shadow(...)` modifier on the card. The
+    /// modifier form rasterises everything below it into an offscreen buffer first; the fill
+    /// form is drawn by the same pass that draws the rectangle.
     func devCard(_ theme: DevTheme, radius: CGFloat = 10) -> some View {
-        background(theme.card, in: .rect(cornerRadius: radius))
-            .overlay {
-                RoundedRectangle(cornerRadius: radius)
-                    .strokeBorder(theme.hairline.opacity(0.5), lineWidth: 0.5)
-            }
-            .shadow(color: theme.cardShadow, radius: theme.cardShadowRadius, y: 1)
+        background {
+            RoundedRectangle(cornerRadius: radius)
+                .fill(theme.card.shadow(
+                    .drop(color: theme.cardShadow, radius: theme.cardShadowRadius, y: 1)))
+        }
+        .overlay {
+            RoundedRectangle(cornerRadius: radius)
+                .strokeBorder(theme.hairline.opacity(0.5), lineWidth: 0.5)
+        }
     }
 }

@@ -53,7 +53,9 @@ struct ContentColumn: View {
         }
         .background(theme.background)
         .animation(.easeInOut(duration: 0.25), value: model.hiddenCategories)
-        .animation(.easeInOut(duration: 0.2), value: model.query)
+        // Deliberately not animated on `query`: an implicit animation here animates an
+        // insert-and-remove diff across every section on every keystroke, and typing is the
+        // one place in this window where the result has to keep up with the user.
         .animation(.easeInOut(duration: 0.2), value: model.layout)
     }
 
@@ -77,21 +79,25 @@ struct ContentColumn: View {
             switch model.layout {
             case .grid:
                 LazyVGrid(columns: columns, spacing: 10) {
-                    ForEach(panel.tools) { tool in
-                        ToolTile(tool: tool,
-                                 bytes: model.bytes(for: tool),
+                    ForEach(panel.tools) { tile in
+                        ToolTile(tile: tile,
                                  maximumBytes: model.largestToolBytes,
-                                 isSelected: model.selectedToolID == tool.id,
-                                 findingTier: model.findingTier(for: tool)) {
-                            model.select(tool)
+                                 isSelected: model.selectedToolID == tile.id,
+                                 theme: theme) {
+                            model.select(id: tile.id)
                         }
+                        .equatable()
                     }
                 }
             case .list:
-                ToolListView(panel: panel, model: model)
+                ToolListView(panel: panel,
+                             sort: model.sort,
+                             selectedToolID: model.selectedToolID,
+                             maximumBytes: model.largestToolBytes,
+                             theme: theme,
+                             onSort: { model.sortBy($0) },
+                             onSelect: { model.select(id: $0) })
             }
         }
     }
-
-
 }

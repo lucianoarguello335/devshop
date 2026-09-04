@@ -4,13 +4,8 @@ extension View {
     /// Suppresses the title-bar/toolbar background that macOS paints over the top of the
     /// window. The header draws its own opaque chrome colour, and without this the system's
     /// translucent panel washes out everything in the first 32pt.
-    @ViewBuilder
     func withoutWindowBarBackground() -> some View {
-        if #available(macOS 15.0, *) {
-            toolbarBackgroundVisibility(.hidden, for: .windowToolbar)
-        } else {
-            self
-        }
+        toolbarBackgroundVisibility(.hidden, for: .windowToolbar)
     }
 
     /// Turns off macOS 26's automatic scroll-edge effect.

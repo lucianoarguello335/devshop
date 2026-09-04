@@ -13,7 +13,8 @@ struct CategoryTotal: Identifiable, Equatable {
 struct Panel: Identifiable, Equatable {
     var id: ToolCategory { category }
     var category: ToolCategory
-    var tools: [DetectedTool]
+    /// Ready-to-draw rows. See `TileData` for why the tools are flattened here.
+    var tools: [TileData]
     /// Total measured bytes across the section; `0` before anything is measured.
     var bytes: Int64
 
@@ -253,13 +254,24 @@ final class AppModel {
     /// Recomputes everything the views read. Called when the scan finishes, when a batch of
     /// sizes lands, and when a filter, sort or toggle changes — not on every redraw.
     private func rebuildDerived() {
+        var tiers: [String: FindingTier] = [:]
+        for finding in findings {
+            for id in finding.toolIDs {
+                // FindingTier sorts most severe first, so the minimum wins.
+                tiers[id] = tiers[id].map { Swift.min($0, finding.tier) } ?? finding.tier
+            }
+        }
+        findingTierByToolID = tiers
+
         visiblePanels = ToolCategory.allCases.compactMap { category in
             guard !hiddenCategories.contains(category) else { return nil }
             let members = tools.filter { $0.category == category && matches($0) }
             guard !members.isEmpty else { return nil }
             let sorted = members.sorted { sort.compare($0, $1, bytes: bytes(for:)) }
             return Panel(category: category,
-                         tools: sorted,
+                         tools: sorted.map {
+                             TileData(tool: $0, bytes: bytes(for: $0), findingTier: tiers[$0.id])
+                         },
                          bytes: sorted.reduce(0) { $0 + bytes(for: $1) })
         }
 
@@ -285,15 +297,6 @@ final class AppModel {
         }
 
         categoryCounts = Dictionary(grouping: tools, by: \.category).mapValues(\.count)
-
-        var tiers: [String: FindingTier] = [:]
-        for finding in findings {
-            for id in finding.toolIDs {
-                // FindingTier sorts most severe first, so the minimum wins.
-                tiers[id] = tiers[id].map { Swift.min($0, finding.tier) } ?? finding.tier
-            }
-        }
-        findingTierByToolID = tiers
     }
 
     func findingTier(for tool: DetectedTool) -> FindingTier? {
@@ -441,8 +444,10 @@ final class AppModel {
         }
     }
 
-    func select(_ tool: DetectedTool) {
-        guard selectedToolID != tool.id else { return }
-        selectedToolID = tool.id
+    func select(_ tool: DetectedTool) { select(id: tool.id) }
+
+    func select(id: String) {
+        guard selectedToolID != id else { return }
+        selectedToolID = id
     }
 }

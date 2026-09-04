@@ -77,12 +77,19 @@ actor SizeMeasurer {
     /// not counted.
     nonisolated static func allocatedSize(ofDirectory path: String) -> Int64 {
         let url = URL(fileURLWithPath: path)
-        let keys: Set<URLResourceKey> = [
+        let rootKeys: Set<URLResourceKey> = [
             .totalFileAllocatedSizeKey, .fileAllocatedSizeKey,
             .isRegularFileKey, .isDirectoryKey, .volumeIdentifierKey
         ]
+        // Every key asked for here is fetched for every file in the tree, so the walk asks
+        // only for the four it actually reads. Whether an entry is a directory never comes up:
+        // anything that is not a regular file contributes nothing and is simply descended into.
+        let walkKeys: Set<URLResourceKey> = [
+            .totalFileAllocatedSizeKey, .fileAllocatedSizeKey,
+            .isRegularFileKey, .volumeIdentifierKey
+        ]
 
-        guard let values = try? url.resourceValues(forKeys: keys) else { return 0 }
+        guard let values = try? url.resourceValues(forKeys: rootKeys) else { return 0 }
         if values.isRegularFile == true {
             return Int64(values.totalFileAllocatedSize ?? values.fileAllocatedSize ?? 0)
         }
@@ -91,7 +98,7 @@ actor SizeMeasurer {
         let rootVolume = values.volumeIdentifier
         guard let enumerator = FileManager.default.enumerator(
             at: url,
-            includingPropertiesForKeys: Array(keys),
+            includingPropertiesForKeys: Array(walkKeys),
             options: [.skipsPackageDescendants],
             errorHandler: { _, _ in true }   // unreadable entries are skipped, not fatal
         ) else { return 0 }
@@ -101,7 +108,7 @@ actor SizeMeasurer {
         for case let child as URL in enumerator {
             checkedCancellation += 1
             if checkedCancellation % 512 == 0, Task.isCancelled { return total }
-            guard let v = try? child.resourceValues(forKeys: keys) else { continue }
+            guard let v = try? child.resourceValues(forKeys: walkKeys) else { continue }
             if let volume = v.volumeIdentifier, let rootVolume,
                !volume.isEqual(rootVolume) {
                 enumerator.skipDescendants()

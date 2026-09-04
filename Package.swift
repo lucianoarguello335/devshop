@@ -3,7 +3,7 @@ import PackageDescription
 
 let package = Package(
     name: "DevShop",
-    platforms: [.macOS(.v14)],
+    platforms: [.macOS(.v15)],
     targets: [
         .executableTarget(
             name: "DevShop",

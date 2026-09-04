@@ -1,37 +1,46 @@
 import SwiftUI
 
 /// One tool in the centre grid.
-struct ToolTile: View {
-    let tool: DetectedTool
-    let bytes: Int64
+///
+/// `Equatable`, and used through `.equatable()`, so a selection change or one of the size
+/// flushes that land every 250ms while measuring only re-runs the bodies of the tiles that
+/// actually changed. The theme is passed in rather than read from the environment for the same
+/// reason: it has to take part in the comparison for that skipping to stay correct.
+struct ToolTile: View, Equatable {
+    let tile: TileData
     let maximumBytes: Int64
     let isSelected: Bool
-    /// Most severe finding touching this tool, if any.
-    let findingTier: FindingTier?
+    let theme: DevTheme
     let select: () -> Void
 
-    @Environment(\.theme) private var theme
     @State private var isHovering = false
 
-    private var isMissing: Bool { tool.status == .missing }
-    private var brand: Color { Color(hex: tool.definition.color) }
-    private var statusColor: Color { Color(hex: tool.status.hex) }
+    nonisolated static func == (a: ToolTile, b: ToolTile) -> Bool {
+        a.tile == b.tile
+            && a.maximumBytes == b.maximumBytes
+            && a.isSelected == b.isSelected
+            && a.theme == b.theme
+    }
+
+    private var isMissing: Bool { tile.isMissing }
+    private var brand: Color { Color(hex: tile.colorHex) }
+    private var statusColor: Color { Color(hex: tile.status.hex) }
 
     var body: some View {
         Button(action: select) {
             VStack(alignment: .leading, spacing: 9) {
                 HStack(spacing: 9) {
-                    IconChip(tool: tool, size: 30, theme: theme)
+                    IconChip(tile: tile, size: 30, theme: theme)
                     VStack(alignment: .leading, spacing: 1) {
                         HStack(spacing: 4) {
-                            Text(tool.name)
+                            Text(tile.name)
                                 .font(.system(size: 12.5, weight: .semibold))
                                 .lineLimit(1)
-                            if let findingTier {
+                            if let findingTier = tile.findingTier {
                                 FindingBadge(tier: findingTier, size: 9.5)
                             }
                         }
-                        Text(tool.subtitle)
+                        Text(tile.subtitle)
                             .font(.system(size: 10.5))
                             .foregroundStyle(theme.muted)
                             .lineLimit(1)
@@ -46,11 +55,11 @@ struct ToolTile: View {
                         }
                 }
                 HStack(spacing: 7) {
-                    MeterBar(fraction: maximumBytes > 0 && bytes > 0
-                             ? max(0.06, Double(bytes) / Double(maximumBytes)) : 0,
+                    MeterBar(fraction: maximumBytes > 0 && tile.bytes > 0
+                             ? max(0.06, Double(tile.bytes) / Double(maximumBytes)) : 0,
                              color: isMissing ? theme.muted : brand)
                         .frame(height: 4)
-                    Text(bytes > 0 ? ByteFormat.compact(bytes) : "—")
+                    Text(tile.bytes > 0 ? ByteFormat.compact(tile.bytes) : "—")
                         .font(.system(size: 10))
                         .monospacedDigit()
                         .foregroundStyle(theme.muted)
@@ -65,10 +74,6 @@ struct ToolTile: View {
                 RoundedRectangle(cornerRadius: 10)
                     .strokeBorder(isSelected ? DevTheme.accent : .clear, lineWidth: 2)
             }
-            .shadow(color: isSelected ? DevTheme.accent.opacity(0.2)
-                    : (isMissing ? .clear : theme.cardShadow),
-                    radius: isSelected ? 6 : theme.cardShadowRadius,
-                    y: isSelected ? 3 : 1)
             .opacity(isMissing ? 0.85 : 1)
             .offset(y: isHovering ? -2 : 0)
             .contentShape(.rect)
@@ -82,23 +87,39 @@ struct ToolTile: View {
     }
 
     private var accessibilityDescription: String {
-        var parts = [tool.name, tool.subtitle, tool.status.label]
-        if let findingTier { parts.append("has \(findingTier.label.lowercased())") }
+        var parts = [tile.name, tile.subtitle, tile.status.label]
+        if let findingTier = tile.findingTier { parts.append("has \(findingTier.label.lowercased())") }
         return parts.joined(separator: ", ")
     }
 
+    /// The card, its border and its shadow in one fill.
+    ///
+    /// The shadow used to be a `.shadow(...)` modifier on the whole tile, which rasterises the
+    /// tile offscreen before drawing it. At a hundred-odd tiles that was a hundred-odd extra
+    /// render passes per frame; as part of the fill style it costs nothing extra.
     @ViewBuilder
     private var background: some View {
         if isMissing {
             RoundedRectangle(cornerRadius: 10)
-                .fill(theme.fill)
+                .fill(surface(theme.fill))
                 .overlay {
                     RoundedRectangle(cornerRadius: 10)
                         .strokeBorder(theme.hairline, lineWidth: 0.5)
                 }
         } else {
             RoundedRectangle(cornerRadius: 10)
-                .fill(isHovering ? theme.cardHover : theme.card)
+                .fill(surface(isHovering ? theme.cardHover : theme.card))
         }
+    }
+
+    /// A missing tile carries no shadow of its own, but a selected one still glows.
+    private func surface(_ fill: Color) -> AnyShapeStyle {
+        if isSelected {
+            return AnyShapeStyle(fill.shadow(
+                .drop(color: DevTheme.accent.opacity(0.2), radius: 6, y: 3)))
+        }
+        if isMissing { return AnyShapeStyle(fill) }
+        return AnyShapeStyle(fill.shadow(
+            .drop(color: theme.cardShadow, radius: theme.cardShadowRadius, y: 1)))
     }
 }
