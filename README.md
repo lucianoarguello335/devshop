@@ -76,8 +76,10 @@ different machines, or the same machine months apart — diff cleanly. It also l
 application bundle, because Finder's "Applications" is a merged view of `/Applications` and
 `/System/Applications` — the export reads both and tags each entry `user` or `system`, so
 what you installed can be told apart from what macOS ships. Application sizes are omitted on
-purpose: walking 113 bundles would stall a synchronous export. `docs/example-setup.json` is
-real output; a schema version at the top makes a future format change detectable.
+purpose: walking a hundred-odd bundles would stall a synchronous export.
+`docs/example-setup.json` is a real export with the machine's own application
+inventory and volume figures replaced by a representative sample — the schema is
+unchanged, and the version field at the top makes a future format change detectable.
 
 **Findings can be handed to an AI agent.** "Copy AI prompt" in the Findings header puts a
 full briefing on the clipboard — machine, which manager owns which runtime, every finding with
@@ -153,3 +155,8 @@ depict belong to their respective owners. Interface glyphs use SF Symbols. The a
 built from a [uxwing](https://uxwing.com) glyph, which is free for commercial use with no
 attribution required — Simple Icons marks are other companies' trademarks and SF Symbols may
 not be used in app icons under Apple's licence, so neither was an option here.
+
+## Licence
+
+MIT — see [LICENSE](LICENSE). The bundled Simple Icons path data is CC0 and is
+not covered by this licence; see Credits above.
