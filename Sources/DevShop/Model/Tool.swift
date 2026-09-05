@@ -52,6 +52,10 @@ struct DetectedTool: Sendable, Identifiable, Equatable {
     var status: ToolStatus
     /// Secondary line under the name, e.g. `3.11.6 · pyenv`.
     var subtitle: String
+    /// The version number on its own, with nothing else attached — `3.11.6`, `22.19.0`.
+    /// `nil` when no file on disk states one; the Version column then shows a dash rather
+    /// than a description standing in for a number.
+    var version: String?
     /// Absolute path on disk, already expanded. `nil` when not installed.
     var path: String?
     /// Which mechanism installed it, shown in the inspector's Managed row.

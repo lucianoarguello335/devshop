@@ -39,7 +39,15 @@ struct ToolSort: Sendable, Equatable {
         case .name:
             result = a.name.localizedStandardCompare(b.name) == .orderedAscending
         case .version:
-            result = a.subtitle.localizedStandardCompare(b.subtitle) == .orderedAscending
+            // Sort by what the column shows. Tools with no readable version sort last in
+            // ascending order rather than mixing in among the numbers.
+            let x = a.version, y = b.version
+            switch (x, y) {
+            case (nil, nil): result = a.name.localizedStandardCompare(b.name) == .orderedAscending
+            case (nil, _): result = false
+            case (_, nil): result = true
+            case let (x?, y?): result = x.localizedStandardCompare(y) == .orderedAscending
+            }
         case .location:
             result = (a.path ?? "").localizedStandardCompare(b.path ?? "") == .orderedAscending
         case .managedBy:

@@ -215,7 +215,8 @@ final class AppModel {
     private func matches(_ tool: DetectedTool) -> Bool {
         let q = trimmedQuery
         guard !q.isEmpty else { return true }
-        let haystack = [tool.name, tool.subtitle, tool.path ?? "", tool.managedBy]
+        let haystack = [tool.name, tool.subtitle, tool.version ?? "",
+                        tool.path ?? "", tool.managedBy]
         return haystack.contains { $0.localizedStandardContains(q) }
     }
 

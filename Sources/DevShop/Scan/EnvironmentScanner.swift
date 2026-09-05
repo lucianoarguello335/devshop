@@ -53,6 +53,7 @@ actor EnvironmentScanner {
                             definition: definition,
                             status: .ok,
                             subtitle: "\(managed.version) · \(kind.managerName)",
+                            version: managed.version,
                             path: managed.path,
                             managedBy: kind.managerName,
                             measurableRoot: managed.path
@@ -82,6 +83,7 @@ actor EnvironmentScanner {
                 definition: definition,
                 status: .ok,
                 subtitle: version ?? sourceLabel(for: path),
+                version: version,
                 path: path,
                 managedBy: managerLabel(for: path),
                 measurableRoot: root.path,
@@ -95,6 +97,7 @@ actor EnvironmentScanner {
                 definition: definition,
                 status: .ok,
                 subtitle: "\(installed.version) · Homebrew",
+                version: installed.version,
                 path: installed.path,
                 managedBy: "Homebrew formula",
                 measurableRoot: installed.path
@@ -107,6 +110,7 @@ actor EnvironmentScanner {
                 definition: definition,
                 status: .ok,
                 subtitle: "\(installed.version) · Homebrew cask",
+                version: VersionReaders.plausible(installed.version),
                 path: installed.path,
                 managedBy: "Homebrew cask",
                 measurableRoot: installed.path
@@ -124,6 +128,7 @@ actor EnvironmentScanner {
                 definition: definition,
                 status: .ok,
                 subtitle: subtitle,
+                version: version,
                 path: full,
                 managedBy: brew.casks.values.contains { full.hasPrefix($0.path) }
                     ? "Homebrew cask" : "Application",
@@ -138,6 +143,7 @@ actor EnvironmentScanner {
                 definition: definition,
                 status: .ok,
                 subtitle: version ?? sourceLabel(for: full),
+                version: VersionReaders.plausible(version),
                 path: full,
                 managedBy: managerLabel(for: full),
                 measurableRoot: Probes.isDirectory(full) ? full : measurableRoot(for: full).path,
@@ -155,6 +161,7 @@ actor EnvironmentScanner {
             definition: definition,
             status: .missing,
             subtitle: definition.missingNote ?? "not installed",
+            version: nil,
             path: nil,
             managedBy: "—",
             measurableRoot: nil
@@ -227,6 +234,7 @@ actor EnvironmentScanner {
             switch tool.definition.id {
             case "pkg.homebrew" where tool.status == .ok:
                 tool.subtitle = "\(summary.formulaCount) formulae · \(summary.caskCount) casks"
+                tool.version = VersionReaders.homebrewVersion(prefix: brew.prefix)
                 tool.managedBy = "self"
             case "brew.formulae" where tool.status == .ok:
                 tool.subtitle = "\(summary.formulaCount) installed"
@@ -238,6 +246,40 @@ actor EnvironmentScanner {
                 tool.subtitle = "download cache"
             case "sdk.clt" where tool.status == .ok:
                 tool.subtitle = VersionReaders.commandLineToolsVersion() ?? "installed"
+                tool.version = VersionReaders.commandLineToolsVersion()
+            case "pkg.npm" where tool.status == .ok:
+                tool.version = VersionReaders.packageJSONVersion(
+                    at: (tool.path.map { ($0 as NSString).deletingLastPathComponent } ?? "")
+                        + "/../package.json")
+            case "pkg.pip" where tool.status == .ok:
+                tool.version = pythonPackageVersion("pip", near: tool.path)
+            case "pkg.poetry" where tool.status == .ok:
+                tool.version = VersionReaders.distInfoVersion(
+                    package: "poetry",
+                    inSitePackagesUnder: "~/Library/Application Support/pypoetry")
+            case "pkg.sdkman" where tool.status == .ok:
+                tool.version = VersionReaders.plausible(
+                    VersionReaders.firstLine(ofFile: "~/.sdkman/var/version"))
+            case "pkg.nvm" where tool.status == .ok:
+                tool.version = VersionReaders.nvmVersion()
+            case "lang.ruby" where tool.status == .ok:
+                tool.version = VersionReaders.versionedSubdirectory(
+                    of: "/System/Library/Frameworks/Ruby.framework/Versions")
+            case "lang.perl" where tool.status == .ok:
+                tool.version = VersionReaders.versionedSubdirectory(of: "/System/Library/Perl")
+            case "shell.zsh" where tool.status == .ok:
+                tool.version = VersionReaders.versionedSubdirectory(of: "/usr/share/zsh")
+            case "lang.swift", "pkg.spm":
+                guard tool.status == .ok else { break }
+                tool.version = VersionReaders.swiftVersion()
+            case "pkg.bundler" where tool.status == .ok:
+                tool.version = VersionReaders.defaultGemVersion("bundler")
+            case "pkg.gem" where tool.status == .ok:
+                tool.version = VersionReaders.rubyGemsVersion()
+            case "lang.clang", "lang.cpp":
+                guard tool.status == .ok else { break }
+                tool.version = VersionReaders.clangVersion(
+                    toolchainPrefix: "/Library/Developer/CommandLineTools")
             case "ide.vscodeext" where tool.status == .ok:
                 let count = Probes.subdirectories(of: "~/.vscode/extensions").count
                 tool.subtitle = "\(count) extensions"
@@ -250,6 +292,22 @@ actor EnvironmentScanner {
             default:
                 break
             }
+            // Last resort: a lot of these tools are Homebrew formulae even when a directory
+            // rule matched them first (pyenv is found at `~/.pyenv` but installed by brew),
+            // and the Cellar path states the version outright.
+            if tool.version == nil, tool.status != .missing,
+               let formula = brew.formulae[tool.definition.name.lowercased()]
+                          ?? brew.formulae[tool.definition.id.split(separator: ".").last.map(String.init) ?? ""] {
+                tool.version = formula.version
+            }
+            // Still nothing? Two last places, both a plain file read. A `<name>-config`
+            // script states the exact version; a man page header states whatever version
+            // the page was written for, which is usually but not always current.
+            if tool.version == nil, tool.status != .missing, let path = tool.path {
+                let command = (path as NSString).lastPathComponent
+                tool.version = VersionReaders.configScriptVersion(command: command, near: path)
+                    ?? VersionReaders.manPageVersion(command: command, near: path)
+            }
             if tool.status != .missing {
                 tool.children = ChildReaders.children(for: tool, brew: brew)
             }
@@ -260,6 +318,15 @@ actor EnvironmentScanner {
     private func tapCount(brew: HomebrewReader) -> Int {
         Probes.subdirectories(of: brew.prefix + "/Library/Taps")
             .reduce(0) { $0 + Probes.subdirectories(of: brew.prefix + "/Library/Taps/" + $1).count }
+    }
+
+    /// pip and friends live in a `bin` directory next to the `lib/pythonX.Y/site-packages`
+    /// that records what version is installed.
+    private func pythonPackageVersion(_ package: String, near path: String?) -> String? {
+        guard let path else { return nil }
+        let bin = (path as NSString).deletingLastPathComponent
+        let prefix = (bin as NSString).deletingLastPathComponent
+        return VersionReaders.distInfoVersion(package: package, inSitePackagesUnder: prefix)
     }
 
     private func versionCount(at path: String, noun: String) -> String {

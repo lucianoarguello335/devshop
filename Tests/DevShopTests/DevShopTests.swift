@@ -423,6 +423,74 @@ struct TileDataTests {
     }
 }
 
+// MARK: - Version reading
+
+@Suite("Version reading")
+struct VersionReaderTests {
+    private func temporaryDirectory() throws -> URL {
+        let url = FileManager.default.temporaryDirectory
+            .appendingPathComponent("devshop-version-\(UUID().uuidString)")
+        try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true)
+        return url
+    }
+
+    @Test("a failed download is not mistaken for a version")
+    func rejectsJunk() {
+        // SDKMAN's `var/version` really does end up holding an nginx 404 page.
+        #expect(VersionReaders.plausible("<html><head><title>404 Not Found</title>") == nil)
+        #expect(VersionReaders.plausible("installed") == nil)
+        #expect(VersionReaders.plausible("") == nil)
+        #expect(VersionReaders.plausible("   ") == nil)
+        #expect(VersionReaders.plausible("147 formulae · 52 casks") == nil)
+    }
+
+    @Test("a version keeps its shape, with any leading v dropped")
+    func acceptsVersions() {
+        #expect(VersionReaders.plausible("3.11.6") == "3.11.6")
+        #expect(VersionReaders.plausible("v0.40.7") == "0.40.7")
+        #expect(VersionReaders.plausible(" 2.2.0\n") == "2.2.0")
+        #expect(VersionReaders.plausible("1.17.2-beta1") == "1.17.2-beta1")
+    }
+
+    @Test("a Python distribution states its version in the dist-info directory name")
+    func distInfo() throws {
+        let root = try temporaryDirectory()
+        defer { try? FileManager.default.removeItem(at: root) }
+        let site = root.appendingPathComponent("lib/python3.14/site-packages")
+        try FileManager.default.createDirectory(at: site, withIntermediateDirectories: true)
+        try FileManager.default.createDirectory(
+            at: site.appendingPathComponent("poetry-2.2.0.dist-info"),
+            withIntermediateDirectories: true)
+
+        #expect(VersionReaders.distInfoVersion(package: "poetry",
+                                               inSitePackagesUnder: root.path) == "2.2.0")
+        #expect(VersionReaders.distInfoVersion(package: "pip",
+                                               inSitePackagesUnder: root.path) == nil)
+    }
+
+    @Test("npm's own manifest is read for its version")
+    func packageJSON() throws {
+        let root = try temporaryDirectory()
+        defer { try? FileManager.default.removeItem(at: root) }
+        let file = root.appendingPathComponent("package.json")
+        try #"{"name":"npm","version":"11.19.0"}"#.write(to: file, atomically: true,
+                                                         encoding: .utf8)
+        #expect(VersionReaders.packageJSONVersion(at: file.path) == "11.19.0")
+        #expect(VersionReaders.packageJSONVersion(at: root.path + "/absent.json") == nil)
+    }
+
+    @Test("the newest versioned subdirectory wins, and it sorts numerically")
+    func versionedDirectory() throws {
+        let root = try temporaryDirectory()
+        defer { try? FileManager.default.removeItem(at: root) }
+        for name in ["5.9", "5.10", "Extras"] {
+            try FileManager.default.createDirectory(
+                at: root.appendingPathComponent(name), withIntermediateDirectories: true)
+        }
+        #expect(VersionReaders.versionedSubdirectory(of: root.path) == "5.10")
+    }
+}
+
 extension SizeMeasurementTests {
     @Test("a symlinked root measures the file it points at")
     func followsSymlink() throws {
@@ -438,5 +506,43 @@ extension SizeMeasurementTests {
         try fm.createSymbolicLink(at: link, withDestinationURL: real)
 
         #expect(SizeMeasurer.allocatedSize(ofDirectory: link.path) >= 40_000)
+    }
+}
+
+extension VersionReaderTests {
+    @Test("a man page header gives up its version, whatever order the fields are in")
+    func titleHeader() {
+        #expect(VersionReaders.version(
+            inTitleHeader: #".TH curl 1 "March 12 2024" "curl 8.6.0" "curl Manual""#) == "8.6.0")
+        #expect(VersionReaders.version(
+            inTitleHeader: #".TH BASH 1 "2006 September 28" "GNU Bash-3.2""#) == "3.2")
+    }
+
+    @Test("groff escapes are removed and a build string is trimmed to three components")
+    func titleHeaderEscapes() {
+        // Apple's git page: `Git 2\&.50\&.1\&.428\&.g0e8243`.
+        let line = #".TH "GIT" "1" "2025-07-22" "Git 2\&.50\&.1\&.428\&.g0e8243" "Git Manual""#
+        #expect(VersionReaders.version(inTitleHeader: line) == "2.50.1")
+    }
+
+    @Test("a date is never mistaken for a version")
+    func titleHeaderDates() {
+        #expect(VersionReaders.version(inTitleHeader: #".TH "JQ" "1" "December 2023" "" """#) == nil)
+        #expect(VersionReaders.version(inTitleHeader: #".TH FOO 1 "2025-07-22""#) == nil)
+    }
+
+    @Test("a -config script is read for the exact version, anchored on the tool's name")
+    func configScript() throws {
+        let root = try temporaryDirectory()
+        defer { try? FileManager.default.removeItem(at: root) }
+        let bin = root.appendingPathComponent("bin")
+        try FileManager.default.createDirectory(at: bin, withIntermediateDirectories: true)
+        try "#!/bin/sh\necho libcurl 8.7.1\n"
+            .write(to: bin.appendingPathComponent("curl-config"), atomically: true, encoding: .utf8)
+
+        let curl = bin.appendingPathComponent("curl").path
+        #expect(VersionReaders.configScriptVersion(command: "curl", near: curl) == "8.7.1")
+        #expect(VersionReaders.configScriptVersion(command: "wget", near: curl) == nil)
+        #expect(VersionReaders.configScriptVersion(command: "curl", near: nil) == nil)
     }
 }
