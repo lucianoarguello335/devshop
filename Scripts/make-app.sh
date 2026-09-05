@@ -29,11 +29,15 @@ for bundle in ".build/$CONFIG"/*.bundle; do
 done
 
 # Built by Scripts/make-icon.sh; committed so a plain `make app` needs no extra step.
-if [ -f Resources/DevShop.icns ]; then
-  cp Resources/DevShop.icns "$APP/Contents/Resources/DevShop.icns"
-else
-  echo "note: Resources/DevShop.icns missing — run ./Scripts/make-icon.sh" >&2
-fi
+# Both travel with the app: the bundle names the light one, and DockIcon swaps to the dark
+# one at runtime when the window is dark.
+for icon in DevShop DevShop-Dark; do
+  if [ -f "Resources/$icon.icns" ]; then
+    cp "Resources/$icon.icns" "$APP/Contents/Resources/$icon.icns"
+  else
+    echo "note: Resources/$icon.icns missing — run ./Scripts/make-icon.sh" >&2
+  fi
+done
 
 cat > "$APP/Contents/Info.plist" <<PLIST
 <?xml version="1.0" encoding="UTF-8"?>

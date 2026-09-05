@@ -104,36 +104,75 @@ private struct ListHeader: View {
         ListMetrics.layout {
             Color.clear
             ForEach(ListMetrics.flexible, id: \.field) { column in
-                label(column.field)
+                ColumnHeader(field: column.field, sort: sort, theme: theme) {
+                    onSort(column.field)
+                }
             }
-            label(.size)
+            ColumnHeader(field: .size, sort: sort, theme: theme) { onSort(.size) }
         }
         .frame(maxWidth: .infinity)
         .frame(height: 34)
         .padding(.horizontal, ListMetrics.inset)
         .background(theme.fill.opacity(0.4))
     }
+}
 
-    private func label(_ field: SortField) -> some View {
-        Button {
-            onSort(field)
-        } label: {
+/// One clickable column heading.
+///
+/// At rest a heading is just a label, which is how it reads — the whole row looked inert,
+/// and only the already-sorted column showed any sign that a click did anything. Hovering
+/// now lights the cell and ghosts in the chevron the click would leave behind, so the
+/// affordance and the outcome are both visible before committing to it.
+private struct ColumnHeader: View {
+    let field: SortField
+    let sort: ToolSort
+    let theme: DevTheme
+    let action: () -> Void
+
+    @State private var isHovering = false
+
+    private var isActive: Bool { sort.field == field }
+
+    /// The direction a click would produce, mirroring `ToolSort.toggle`: the active column
+    /// flips, any other starts ascending — except size, which starts biggest-first.
+    private var chevronPointsUp: Bool {
+        isActive ? sort.ascending : field != .size
+    }
+
+    var body: some View {
+        Button(action: action) {
             HStack(spacing: 4) {
                 Text(field.title.uppercased())
                     .font(.system(size: 10, weight: .semibold))
                     .kerning(0.4)
-                if sort.field == field {
-                    SFIcon(symbol: sort.ascending ? "chevron.up" : "chevron.down",
-                           size: 7, weight: .bold)
-                }
+                // Always laid out, so ghosting it in on hover cannot shift the title.
+                SFIcon(symbol: chevronPointsUp ? "chevron.up" : "chevron.down",
+                       size: 7, weight: .bold)
+                    .opacity(isActive ? 1 : (isHovering ? 0.45 : 0))
             }
-            .foregroundStyle(sort.field == field ? theme.text : theme.muted)
+            .foregroundStyle(isActive || isHovering ? theme.text : theme.muted)
             .frame(maxWidth: .infinity,
                    alignment: field == .size ? .trailing : .leading)
+            .padding(.vertical, 5)
+            .background {
+                // Negative inset widens the highlight past the text without moving it, so
+                // the heading stays aligned with the column beneath it.
+                RoundedRectangle(cornerRadius: 5)
+                    .fill(isHovering ? theme.fill : .clear)
+                    .padding(.horizontal, -6)
+            }
             .contentShape(.rect)
         }
         .buttonStyle(.plain)
-        .help("Sort by \(field.title.lowercased())")
+        .onHover { isHovering = $0 }
+        .pointerStyle(.link)
+        .animation(.easeOut(duration: 0.12), value: isHovering)
+        .help(helpText)
+    }
+
+    private var helpText: String {
+        let direction = chevronPointsUp ? "ascending" : "descending"
+        return "Sort by \(field.title.lowercased()), \(direction)"
     }
 }
 

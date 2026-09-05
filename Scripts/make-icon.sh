@@ -1,23 +1,33 @@
 #!/bin/bash
-# Builds Resources/DevShop.icns from a single-path SVG glyph.
+# Builds the two app icons from Scripts/render-appicon.swift.
 #
-# The glyph is rendered through the app's own SVGPath parser, so the icon and the in-app
-# brand marks come from exactly the same drawing code.
+# macOS resolves one .icns per bundle, so the light icon is the one Finder and the Dock
+# show before launch; the running app swaps in the dark one when the appearance is dark
+# (see UI/Chrome/DockIcon.swift).
 set -euo pipefail
 
 cd "$(dirname "$0")/.."
-SVG="${1:-docs/icon-options/svg/code.svg}"
 WORK="$(mktemp -d)"
 trap 'rm -rf "$WORK"' EXIT
-SET="$WORK/DevShop.iconset"
 
-# `swift file.swift ...` treats everything after the first file as arguments, and top-level
-# code only runs from main.swift, so the renderer is compiled rather than interpreted.
-cp Sources/DevShop/UI/Theme/SVGPath.swift "$WORK/SVGPath.swift"
-cp Scripts/render-icon.swift "$WORK/main.swift"
-swiftc -O -o "$WORK/render-icon" "$WORK/SVGPath.swift" "$WORK/main.swift"
-"$WORK/render-icon" "$SVG" "$SET"
+# Top-level code only runs from main.swift, so the renderer is compiled rather than run
+# through `swift <file>`, which would treat later arguments as more source files.
+cp Scripts/render-appicon.swift "$WORK/main.swift"
+swiftc -O -o "$WORK/render-appicon" "$WORK/main.swift"
 
 mkdir -p Resources
-iconutil -c icns "$SET" -o Resources/DevShop.icns
-echo "wrote Resources/DevShop.icns ($(wc -c < Resources/DevShop.icns | tr -d ' ') bytes)"
+for appearance in light dark; do
+  "$WORK/render-appicon" "$appearance" "$WORK/$appearance.iconset"
+done
+
+iconutil -c icns "$WORK/light.iconset" -o Resources/DevShop.icns
+iconutil -c icns "$WORK/dark.iconset" -o Resources/DevShop-Dark.icns
+
+# A pair of 1024px stills for the README.
+mkdir -p docs
+cp "$WORK/light.iconset/icon_512x512@2x.png" docs/icon-light.png
+cp "$WORK/dark.iconset/icon_512x512@2x.png" docs/icon-dark.png
+
+for icns in Resources/DevShop.icns Resources/DevShop-Dark.icns; do
+  echo "wrote $icns ($(wc -c < "$icns" | tr -d ' ') bytes)"
+done
