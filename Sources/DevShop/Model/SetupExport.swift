@@ -154,7 +154,7 @@ enum SetupExport {
                 return Tool(id: tool.id,
                             name: tool.name,
                             status: tool.status.rawValue,
-                            version: tool.subtitle,
+                            version: tool.version ?? tool.subtitle,
                             path: tool.path.map(Probes.abbreviate),
                             managedBy: tool.managedBy,
                             sizeBytes: bytes(tool.id),

@@ -126,7 +126,11 @@ struct InspectorView: View {
 
     private func sizeText(_ tool: DetectedTool) -> String {
         let bytes = model.bytes(for: tool)
-        if bytes > 0 { return ByteFormat.full(bytes) }
+        if bytes > 0 {
+            return tool.measuresBinaryOnly
+                ? "\(ByteFormat.full(bytes)) · binary only"
+                : ByteFormat.full(bytes)
+        }
         if tool.status == .missing { return "—" }
         if tool.measurableRoot == nil { return "shared location" }
         return model.hasSizes ? "under 1 MB" : "not measured"
@@ -230,10 +234,16 @@ struct InspectorView: View {
 
     private func shareNote(_ tool: DetectedTool, bytes: Int64, categoryTotal: Int64) -> String {
         guard bytes > 0 else {
-            return model.hasSizes ? "No measurable footprint" : "Press Refresh to measure sizes"
+            guard model.hasSizes else { return "Press Refresh to measure sizes" }
+            return tool.measurableRoot == nil
+                ? "Shares an install location with other tools, so no size is attributable to it"
+                : "No measurable footprint"
         }
-        return "\(ByteFormat.compact(bytes)) of \(ByteFormat.compact(categoryTotal)) "
-             + "in \(tool.definition.category.inspectorLabel.lowercased())"
+        let share = "\(ByteFormat.compact(bytes)) of \(ByteFormat.compact(categoryTotal)) "
+                  + "in \(tool.definition.category.inspectorLabel.lowercased())"
+        return tool.measuresBinaryOnly
+            ? share + " — the executable only; its toolchain is shared"
+            : share
     }
 
     /// What lives inside a container tile — the formulae in the Cellar, the casks in the

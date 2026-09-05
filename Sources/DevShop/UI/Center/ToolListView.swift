@@ -215,7 +215,9 @@ private struct ToolListRow: View, Equatable {
                     }
                     Spacer(minLength: 0)
                 }
-                text(tile.subtitle, size: 12, weight: .regular, color: theme.faint)
+                text(tile.version ?? "—", size: 12, weight: .regular,
+                     color: tile.version == nil ? theme.muted : theme.faint)
+                    .monospacedDigit()
                     .frame(maxWidth: .infinity, alignment: .leading)
                 Text(tile.displayPath ?? "—")
                     .font(.system(size: 11, design: .monospaced))
@@ -258,7 +260,7 @@ private struct ToolListRow: View, Equatable {
     }
 
     private var accessibilityDescription: String {
-        var parts = [tile.name, tile.subtitle, tile.status.label]
+        var parts = [tile.name, tile.version ?? "version unknown", tile.status.label]
         if let findingTier = tile.findingTier { parts.append("has \(findingTier.label.lowercased())") }
         return parts.joined(separator: ", ")
     }

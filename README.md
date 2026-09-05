@@ -41,6 +41,30 @@ would mean well over a hundred process spawns per scan. Reading `Cellar/<formula
 and `Contents/Info.plist` gives the same versions for almost every tool, instantly, with no
 shell involved.
 
+**The Version column only ever shows a version.** Detection produces two separate things: a
+`version` — a bare number and nothing else — and a `subtitle`, which is the descriptive line
+tiles show (`147 formulae · 52 casks`, `1 version installed`). The table's Version column
+reads the first and shows a dash when no file on disk states one, so a description never
+stands in for a number. `VersionReaders` knows the one file each awkward tool writes its
+version into: `package.json` for npm, a `dist-info` directory name for pip and poetry, the
+literal in `nvm.sh`, the tag `.git/HEAD` points at for Homebrew, a default gemspec's filename
+for Bundler, the `swift-compiler-version` header of a shipped `.swiftinterface` for Swift, and
+the versioned library directory for zsh, Perl and Ruby. Anything still unnamed falls back to
+the Homebrew formula of the same name, then to a `<name>-config` script, then to the `.TH`
+header of the tool's own man page — which is how bash, curl and git get a version at all.
+All filesystem reads — the no-subprocess rule holds.
+
+The order of those last two matters: macOS ships a `curl.1` that says 8.6.0 next to a curl
+binary that is 8.7.1, while `curl-config` carries the real number as a literal, so the config
+script is tried first. A man page is the last resort precisely because it states the version
+the page was written for. What no file names — jq, oh-my-zsh, powerlevel10k, Rosetta — shows
+a dash, which is the honest answer.
+
+**A binary in a shared bin directory is measured, not skipped.** Walking `/usr/bin` would
+attribute every neighbour to one tool, so tools there used to report no footprint at all. They
+now measure the executable itself and say so: the inspector labels it `binary only`, because
+the number is real but covers the binary and not the toolchain it shares.
+
 **Sizes are measured on Refresh, not on launch.** Walking `/Applications/Xcode.app` and the
 Homebrew Cellar means visiting hundreds of thousands of files. That work runs only when you
 press Refresh (and once on a first launch), streams results in as each root finishes, and

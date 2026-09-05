@@ -52,6 +52,10 @@ struct DetectedTool: Sendable, Identifiable, Equatable {
     var status: ToolStatus
     /// Secondary line under the name, e.g. `3.11.6 · pyenv`.
     var subtitle: String
+    /// The version number on its own, with nothing else attached — `3.11.6`, `22.19.0`.
+    /// `nil` when no file on disk states one; the Version column then shows a dash rather
+    /// than a description standing in for a number.
+    var version: String?
     /// Absolute path on disk, already expanded. `nil` when not installed.
     var path: String?
     /// Which mechanism installed it, shown in the inspector's Managed row.
@@ -59,6 +63,10 @@ struct DetectedTool: Sendable, Identifiable, Equatable {
     /// Directory measured by the size pass. `nil` means the tool has no measurable footprint
     /// of its own (a system binary, or a shim that points elsewhere).
     var measurableRoot: String?
+    /// True when `measurableRoot` is a single executable in a shared bin directory rather
+    /// than a directory of its own. The measurement is real but partial: it covers the
+    /// binary, not the libraries it shares with everything else in that prefix.
+    var measuresBinaryOnly: Bool = false
     /// What lives inside this tile — the formulae in the Cellar, the casks in the Caskroom,
     /// the globally installed npm packages. Empty for anything that is not a container.
     var children: [ToolChild] = []

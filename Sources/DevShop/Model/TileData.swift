@@ -15,6 +15,8 @@ struct TileData: Identifiable, Equatable, Sendable {
     var name: String
     /// Secondary line under the name, e.g. `3.11.6 · pyenv`.
     var subtitle: String
+    /// The bare version number, or `nil` when nothing on disk states one.
+    var version: String?
     /// `path`, already run through `Probes.abbreviate`. `nil` when the tool has no path.
     var displayPath: String?
     var managedBy: String
@@ -35,6 +37,7 @@ struct TileData: Identifiable, Equatable, Sendable {
         self.id = tool.id
         self.name = tool.name
         self.subtitle = tool.subtitle
+        self.version = tool.version
         self.displayPath = tool.path.map(Probes.abbreviate)
         self.managedBy = tool.managedBy
         self.status = tool.status

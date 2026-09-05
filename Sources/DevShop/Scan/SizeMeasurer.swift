@@ -76,7 +76,10 @@ actor SizeMeasurer {
     /// reports, and stays on one volume so a mounted image under a scanned directory is
     /// not counted.
     nonisolated static func allocatedSize(ofDirectory path: String) -> Int64 {
-        let url = URL(fileURLWithPath: path)
+        // Resolve the root first. `clang++` is a symlink to `clang`, and a symlink reports
+        // itself as neither a regular file nor a directory, so an unresolved root measured
+        // zero and the tool looked like it had no footprint at all.
+        let url = URL(fileURLWithPath: path).resolvingSymlinksInPath()
         let rootKeys: Set<URLResourceKey> = [
             .totalFileAllocatedSizeKey, .fileAllocatedSizeKey,
             .isRegularFileKey, .isDirectoryKey, .volumeIdentifierKey
