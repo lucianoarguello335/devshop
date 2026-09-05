@@ -11,6 +11,17 @@ import SwiftUI
 ///
 /// The fix is to hide the strip outright and let `WindowControls` draw the close, minimise
 /// and zoom buttons in the header instead, which is also what the design does.
+/// Whether the app's window is currently full screen.
+///
+/// The header draws its own traffic lights, so it has to ask AppKit rather than being told.
+@MainActor
+enum FullScreen {
+    static var isActive: Bool {
+        let window = NSApp.keyWindow ?? NSApp.mainWindow ?? NSApp.windows.first
+        return window?.styleMask.contains(.fullScreen) ?? false
+    }
+}
+
 /// What a double-click on the title bar should do.
 ///
 /// AppKit's title bar normally provides this, but DevShop hides it so the header can own
@@ -97,6 +108,7 @@ struct WindowChrome: NSViewRepresentable {
             for name: NSNotification.Name in [
                 NSWindow.didEndLiveResizeNotification,
                 NSWindow.didBecomeKeyNotification,
+                NSWindow.didEnterFullScreenNotification,
                 NSWindow.didExitFullScreenNotification
             ] {
                 NotificationCenter.default.addObserver(
@@ -125,6 +137,10 @@ struct WindowChrome: NSViewRepresentable {
             guard let window else { return }
 
             window.styleMask.insert(.fullSizeContentView)
+            // Hiding the title bar strip also took the zoom button with it, and AppKit reads
+            // that button to decide whether a window can go full screen. Ask for it outright
+            // so the green button in the header, the View menu and the F-key all work.
+            window.collectionBehavior.insert(.fullScreenPrimary)
             window.titleVisibility = .hidden
             window.titlebarAppearsTransparent = true
             window.titlebarSeparatorStyle = .none
@@ -141,7 +157,9 @@ struct WindowChrome: NSViewRepresentable {
             // SwiftUI sizes the window to fit its (greedy) content some time after the view
             // lands in it, so the design's size has to be applied after that pass rather
             // than during attach. Only on a first run — a remembered frame wins.
-            if !hasSavedFrame && !didApplyDefaultFrame {
+            // Nothing to size or centre while the window owns the whole screen, and doing it
+            // there would fight the full-screen transition.
+            if !hasSavedFrame && !didApplyDefaultFrame && !window.styleMask.contains(.fullScreen) {
                 didApplyDefaultFrame = true
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak window] in
                     guard let window else { return }
