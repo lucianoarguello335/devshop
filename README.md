@@ -143,14 +143,12 @@ sizes, and `make appicon` packs two `.icns` files: a light tile with deep swatch
 dark tile with bright ones. Both come from the same geometry, so nothing shifts position
 between them; only the tile colour and the nine swatch values differ.
 
-**The Dock icon follows the window, not the system.** A bundle names one
-`CFBundleIconFile`, so `DevShop.icns` is what Finder and the Dock show before launch. Once
-running, `UI/Chrome/DockIcon.swift` sets `applicationIconImage` from the same appearance
-`RootWindow` draws with — which means the icon tracks the title bar's light/dark switch as
-well as the system setting. An Icon Composer `.icon` file was the obvious alternative and
-does not work here: its dark rendition paints a system background instead of the
-document's own fill, and layer artwork cannot vary by appearance at all, only by platform.
-Two icons that differ in both tile *and* contents cannot be expressed in one.
+**One icon, everywhere.** A bundle names a single `CFBundleIconFile` and macOS never
+varies it by appearance, so the dark tile is what Finder, the Dock at rest, and the running
+app all show. An earlier version swapped `applicationIconImage` at launch to match the
+window's appearance; the result was an app whose icon changed the moment it opened, which
+is not how macOS apps behave. The light `.icns` is still generated — same geometry, light
+palette — but it is not shipped in the bundle.
 
 **Icons are vector paths, not images.** `Scripts/fetch-icons.sh` pulls each brand mark from
 Simple Icons and keeps only its single SVG `<path>` in `icons.json`. `SVGPath.swift` renders
