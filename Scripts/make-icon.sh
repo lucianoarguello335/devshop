@@ -1,9 +1,9 @@
 #!/bin/bash
 # Builds the two app icons from Scripts/render-appicon.swift.
 #
-# macOS resolves one .icns per bundle, so the light icon is the one Finder and the Dock
-# show before launch; the running app swaps in the dark one when the appearance is dark
-# (see UI/Chrome/DockIcon.swift).
+# macOS resolves one .icns per bundle and never varies it by appearance, so the dark icon
+# is the one that ships (see Scripts/make-app.sh). The light icon is still rendered here —
+# it is the same geometry in the light palette, and docs/icon-light.png uses it.
 set -euo pipefail
 
 cd "$(dirname "$0")/.."
