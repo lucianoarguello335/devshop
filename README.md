@@ -41,6 +41,11 @@ would mean well over a hundred process spawns per scan. Reading `Cellar/<formula
 and `Contents/Info.plist` gives the same versions for almost every tool, instantly, with no
 shell involved.
 
+**A binary in a shared bin directory is measured, not skipped.** Walking `/usr/bin` would
+attribute every neighbour to one tool, so tools there used to report no footprint at all. They
+now measure the executable itself and say so: the inspector labels it `binary only`, because
+the number is real but covers the binary and not the toolchain it shares.
+
 **Sizes are measured on Refresh, not on launch.** Walking `/Applications/Xcode.app` and the
 Homebrew Cellar means visiting hundreds of thousands of files. That work runs only when you
 press Refresh (and once on a first launch), streams results in as each root finishes, and

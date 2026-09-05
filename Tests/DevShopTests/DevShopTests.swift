@@ -422,3 +422,21 @@ struct TileDataTests {
         #expect(before != TileData(tool: source, bytes: 100, findingTier: .info))
     }
 }
+
+extension SizeMeasurementTests {
+    @Test("a symlinked root measures the file it points at")
+    func followsSymlink() throws {
+        let fm = FileManager.default
+        let root = fm.temporaryDirectory
+            .appendingPathComponent("devshop-link-\(UUID().uuidString)")
+        try fm.createDirectory(at: root, withIntermediateDirectories: true)
+        defer { try? fm.removeItem(at: root) }
+
+        let real = root.appendingPathComponent("clang")
+        try Data(repeating: 0, count: 40_000).write(to: real)
+        let link = root.appendingPathComponent("clang++")
+        try fm.createSymbolicLink(at: link, withDestinationURL: real)
+
+        #expect(SizeMeasurer.allocatedSize(ofDirectory: link.path) >= 40_000)
+    }
+}

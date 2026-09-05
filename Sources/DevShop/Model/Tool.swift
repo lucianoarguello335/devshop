@@ -59,6 +59,10 @@ struct DetectedTool: Sendable, Identifiable, Equatable {
     /// Directory measured by the size pass. `nil` means the tool has no measurable footprint
     /// of its own (a system binary, or a shim that points elsewhere).
     var measurableRoot: String?
+    /// True when `measurableRoot` is a single executable in a shared bin directory rather
+    /// than a directory of its own. The measurement is real but partial: it covers the
+    /// binary, not the libraries it shares with everything else in that prefix.
+    var measuresBinaryOnly: Bool = false
     /// What lives inside this tile — the formulae in the Cellar, the casks in the Caskroom,
     /// the globally installed npm packages. Empty for anything that is not a container.
     var children: [ToolChild] = []

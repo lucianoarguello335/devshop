@@ -76,6 +76,7 @@ actor EnvironmentScanner {
             guard let path = Probes.findExecutable(names) else { return nil }
             // A resolved Homebrew shim lands inside the Cellar, which carries the version.
             let version = brew.formulae.values.first { path.hasPrefix($0.path) }?.version
+            let root = measurableRoot(for: path)
             return DetectedTool(
                 id: definition.id,
                 definition: definition,
@@ -83,7 +84,8 @@ actor EnvironmentScanner {
                 subtitle: version ?? sourceLabel(for: path),
                 path: path,
                 managedBy: managerLabel(for: path),
-                measurableRoot: measurableRoot(for: path)
+                measurableRoot: root.path,
+                measuresBinaryOnly: root.isBinaryOnly
             )
 
         case .brewFormula(let name):
@@ -138,7 +140,8 @@ actor EnvironmentScanner {
                 subtitle: version ?? sourceLabel(for: full),
                 path: full,
                 managedBy: managerLabel(for: full),
-                measurableRoot: Probes.isDirectory(full) ? full : nil
+                measurableRoot: Probes.isDirectory(full) ? full : measurableRoot(for: full).path,
+                measuresBinaryOnly: !Probes.isDirectory(full) && measurableRoot(for: full).isBinaryOnly
             )
 
         case .versionManager:
@@ -201,13 +204,16 @@ actor EnvironmentScanner {
     /// The directory the size pass should measure, or `nil` for things with no footprint
     /// of their own. A bare executable in a shared bin directory is not measurable —
     /// walking `/usr/bin` would attribute the whole directory to one tool.
-    private func measurableRoot(for path: String) -> String? {
+    private func measurableRoot(for path: String) -> (path: String?, isBinaryOnly: Bool) {
         let shared = ["/usr/bin", "/bin", "/usr/sbin", "/sbin",
                       "/opt/homebrew/bin", "/usr/local/bin",
                       "/Library/Developer/CommandLineTools/usr/bin"]
         let parent = (path as NSString).deletingLastPathComponent
-        if shared.contains(parent) { return nil }
-        return Probes.isDirectory(path) ? path : parent
+        // Measure the executable itself rather than nothing. Walking the whole shared bin
+        // directory would attribute every neighbour to this one tool, but the binary's own
+        // allocated size is a real number and beats a blank cell.
+        if shared.contains(parent) { return (path, true) }
+        return (Probes.isDirectory(path) ? path : parent, false)
     }
 
     // MARK: - Post-pass
