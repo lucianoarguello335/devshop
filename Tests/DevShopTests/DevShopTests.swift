@@ -546,3 +546,517 @@ extension VersionReaderTests {
         #expect(VersionReaders.configScriptVersion(command: "curl", near: nil) == nil)
     }
 }
+
+// MARK: - Shell config parsing
+
+@Suite("Shell config parsing")
+struct ShellConfigParsingTests {
+    private func parse(_ text: String, stage: LoadStage = .userRC) -> [ConfigEntry] {
+        ShellConfigReader.parse(text, file: "~/.zshrc", stage: stage, home: "/Users/tester")
+    }
+
+    private func entry(_ entries: [ConfigEntry], _ id: String) -> ConfigEntry? {
+        entries.first { $0.id == id }
+    }
+
+    @Test("an export becomes an environment entry")
+    func export() {
+        let entries = parse("export EDITOR=nvim")
+        #expect(entries.count == 1)
+        #expect(entries.first?.kind == .environment)
+        #expect(entries.first?.name == "EDITOR")
+        #expect(entries.first?.rawValue == "nvim")
+        #expect(entries.first?.origins.first?.line == 1)
+    }
+
+    @Test("a bare assignment counts, but a conditional does not")
+    func bareAssignment() {
+        #expect(parse("LANG=en_US.UTF-8").first?.name == "LANG")
+        #expect(parse("[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh").first?.kind == .source)
+    }
+
+    @Test("quotes are stripped from values")
+    func quotes() {
+        #expect(parse(#"export ZSH="$HOME/.oh-my-zsh""#).first?.rawValue == "$HOME/.oh-my-zsh")
+        #expect(parse("export A='b c'").first?.rawValue == "b c")
+    }
+
+    @Test("comments are ignored, whole-line and trailing")
+    func comments() {
+        let entries = parse("""
+        # export NOPE=1
+        export YES=1 # trailing note
+        """)
+        #expect(entries.count == 1)
+        #expect(entries.first?.name == "YES")
+        #expect(entries.first?.rawValue == "1")
+    }
+
+    @Test("a hash inside a value is not a comment")
+    func hashInValue() {
+        #expect(parse(##"export COLOR="#ff9f0a""##).first?.rawValue == "#ff9f0a")
+    }
+
+    @Test("a PATH assignment becomes one entry per new directory")
+    func pathSplit() {
+        let entries = parse(#"export PATH="$HOME/bin:/opt/tools/bin:$PATH""#)
+        #expect(entries.count == 2)
+        #expect(entries.allSatisfy { $0.kind == .path })
+        // $HOME is resolved against the injected home and abbreviated straight back.
+        #expect(entry(entries, "path.~/bin") != nil)
+        #expect(entry(entries, "path./opt/tools/bin") != nil)
+    }
+
+    @Test("the carried-forward $PATH is not an entry of its own")
+    func pathCarryOver() {
+        #expect(parse("export PATH=$JAVA_HOME/bin:$PATH").count == 1)
+        #expect(parse("export PATH=$PATH").isEmpty)
+    }
+
+    @Test("an eval hook is named by the command it runs")
+    func evalHook() {
+        let entries = parse(#"eval "$(/opt/homebrew/bin/brew shellenv)""#)
+        #expect(entries.first?.kind == .initHook)
+        #expect(entries.first?.name == "brew shellenv")
+        #expect(entries.first?.rawValue == "/opt/homebrew/bin/brew shellenv")
+    }
+
+    @Test("source is recognised plainly and behind a guard")
+    func sources() {
+        #expect(parse("source ~/.aliases").first?.kind == .source)
+        #expect(parse("source ~/.aliases").first?.name == "~/.aliases")
+        let guarded = parse(#"[ -s "/opt/nvm/nvm.sh" ] && \. "/opt/nvm/nvm.sh""#)
+        #expect(guarded.first?.kind == .source)
+        #expect(guarded.first?.name == "/opt/nvm/nvm.sh")
+    }
+
+    @Test("two sourced files with the same basename stay separate")
+    func sourceIdentity() {
+        var merged: [ConfigEntry] = []
+        ShellConfigReader.merge(parse("source /opt/a/nvm.sh"), into: &merged)
+        ShellConfigReader.merge(parse("source /opt/b/nvm.sh"), into: &merged)
+        #expect(merged.count == 2)
+    }
+
+    @Test("aliases, options and framework settings are classified")
+    func otherKinds() {
+        #expect(parse("alias gs='git status'").first?.kind == .alias)
+        #expect(parse("alias gs='git status'").first?.rawValue == "git status")
+        #expect(parse("setopt COMBINING_CHARS").first?.kind == .option)
+        #expect(parse("zmodload zsh/zprof").first?.kind == .option)
+        #expect(parse("ZSH_THEME=robbyrussell").first?.kind == .framework)
+        #expect(parse("typeset -g POWERLEVEL9K_MODE=ascii").first?.kind == .option)
+    }
+
+    @Test("a function is recorded and its body is not parsed")
+    func functionBody() {
+        let entries = parse("""
+        greet() {
+          export INSIDE=1
+          alias hidden=nope
+        }
+        export OUTSIDE=1
+        """)
+        #expect(entries.map(\.kind) == [.function, .environment])
+        #expect(entry(entries, "environment.INSIDE") == nil)
+        #expect(entry(entries, "environment.OUTSIDE") != nil)
+    }
+
+    @Test("a multi-line array is one declaration, not several")
+    func multiLineArray() {
+        let entries = parse("""
+        plugins=(
+          git
+          docker
+        )
+        export AFTER=1
+        """)
+        #expect(entries.count == 2)
+        #expect(entry(entries, "framework.plugins")?.rawValue == "(git docker)")
+        #expect(entry(entries, "environment.AFTER") != nil)
+    }
+
+    @Test("a line continuation is joined into one directive")
+    func continuation() {
+        let entries = parse("""
+        export LONG=one\\
+        two
+        """)
+        #expect(entries.count == 1)
+        #expect(entries.first?.rawValue == "one two")
+    }
+
+    @Test("a path list file is read as plain directories")
+    func pathListFile() {
+        let entries = ShellConfigReader.parsePathList("""
+        /usr/local/bin
+        # a comment
+
+        /usr/bin
+        """, file: "/etc/paths", stage: .pathHelper, home: "/Users/tester")
+        #expect(entries.count == 2)
+        #expect(entries.allSatisfy { $0.kind == .path })
+        #expect(entries.first?.origins.first?.line == 1)
+        #expect(entries.last?.origins.first?.line == 4)
+    }
+
+    @Test("repeat declarations merge into one entry in load order")
+    func merging() {
+        var merged: [ConfigEntry] = []
+        ShellConfigReader.merge(
+            ShellConfigReader.parse("export JAVA_HOME=/jdk-21", file: "~/.zprofile",
+                                    stage: .userProfile, home: "/Users/tester"),
+            into: &merged)
+        ShellConfigReader.merge(
+            ShellConfigReader.parse("export JAVA_HOME=/jdk-22", file: "~/.zshrc",
+                                    stage: .userRC, home: "/Users/tester"),
+            into: &merged)
+        #expect(merged.count == 1)
+        let entry = try! #require(merged.first)
+        #expect(entry.origins.count == 2)
+        #expect(entry.isDuplicated)
+        #expect(entry.hasConflictingOrigins)
+        // The last declaration is the one the shell ends up with.
+        #expect(entry.rawValue == "/jdk-22")
+        #expect(entry.lastOrigin?.file == "~/.zshrc")
+    }
+
+    @Test("a repeat of the same value is not a conflict")
+    func repeatedSameValue() {
+        var merged: [ConfigEntry] = []
+        for file in ["~/.zprofile", "~/.zshrc"] {
+            ShellConfigReader.merge(
+                ShellConfigReader.parse("export A=1", file: file, stage: .userRC,
+                                        home: "/Users/tester"),
+                into: &merged)
+        }
+        #expect(merged.first?.isDuplicated == true)
+        #expect(merged.first?.hasConflictingOrigins == false)
+    }
+}
+
+// MARK: - Secrets
+
+@Suite("Config secrets")
+struct ConfigSecretTests {
+    @Test("a credential-shaped name is treated as a secret")
+    func secretNames() {
+        #expect(ShellConfigReader.isSecret(name: "GEMINI_API_KEY", value: "abc123"))
+        #expect(ShellConfigReader.isSecret(name: "GITHUB_TOKEN", value: "abc123"))
+        #expect(ShellConfigReader.isSecret(name: "DB_PASSWORD", value: "hunter2"))
+        #expect(!ShellConfigReader.isSecret(name: "EDITOR", value: "nvim"))
+        #expect(!ShellConfigReader.isSecret(name: "LANG", value: "en_US.UTF-8"))
+    }
+
+    @Test("a path is a location, not the secret itself")
+    func locationsAreNotSecrets() {
+        #expect(!ShellConfigReader.isSecret(name: "SSH_KEY_PATH", value: "~/.ssh/id_ed25519"))
+        #expect(!ShellConfigReader.isSecret(name: "AWS_CA_BUNDLE", value: "/certs/ca.crt"))
+        #expect(!ShellConfigReader.isSecret(name: "API_KEY", value: "$(pass show api)"))
+    }
+
+    @Test("known key shapes are caught whatever they are called")
+    func secretValues() {
+        #expect(ShellConfigReader.looksLikeSecretValue("ghp_0123456789abcdefghijklmnop"))
+        #expect(ShellConfigReader.looksLikeSecretValue("AIzaSyA9yl7JYutmi1OGoUICoqyv9itUHMDp"))
+        #expect(!ShellConfigReader.looksLikeSecretValue("en_US.UTF-8"))
+        #expect(!ShellConfigReader.looksLikeSecretValue("dxfxcxdxbxegedabagacad"))
+    }
+
+    @Test("masking keeps the ends and hides the middle")
+    func masking() {
+        let masked = ShellConfigReader.mask("AIzaSyA9yl7JYutmiDpdA")
+        #expect(masked.hasPrefix("AIza"))
+        #expect(masked.hasSuffix("DpdA"))
+        #expect(!masked.contains("SyA9yl7"))
+        // A short value gives nothing away at all.
+        #expect(!ShellConfigReader.mask("short").contains("s"))
+    }
+
+    @Test("a parsed secret is masked for display but kept for reveal")
+    func parsedSecret() {
+        let entries = ShellConfigReader.parse("export MY_API_KEY=ghp_0123456789abcdefghijkl",
+                                              file: "~/.zshrc", stage: .userRC,
+                                              home: "/Users/tester")
+        let entry = try! #require(entries.first)
+        #expect(entry.isSecret)
+        #expect(entry.displayValue != entry.rawValue)
+        #expect(entry.rawValue == "ghp_0123456789abcdefghijkl")
+        #expect(entry.summary == "Secret value, hidden")
+    }
+}
+
+// MARK: - Config rules
+
+@Suite("Config rules")
+struct ConfigRulesTests {
+    private func snapshot(_ text: String,
+                          stage: LoadStage = .userRC,
+                          file: String = "~/.zshrc",
+                          stale: [String] = [],
+                          writable: [String] = []) -> ShellConfigSnapshot {
+        var merged: [ConfigEntry] = []
+        ShellConfigReader.merge(
+            ShellConfigReader.parse(text, file: file, stage: stage, home: Probes.home),
+            into: &merged)
+        return ShellConfigSnapshot(shell: "/bin/zsh",
+                                   entries: merged,
+                                   filesRead: [],
+                                   terminals: [],
+                                   staleFiles: stale,
+                                   writableFiles: writable)
+    }
+
+    private func finding(_ config: ShellConfigSnapshot, id: String) -> Finding? {
+        ConfigRules.evaluate(config: config, tools: []).first { $0.id == id }
+    }
+
+    @Test("an empty chain produces nothing")
+    func empty() {
+        #expect(ConfigRules.evaluate(config: .empty, tools: []).isEmpty)
+    }
+
+    @Test("a plaintext secret is an error naming the file and line")
+    func secret() {
+        let config = snapshot("export MY_API_KEY=ghp_0123456789abcdefghijkl")
+        let found = try! #require(finding(config, id: "config.secret.MY_API_KEY"))
+        #expect(found.tier == .error)
+        #expect(found.detail.contains("~/.zshrc:1"))
+        #expect(found.toolIDs == ["environment.MY_API_KEY"])
+        // The finding must never carry the value it is warning about.
+        #expect(!found.detail.contains("ghp_0123456789abcdefghijkl"))
+    }
+
+    @Test("a PATH entry pointing nowhere is a warning")
+    func missingPath() {
+        let config = snapshot("export PATH=/definitely/not/here/bin:$PATH")
+        let found = try! #require(finding(config, id: "config.path.missing"))
+        #expect(found.tier == .warning)
+        #expect(found.detail.contains("/definitely/not/here/bin"))
+    }
+
+    @Test("a missing PATH entry in a system file is left alone")
+    func missingPathSystemFile() {
+        let config = snapshot("/definitely/not/here/bin", stage: .pathHelper, file: "/etc/paths")
+        // Parsed as shell text this is not an assignment, so build the entry directly.
+        let entries = ShellConfigReader.parsePathList("/definitely/not/here/bin",
+                                                      file: "/etc/paths",
+                                                      stage: .pathHelper,
+                                                      home: Probes.home)
+        var system = config
+        system.entries = entries
+        #expect(finding(system, id: "config.path.missing") == nil)
+    }
+
+    @Test("a directory added to PATH twice is a note")
+    func duplicatePath() {
+        var config = snapshot("export PATH=/usr/local/bin:$PATH")
+        ShellConfigReader.merge(
+            ShellConfigReader.parse("export PATH=/usr/local/bin:$PATH", file: "~/.zprofile",
+                                    stage: .userProfile, home: Probes.home),
+            into: &config.entries)
+        let found = try! #require(finding(config, id: "config.path.duplicate"))
+        #expect(found.tier == .info)
+    }
+
+    @Test("PATH built in .zshrc is called out once, not once per directory")
+    func pathInRC() {
+        let config = snapshot("export PATH=/a/bin:/b/bin:/c/bin:$PATH")
+        let all = ConfigRules.evaluate(config: config, tools: [])
+        #expect(all.count { $0.id == "config.path.inrc" } == 1)
+        #expect(finding(config, id: "config.path.inrc")?.tier == .info)
+    }
+
+    @Test("a single PATH line in .zshrc is not worth mentioning")
+    func onePathInRCIsFine() {
+        #expect(finding(snapshot("export PATH=/a/bin:$PATH"), id: "config.path.inrc") == nil)
+    }
+
+    @Test("sourcing a file that is not there is a warning")
+    func missingSource() {
+        let found = try! #require(finding(snapshot("source /definitely/not/here.zsh"),
+                                          id: "config.source.missing"))
+        #expect(found.tier == .warning)
+    }
+
+    @Test("a source path holding a variable is not judged")
+    func unresolvableSource() {
+        #expect(finding(snapshot("source $ZSH/oh-my-zsh.sh"), id: "config.source.missing") == nil)
+    }
+
+    @Test("profiling left on is a warning, unless a report is printed")
+    func profiling() {
+        #expect(finding(snapshot("zmodload zsh/zprof"), id: "config.zprof")?.tier == .warning)
+        let reported = snapshot("""
+        zmodload zsh/zprof
+        zprof
+        """)
+        #expect(finding(reported, id: "config.zprof") == nil)
+    }
+
+    @Test("slow hooks are grouped into one note once there are two")
+    func slowHooks() {
+        let one = snapshot(#"eval "$(pyenv init -)""#)
+        #expect(finding(one, id: "config.slow") == nil)
+        let two = snapshot("""
+        eval "$(pyenv init -)"
+        eval "$(rbenv init -)"
+        """)
+        #expect(finding(two, id: "config.slow")?.tier == .info)
+    }
+
+    @Test("a variable pointing at a location that is gone is a warning")
+    func dangling() {
+        let found = try! #require(finding(snapshot("export JAVA_HOME=/no/such/jdk"),
+                                          id: "config.dangling"))
+        #expect(found.tier == .warning)
+        #expect(found.detail.contains("JAVA_HOME"))
+        #expect(finding(snapshot("export JAVA_HOME=/usr"), id: "config.dangling") == nil)
+    }
+
+    @Test("two files disagreeing about a value is a warning")
+    func conflict() {
+        var config = snapshot("export EDITOR=vim", stage: .userProfile, file: "~/.zprofile")
+        ShellConfigReader.merge(
+            ShellConfigReader.parse("export EDITOR=nvim", file: "~/.zshrc",
+                                    stage: .userRC, home: Probes.home),
+            into: &config.entries)
+        let found = try! #require(finding(config, id: "config.conflict.EDITOR"))
+        #expect(found.tier == .warning)
+        #expect(found.detail.contains("~/.zprofile:1"))
+        #expect(found.detail.contains("~/.zshrc:1"))
+    }
+
+    @Test("leftover config files and loose permissions are reported")
+    func filesAroundTheChain() {
+        let config = snapshot("export A=1",
+                              stale: ["~/.zshrc.bak"],
+                              writable: ["~/.zshrc"])
+        #expect(finding(config, id: "config.stale")?.tier == .info)
+        #expect(finding(config, id: "config.permissions")?.tier == .warning)
+    }
+
+    @Test("config findings reach the health score through the shared engine")
+    func reachesHealthScore() {
+        let config = snapshot("export MY_API_KEY=ghp_0123456789abcdefghijkl")
+        let findings = FindingsEngine.evaluate(tools: [], homebrew: .none, config: config)
+        #expect(findings.contains { $0.id == "config.secret.MY_API_KEY" })
+        #expect(findings.healthScore < 100)
+    }
+}
+
+// MARK: - Files around the startup chain
+
+@Suite("Startup chain files")
+struct StartupChainFileTests {
+    @Test("backup copies are found and the live files are left alone")
+    func staleFiles() throws {
+        let root = FileManager.default.temporaryDirectory
+            .appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: root) }
+
+        for name in [".zshrc", ".zshrc.pre-oh-my-zsh", ".bash_profile copy",
+                     ".bash_profile.pysave", ".zprofile", "notes.txt"] {
+            try "".write(to: root.appendingPathComponent(name), atomically: true, encoding: .utf8)
+        }
+        let stale = ShellConfigReader.staleFiles(home: root.path)
+        #expect(stale == ["~/.bash_profile copy", "~/.bash_profile.pysave",
+                          "~/.zshrc.pre-oh-my-zsh"])
+    }
+
+    @Test("a file others can write is reported, a private one is not")
+    func writableFiles() throws {
+        let root = FileManager.default.temporaryDirectory
+            .appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: root) }
+
+        let loose = root.appendingPathComponent(".zshrc")
+        let tight = root.appendingPathComponent(".zprofile")
+        for url in [loose, tight] {
+            try "".write(to: url, atomically: true, encoding: .utf8)
+        }
+        try FileManager.default.setAttributes([.posixPermissions: 0o646],
+                                              ofItemAtPath: loose.path)
+        try FileManager.default.setAttributes([.posixPermissions: 0o600],
+                                              ofItemAtPath: tight.path)
+
+        let writable = ShellConfigReader.writableFiles([loose.path, tight.path], home: root.path)
+        #expect(writable == ["~/.zshrc"])
+    }
+
+    @Test("the chain is read in load order and a sourced file contributes only environment")
+    func readsChainInOrder() throws {
+        let root = FileManager.default.temporaryDirectory
+            .appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: root) }
+
+        let extra = root.appendingPathComponent("extra.zsh")
+        try """
+        export FROM_SOURCED=1
+        setopt NOISE
+        """.write(to: extra, atomically: true, encoding: .utf8)
+        try """
+        export FROM_RC=1
+        source \(extra.path)
+        """.write(to: root.appendingPathComponent(".zshrc"), atomically: true, encoding: .utf8)
+        try "export FROM_PROFILE=1\n"
+            .write(to: root.appendingPathComponent(".zprofile"), atomically: true, encoding: .utf8)
+
+        let config = ShellConfigReader.read(home: root.path,
+                                            environment: ["ZDOTDIR": root.path])
+        #expect(config.entry(id: "environment.FROM_PROFILE") != nil)
+        #expect(config.entry(id: "environment.FROM_RC") != nil)
+        #expect(config.entry(id: "environment.FROM_SOURCED") != nil)
+        // A sourced file's own options are its business, not the user's configuration.
+        #expect(config.entry(id: "option.setopt NOISE") == nil)
+
+        let stages = config.filesRead.map(\.stage)
+        #expect(stages == stages.sorted())
+        #expect(config.filesRead.contains { $0.stage == .sourced })
+    }
+}
+
+// MARK: - Config groups
+
+@Suite("Config groups")
+@MainActor
+struct ConfigGroupTests {
+    @Test("every kind carries its own explanation")
+    func explanations() {
+        let all = ConfigEntryKind.allCases.map(\.explanation)
+        for (kind, text) in zip(ConfigEntryKind.allCases, all) {
+            #expect(!text.isEmpty, "\(kind.rawValue) has no explanation")
+            #expect(text.hasSuffix("."), "\(kind.rawValue) does not read as a sentence")
+        }
+        // A copy-paste between two cases would go unnoticed otherwise.
+        #expect(Set(all).count == all.count)
+    }
+
+    @Test("every group starts collapsed")
+    func collapsedByDefault() {
+        let model = AppModel()
+        #expect(ConfigEntryKind.allCases.allSatisfy { !model.isExpanded($0) })
+    }
+
+    @Test("toggling opens one group and leaves the rest alone")
+    func toggle() {
+        let model = AppModel()
+        model.toggleConfigGroup(.path)
+        #expect(model.isExpanded(.path))
+        #expect(!model.isExpanded(.environment))
+        model.toggleConfigGroup(.path)
+        #expect(!model.isExpanded(.path))
+    }
+
+    @Test("a search shows matching rows whatever the collapse state, and restores it after")
+    func searchOverridesCollapse() {
+        let model = AppModel()
+        model.query = "libpq"
+        #expect(ConfigEntryKind.allCases.allSatisfy { model.isExpanded($0) })
+        model.query = "   "
+        #expect(ConfigEntryKind.allCases.allSatisfy { !model.isExpanded($0) })
+    }
+}

@@ -18,6 +18,11 @@ struct ContentColumn: View {
                             .id(panel.category.rawValue)
                     }
 
+                    if model.showConfigSection {
+                        ConfigSection(model: model)
+                            .id(AppModel.configSectionID)
+                    }
+
                     if model.showFindingsSection {
                         FindingsSection(findings: model.filteredFindings,
                                         summary: model.findings.tally,

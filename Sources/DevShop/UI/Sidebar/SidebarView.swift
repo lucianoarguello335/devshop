@@ -47,6 +47,15 @@ struct SidebarView: View {
                         )
                     }
                     PanelToggleRow(
+                        symbol: "list.bullet.indent",
+                        title: "Terminal Config",
+                        count: model.shellConfig.entries.count,
+                        isOn: model.configPanelVisible,
+                        accent: Color(hex: "64d2ff"),
+                        select: { model.revealConfig() },
+                        toggle: { model.configPanelVisible.toggle() }
+                    )
+                    PanelToggleRow(
                         symbol: "exclamationmark.triangle.fill",
                         title: "Findings",
                         count: model.findings.count,

@@ -16,7 +16,9 @@ enum Diagnostics {
 
     static func run() async {
         let result = await EnvironmentScanner().scan(catalog: Catalog.all)
-        let findings = FindingsEngine.evaluate(tools: result.tools, homebrew: result.homebrew)
+        let findings = FindingsEngine.evaluate(tools: result.tools,
+                                               homebrew: result.homebrew,
+                                               config: result.shellConfig)
         let info = SystemInfoReader.read()
 
         print("\(info.hardwareLine) · \(info.chipLine) · \(info.osLine)")
@@ -36,6 +38,28 @@ enum Diagnostics {
             }
             print("")
         }
+
+        let config = result.shellConfig
+        print("Terminal Config (\(config.meta)) · shell \(config.shell)")
+        print("  terminals: " + config.terminals
+            .map { "\($0.name) \($0.versionLine)" }.joined(separator: ", "))
+        for file in config.filesRead {
+            print("  read " + pad(file.file, 34) + "\(file.line) lines · \(file.stage.label)")
+        }
+        for kind in ConfigEntryKind.allCases {
+            let members = config.entries.filter { $0.kind == kind }
+            guard !members.isEmpty else { continue }
+            print("  \(kind.groupTitle) (\(members.count))")
+            for entry in members {
+                let marks = (entry.isSecret ? " [secret]" : "")
+                    + (entry.isDuplicated ? " [x\(entry.origins.count)]" : "")
+                print("     " + pad(entry.name, 30)
+                    + pad(String(entry.displayValue.prefix(44)), 46)
+                    + (entry.lastOrigin?.location ?? "") + marks)
+            }
+        }
+        if !config.staleFiles.isEmpty { print("  stale: \(config.staleFiles.joined(separator: ", "))") }
+        print("")
 
         print("Contents")
         for tool in result.tools where !tool.children.isEmpty {
@@ -60,7 +84,8 @@ enum Diagnostics {
                                          homebrew: result.homebrew, system: info,
                                          sizes: cache.bytesByToolID,
                                          measuredAt: cache.measuredAt,
-                                         applications: result.applications)))
+                                         applications: result.applications,
+                                         shellConfig: result.shellConfig)))
             return
         }
 
@@ -68,7 +93,8 @@ enum Diagnostics {
             let cache = SizeCache.load()
             print(FindingsPrompt.build(findings: findings, tools: result.tools,
                                        homebrew: result.homebrew, system: info,
-                                       sizes: cache.bytesByToolID))
+                                       sizes: cache.bytesByToolID,
+                                       config: result.shellConfig))
             return
         }
 

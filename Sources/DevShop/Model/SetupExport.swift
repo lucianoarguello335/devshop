@@ -21,6 +21,42 @@ enum SetupExport {
         /// Every bundle in /Applications, whether or not DevShop recognises it as a dev
         /// tool. Sizes are omitted — measuring them would stall the export.
         var applications: [Application]
+        /// What the login shell loads at startup. Secret values are exported masked, never
+        /// raw — an export is the most likely thing to be pasted somewhere public.
+        var terminalConfig: TerminalConfig
+    }
+
+    struct TerminalConfig: Encodable {
+        var shell: String
+        var files: [File]
+        var entries: [Entry]
+        var terminals: [Terminal]
+        var staleFiles: [String]
+        var writableFiles: [String]
+
+        struct File: Encodable {
+            var path: String
+            var lines: Int
+            var stage: String
+        }
+
+        struct Entry: Encodable {
+            var id: String
+            var kind: String
+            var name: String
+            var value: String
+            var isSecret: Bool
+            var declaredIn: [String]
+        }
+
+        struct Terminal: Encodable {
+            var name: String
+            var version: String?
+            var build: String?
+            var bundleIdentifier: String
+            var path: String
+            var configPaths: [String]
+        }
     }
 
     struct Machine: Encodable {
@@ -114,6 +150,7 @@ enum SetupExport {
         var sizes: [String: Int64]
         var measuredAt: Date
         var applications: [InstalledApplication]
+        var shellConfig: ShellConfigSnapshot = .empty
     }
 
     static func json(_ input: Input, now: Date = .now) -> String {
@@ -208,7 +245,33 @@ enum SetupExport {
                 Application(name: $0.name, version: $0.version, build: $0.build,
                             bundleIdentifier: $0.bundleIdentifier, path: $0.path,
                             modifiedAt: $0.modifiedAt, source: $0.source.rawValue)
-            }
+            },
+            terminalConfig: terminalConfig(input.shellConfig)
         )
+    }
+
+    private static func terminalConfig(_ config: ShellConfigSnapshot) -> TerminalConfig {
+        TerminalConfig(
+            shell: config.shell,
+            files: config.filesRead.map {
+                .init(path: $0.file, lines: $0.line, stage: $0.stage.label)
+            },
+            entries: config.entries.map {
+                // `displayValue`, never `rawValue`: a masked secret stays masked here. An
+                // export is the most likely thing to be pasted into an issue or a chat.
+                .init(id: $0.id,
+                      kind: $0.kind.rawValue,
+                      name: $0.name,
+                      value: $0.displayValue,
+                      isSecret: $0.isSecret,
+                      declaredIn: $0.origins.map(\.location))
+            },
+            terminals: config.terminals.map {
+                .init(name: $0.name, version: $0.version, build: $0.build,
+                      bundleIdentifier: $0.bundleIdentifier, path: $0.path,
+                      configPaths: $0.configPaths)
+            },
+            staleFiles: config.staleFiles,
+            writableFiles: config.writableFiles)
     }
 }

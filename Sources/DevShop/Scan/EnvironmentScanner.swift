@@ -10,6 +10,7 @@ actor EnvironmentScanner {
         var tools: [DetectedTool]
         var homebrew: HomebrewSummary
         var applications: [InstalledApplication]
+        var shellConfig: ShellConfigSnapshot
     }
 
     struct HomebrewSummary: Sendable, Equatable {
@@ -37,7 +38,8 @@ actor EnvironmentScanner {
         )
         return Result(tools: decorate(tools, brew: brew, summary: summary),
                       homebrew: summary,
-                      applications: ApplicationsReader.scan())
+                      applications: ApplicationsReader.scan(),
+                      shellConfig: ShellConfigReader.read(terminals: TerminalAppsReader.scan()))
     }
 
     // MARK: - Per-definition probing

@@ -7,6 +7,7 @@ import Foundation
 enum FindingsEngine {
     static func evaluate(tools: [DetectedTool],
                          homebrew: EnvironmentScanner.HomebrewSummary,
+                         config: ShellConfigSnapshot = .empty,
                          now: Date = .now) -> [Finding] {
         var findings: [Finding] = []
         findings += merge(runtimeEOL(tools: tools, now: now))
@@ -16,6 +17,9 @@ enum FindingsEngine {
         findings += rosettaWithoutIntelDependency(tools: tools)
         findings += xcodeToolchainMismatch(tools: tools)
         findings += noContainerRuntime(tools: tools)
+        // The startup chain is scanned by a separate reader, but its problems belong in the
+        // same list: they share the health score, the badges and the AI prompt.
+        findings += ConfigRules.evaluate(config: config, tools: tools)
         return findings.sorted { ($0.tier, $0.title) < ($1.tier, $1.title) }
     }
 
