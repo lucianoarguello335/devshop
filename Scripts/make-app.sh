@@ -29,15 +29,15 @@ for bundle in ".build/$CONFIG"/*.bundle; do
 done
 
 # Built by Scripts/make-icon.sh; committed so a plain `make app` needs no extra step.
-# A bundle resolves exactly one icon and macOS never varies it by appearance, so the dark
-# tile is the app's single icon everywhere: Finder, the Dock at rest, and while running.
-# The light .icns stays in Resources/ as generated art; it is not shipped.
-ICON="DevShop-Dark"
-if [ -f "Resources/$ICON.icns" ]; then
-  cp "Resources/$ICON.icns" "$APP/Contents/Resources/$ICON.icns"
-else
-  echo "note: Resources/$ICON.icns missing — run ./Scripts/make-icon.sh" >&2
-fi
+# Both travel with the app: the bundle names the light one, and DockIcon swaps to the dark
+# one at runtime when the window is dark.
+for icon in DevShop DevShop-Dark; do
+  if [ -f "Resources/$icon.icns" ]; then
+    cp "Resources/$icon.icns" "$APP/Contents/Resources/$icon.icns"
+  else
+    echo "note: Resources/$icon.icns missing — run ./Scripts/make-icon.sh" >&2
+  fi
+done
 
 cat > "$APP/Contents/Info.plist" <<PLIST
 <?xml version="1.0" encoding="UTF-8"?>
@@ -47,7 +47,7 @@ cat > "$APP/Contents/Info.plist" <<PLIST
   <key>CFBundleName</key><string>DevShop</string>
   <key>CFBundleDisplayName</key><string>DevShop</string>
   <key>CFBundleExecutable</key><string>DevShop</string>
-  <key>CFBundleIconFile</key><string>DevShop-Dark</string>
+  <key>CFBundleIconFile</key><string>DevShop</string>
   <key>CFBundleIdentifier</key><string>com.lucianoarguello.devshop</string>
   <key>CFBundlePackageType</key><string>APPL</string>
   <key>CFBundleShortVersionString</key><string>1.0</string>

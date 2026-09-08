@@ -46,5 +46,9 @@ struct RootWindow: View {
         .tint(DevTheme.accent)
         .foregroundStyle(theme.text)
         .animation(.easeInOut(duration: 0.22), value: model.themeOverride)
+        // The Dock tile carries the same appearance as the window, not the system's, so
+        // the in-app switch moves it too.
+        .onAppear { DockIcon.apply(theme.appearance) }
+        .onChange(of: theme.appearance) { _, appearance in DockIcon.apply(appearance) }
     }
 }

@@ -6,7 +6,6 @@ import UniformTypeIdentifiers
 //
 // Two appearances are drawn from the same geometry, so the light and dark icons differ
 // only in the tile colour and the swatch values — nothing shifts position between them.
-// The dark one is the icon the app ships; the light one is kept for docs and reference.
 //
 // Two outputs come from the same drawing code:
 //
