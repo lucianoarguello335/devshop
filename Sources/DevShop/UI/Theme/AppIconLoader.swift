@@ -8,13 +8,13 @@ import SwiftUI
 /// a list of fifty casks would otherwise hit the icon services on every redraw.
 @MainActor
 enum AppIconLoader {
-    /// Contents rows draw at 20pt, so a 40px bitmap covers a Retina display exactly.
+    /// Icons are redrawn at the size they are actually shown, so a 20pt contents row costs a
+    /// 40px bitmap on a Retina display and nothing more.
     ///
     /// `NSWorkspace.icon(forFile:)` hands back the whole icon family — representations up to
     /// 512pt — and setting `size` only changes how it draws, not what it holds on to. With a
     /// busy Caskroom that is tens of full icon families retained for the life of the process,
     /// so each one is redrawn once into a single small bitmap and the original is let go.
-    private static let points: CGFloat = 20
     private static let scale: CGFloat = 2
 
     private static var cache: [String: Image] = [:]
@@ -23,22 +23,25 @@ enum AppIconLoader {
     private static var order: [String] = []
     private static let limit = 256
 
-    static func icon(atBundlePath path: String) -> Image? {
-        if let cached = cache[path] { return cached }
+    /// The same bundle drawn at two sizes is two bitmaps, so the size is part of the key.
+    static func icon(atBundlePath path: String, points: CGFloat = 20) -> Image? {
+        let key = "\(path)@\(points)"
+        if let cached = cache[key] { return cached }
         guard FileManager.default.fileExists(atPath: path) else { return nil }
-        guard let small = downsampled(NSWorkspace.shared.icon(forFile: path)) else { return nil }
+        guard let small = downsampled(NSWorkspace.shared.icon(forFile: path), points: points)
+        else { return nil }
         let image = Image(nsImage: small)
         if order.count >= limit, let oldest = order.first {
             order.removeFirst()
             cache[oldest] = nil
         }
-        cache[path] = image
-        order.append(path)
+        cache[key] = image
+        order.append(key)
         return image
     }
 
     /// Redraws an icon into one bitmap at the size it is actually shown.
-    private static func downsampled(_ icon: NSImage) -> NSImage? {
+    private static func downsampled(_ icon: NSImage, points: CGFloat) -> NSImage? {
         let pixels = Int(points * scale)
         guard let rep = NSBitmapImageRep(bitmapDataPlanes: nil,
                                          pixelsWide: pixels,

@@ -39,6 +39,8 @@ final class AppModel {
     private(set) var homebrew: EnvironmentScanner.HomebrewSummary = .none
     /// Everything in /Applications, for the setup export.
     private(set) var applications: [InstalledApplication] = []
+    /// What the login shell loads before the first prompt.
+    private(set) var shellConfig: ShellConfigSnapshot = .empty
 
     /// Measured bytes per tool id. Restored from the cache at launch so the window is
     /// fully populated before any walking happens.
@@ -48,14 +50,42 @@ final class AppModel {
     // MARK: - UI state
 
     var query: String = "" { didSet { if query != oldValue { rebuildDerived() } } }
-    var selectedToolID: String?
+
+    /// What the inspector is describing. Three kinds of thing can be selected, so this is an
+    /// enum rather than a bare id — a tool id and a config entry id are both strings and
+    /// nothing else would tell them apart.
+    enum Selection: Equatable, Sendable {
+        case tool(String)
+        case configEntry(String)
+        case terminal(String)
+    }
+
+    var selection: Selection?
+
+    /// The selected tool's id, or `nil` when something else is selected. Kept as a property
+    /// so the tile grid and the list view still deal in ids and know nothing about the enum.
+    var selectedToolID: String? {
+        get { if case .tool(let id) = selection { id } else { nil } }
+        set { selection = newValue.map(Selection.tool) }
+    }
+
+    /// Secrets the user has explicitly revealed, by entry id. Deliberately not persisted:
+    /// revealing one is a decision for that moment, not a preference.
+    var revealedSecrets: Set<String> = []
     var hiddenCategories: Set<ToolCategory> = [] {
         didSet { if hiddenCategories != oldValue { rebuildDerived() } }
     }
     var findingsPanelVisible: Bool = true {
         didSet { if findingsPanelVisible != oldValue { rebuildDerived() } }
     }
+    var configPanelVisible: Bool = true {
+        didSet { if configPanelVisible != oldValue { rebuildDerived() } }
+    }
     var largestOnDiskExpanded: Bool = true
+    /// Terminal Config groups that are collapsed. Every kind starts in here: the section is
+    /// a reference list rather than something to read top to bottom, and seventy rows open by
+    /// default would push the Findings section off the bottom of the column.
+    var collapsedConfigKinds: Set<ConfigEntryKind> = Set(ConfigEntryKind.allCases)
     /// `nil` follows the system appearance; the title-bar control sets an override.
     var themeOverride: DevTheme.Appearance?
     /// Grid or list. Remembered between launches, because it is a lasting preference
@@ -134,12 +164,13 @@ final class AppModel {
         tools = result.tools
         homebrew = result.homebrew
         applications = result.applications
+        shellConfig = result.shellConfig
         systemInfo = info
-        findings = FindingsEngine.evaluate(tools: result.tools, homebrew: result.homebrew)
+        findings = FindingsEngine.evaluate(tools: result.tools,
+                                           homebrew: result.homebrew,
+                                           config: result.shellConfig)
         rebuildDerived()
-        if selectedToolID == nil || !tools.contains(where: { $0.id == selectedToolID }) {
-            selectedToolID = defaultSelection()?.id
-        }
+        if !isSelectionStillValid { selection = defaultSelection() }
     }
 
     private func measureSizes() {
@@ -177,18 +208,31 @@ final class AppModel {
         }
     }
 
+    /// A rescan can retire whatever was selected — a tool that is gone, a config entry that
+    /// was edited out of a dotfile.
+    private var isSelectionStillValid: Bool {
+        switch selection {
+        case .tool(let id): tools.contains { $0.id == id }
+        case .configEntry(let id): shellConfig.entry(id: id) != nil
+        case .terminal(let id): shellConfig.terminals.contains { $0.id == id }
+        case nil: false
+        }
+    }
+
     /// Prefer something interesting over the alphabetically first tile.
-    private func defaultSelection() -> DetectedTool? {
+    private func defaultSelection() -> Selection? {
         // Lets a screenshot or a UI test open on a specific tile.
         if let wanted = ProcessInfo.processInfo.environment["DEVSHOP_SELECT"],
            let match = tools.first(where: { $0.definition.id == wanted }) {
-            return match
+            return .tool(match.id)
         }
-        if let flagged = findings.first?.toolIDs.first,
-           let tool = tools.first(where: { $0.id == flagged }) {
-            return tool
+        // Findings carry tool ids and config entry ids in the same field, so the most severe
+        // one opens whichever kind of thing it points at.
+        if let flagged = findings.first?.toolIDs.first {
+            if tools.contains(where: { $0.id == flagged }) { return .tool(flagged) }
+            if shellConfig.entry(id: flagged) != nil { return .configEntry(flagged) }
         }
-        return tools.first { $0.status != .missing }
+        return (tools.first { $0.status != .missing }).map { .tool($0.id) }
     }
 
     // MARK: - Derived state
@@ -240,6 +284,10 @@ final class AppModel {
     private(set) var largestCategories: [CategoryTotal] = []
 
     private(set) var filteredFindings: [Finding] = []
+
+    /// Config entries grouped by kind, filtered by the search field. Built here rather than
+    /// in the view for the same reason `visiblePanels` is.
+    private(set) var configGroups: [ConfigGroup] = []
 
     /// Tile counts per category, including hidden ones, for the sidebar toggles.
     private(set) var categoryCounts: [ToolCategory: Int] = [:]
@@ -298,6 +346,21 @@ final class AppModel {
         }
 
         categoryCounts = Dictionary(grouping: tools, by: \.category).mapValues(\.count)
+
+        configGroups = ConfigEntryKind.allCases.compactMap { kind in
+            let members = shellConfig.entries.filter { $0.kind == kind && matches($0) }
+            return members.isEmpty ? nil : ConfigGroup(kind: kind, entries: members)
+        }
+    }
+
+    /// Search matches the name, the value and the files a directive comes from. The raw value
+    /// is deliberately not searched: a masked secret should not be findable by typing it.
+    private func matches(_ entry: ConfigEntry) -> Bool {
+        let q = trimmedQuery
+        guard !q.isEmpty else { return true }
+        if entry.name.localizedStandardContains(q) { return true }
+        if entry.displayValue.localizedStandardContains(q) { return true }
+        return entry.origins.contains { $0.file.localizedStandardContains(q) }
     }
 
     func findingTier(for tool: DetectedTool) -> FindingTier? {
@@ -327,15 +390,73 @@ final class AppModel {
         findings.filter { $0.toolIDs.contains(tool.id) }
     }
 
+    /// Config findings carry entry ids in the same `toolIDs` field. Entry ids are namespaced
+    /// by kind (`env.JAVA_HOME`), so they cannot collide with a tool id.
+    func findings(for entry: ConfigEntry) -> [Finding] {
+        findings.filter { $0.toolIDs.contains(entry.id) }
+    }
+
+    /// A terminal has no id in any finding, so its findings are the ones scoped to its own
+    /// config files.
+    func findings(for terminal: TerminalApp) -> [Finding] {
+        guard !terminal.configPaths.isEmpty else { return [] }
+        return findings.filter { finding in
+            terminal.configPaths.contains { finding.scope.hasSuffix($0) }
+        }
+    }
+
+    var selectedConfigEntry: ConfigEntry? {
+        guard case .configEntry(let id) = selection else { return nil }
+        return shellConfig.entry(id: id)
+    }
+
+    var selectedTerminal: TerminalApp? {
+        guard case .terminal(let id) = selection else { return nil }
+        return shellConfig.terminals.first { $0.id == id }
+    }
+
+    /// Most severe finding for a config entry, for the badge on its row.
+    func findingTier(for entry: ConfigEntry) -> FindingTier? {
+        findingTierByToolID[entry.id]
+    }
+
     var selectedTool: DetectedTool? {
-        guard let selectedToolID else { return tools.first }
-        return tools.first { $0.id == selectedToolID } ?? tools.first
+        guard case .tool(let id) = selection else { return nil }
+        return tools.first { $0.id == id } ?? tools.first
     }
 
     var showFindingsSection: Bool { findingsPanelVisible && !filteredFindings.isEmpty }
 
+    var showConfigSection: Bool { configPanelVisible && !configGroups.isEmpty }
+
+    /// Whether a Terminal Config group is showing its rows.
+    ///
+    /// A search overrides the collapse state entirely. Matching a row and then hiding it
+    /// inside a closed group would make the search look broken, and the collapse state is
+    /// remembered underneath so clearing the field puts everything back.
+    func isExpanded(_ kind: ConfigEntryKind) -> Bool {
+        !trimmedQuery.isEmpty || !collapsedConfigKinds.contains(kind)
+    }
+
+    func toggleConfigGroup(_ kind: ConfigEntryKind) {
+        if collapsedConfigKinds.contains(kind) {
+            collapsedConfigKinds.remove(kind)
+        } else {
+            collapsedConfigKinds.insert(kind)
+        }
+    }
+
+    /// The meta line beside the Terminal Config title. Narrows to what the search is
+    /// actually showing, so the count never contradicts the rows under it.
+    var configMeta: String {
+        let shown = configGroups.reduce(0) { $0 + $1.entries.count }
+        guard shown != shellConfig.entries.count else { return shellConfig.meta }
+        return "\(shown) of \(shellConfig.entries.count) entries"
+    }
+
     var noResults: Bool {
-        !trimmedQuery.isEmpty && visiblePanels.isEmpty && filteredFindings.isEmpty
+        !trimmedQuery.isEmpty && visiblePanels.isEmpty
+            && filteredFindings.isEmpty && configGroups.isEmpty
     }
 
     var healthScore: Int { findings.healthScore }
@@ -363,7 +484,7 @@ final class AppModel {
 
     /// True only when every panel, findings included, is showing.
     var allPanelsVisible: Bool {
-        hiddenCategories.isEmpty && findingsPanelVisible
+        hiddenCategories.isEmpty && findingsPanelVisible && configPanelVisible
     }
 
     /// One switch for the lot: hide everything when all of it is showing, otherwise bring
@@ -373,9 +494,11 @@ final class AppModel {
         if allPanelsVisible {
             hiddenCategories = Set(ToolCategory.allCases)
             findingsPanelVisible = false
+            configPanelVisible = false
         } else {
             hiddenCategories = []
             findingsPanelVisible = true
+            configPanelVisible = true
         }
     }
 
@@ -403,9 +526,15 @@ final class AppModel {
         scrollTarget = Self.findingsSectionID
     }
 
+    func revealConfig() {
+        if !configPanelVisible { configPanelVisible = true }
+        scrollTarget = Self.configSectionID
+    }
+
     func clearScrollTarget() { scrollTarget = nil }
 
     static let findingsSectionID = "findings"
+    static let configSectionID = "terminalconfig"
 
     /// Puts a briefing for an AI agent on the clipboard, built from the findings actually
     /// on screen so it matches what the user is looking at.
@@ -414,7 +543,8 @@ final class AppModel {
                                           tools: tools,
                                           homebrew: homebrew,
                                           system: systemInfo,
-                                          sizes: sizes)
+                                          sizes: sizes,
+                                          config: shellConfig)
         NSPasteboard.general.clearContents()
         NSPasteboard.general.setString(prompt, forType: .string)
         show(toast: "Copied to clipboard")
@@ -429,7 +559,8 @@ final class AppModel {
                                           system: systemInfo,
                                           sizes: sizes,
                                           measuredAt: lastMeasuredAt,
-                                          applications: applications))
+                                          applications: applications,
+                                          shellConfig: shellConfig))
         NSPasteboard.general.clearContents()
         NSPasteboard.general.setString(json, forType: .string)
         show(toast: "Setup copied to clipboard")
@@ -447,8 +578,31 @@ final class AppModel {
 
     func select(_ tool: DetectedTool) { select(id: tool.id) }
 
-    func select(id: String) {
-        guard selectedToolID != id else { return }
-        selectedToolID = id
+    func select(id: String) { select(.tool(id)) }
+
+    func select(_ entry: ConfigEntry) { select(.configEntry(entry.id)) }
+
+    func select(_ terminal: TerminalApp) { select(.terminal(terminal.id)) }
+
+    func select(_ new: Selection) {
+        guard selection != new else { return }
+        // Selecting a row inside a collapsed group has to open it. This happens when a row
+        // matched by a search is clicked and the search is then cleared — without it the
+        // selection would vanish while the inspector still described it.
+        if case .configEntry(let id) = new, let kind = shellConfig.entry(id: id)?.kind {
+            collapsedConfigKinds.remove(kind)
+        }
+        selection = new
+    }
+
+    /// Reveals one secret's value for the rest of the session. There is no matching hide:
+    /// once it has been on screen, pretending otherwise buys nothing.
+    func revealSecret(_ entry: ConfigEntry) { revealedSecrets.insert(entry.id) }
+
+    func isRevealed(_ entry: ConfigEntry) -> Bool { revealedSecrets.contains(entry.id) }
+
+    /// What the inspector shows for a value: the real thing only once asked for.
+    func value(of entry: ConfigEntry) -> String {
+        entry.isSecret && !isRevealed(entry) ? entry.displayValue : entry.rawValue
     }
 }

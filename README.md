@@ -13,8 +13,13 @@ Built from a Claude Design handoff (`DevShop Window.dc.html`) as a native SwiftU
   panels, plus a **Not Installed** panel for everything it knows about but could not find.
 - Reads real versions and paths: Homebrew's `Cellar`/`Caskroom` layout, `Info.plist` of app
   bundles, and the version directories under nvm, pyenv, rbenv and `JavaVirtualMachines`.
+- Inspects the **terminal config**: every unique thing the login shell does before the first
+  prompt — PATH entries, exports, `eval` init hooks, sourced files, framework settings,
+  aliases, functions and options — deduplicated across the whole startup chain, with every
+  file and line that declares it. Shows which terminal emulators are installed alongside it.
 - Derives **findings** — end-of-life runtimes, stale Homebrew versions, shadowed installs,
-  a missing container runtime — and rolls them into a health score.
+  a missing container runtime, plaintext secrets and broken PATH entries — and rolls them
+  into a health score.
 - Measures how much disk each tool occupies, on demand.
 
 ## What it does not do
@@ -73,6 +78,23 @@ persists to `~/Library/Application Support/DevShop/sizes.json` so later launches
 **Findings are computed offline.** End-of-life dates come from a small bundled table in
 `Findings/Rules.swift` rather than a version API. Refresh that table when release schedules
 move — it is the honest source, and it is why the app needs no network access.
+
+**The startup chain is read, never run.** `Scan/ShellConfigReader.swift` parses the zsh chain
+as text — `/etc/zshenv`, `~/.zshenv`, `/etc/paths` and `/etc/paths.d/*`, the two `zprofile`s,
+the two `zshrc`s, `~/.zlogin` — and follows `source` exactly one level into files that exist.
+Running the dotfiles would give perfect answers and would also execute arbitrary code inside a
+read-only inspector, so it does not. The cost is that what a framework defines behind
+`source $ZSH/oh-my-zsh.sh`, or what an `eval` prints, is reported as the hook that produces it
+rather than as its result — which is the line a user can actually edit anyway. One level is
+also where it stops being useful: following every `source` pulls in the three hundred files
+oh-my-zsh loads, and a sourced file's own `setopt`s and functions are filtered out for the
+same reason.
+
+**Secrets are masked, and stay masked in exports.** A value whose name or shape says
+credential is shown as `AIza••••••••••DpdA` with a click-to-reveal in the inspector, raises an
+error-tier finding, and is written to the setup JSON and the AI prompt in its masked form
+only. A path is never treated as a secret: `SSH_KEY_PATH=~/.ssh/id_ed25519` is a location, and
+hiding it would remove the only useful part.
 
 **The header is the title bar.** The design puts the window controls, title, search and
 Refresh on one 52pt row. Getting there on macOS 26 took three things, all in
@@ -162,11 +184,13 @@ anywhere in the interface.
 
 ```
 Sources/DevShop/
-  Model/      ToolDefinition, DetectedTool, Finding, ToolCategory, AppModel
+  Model/      ToolDefinition, DetectedTool, Finding, ToolCategory, AppModel,
+              ConfigEntry, ShellConfigSnapshot, TerminalApp
   Catalog/    catalog.json — the list of tools and how to find each one
   Scan/       Probes, HomebrewReader, VersionReaders, EnvironmentScanner,
-              SizeMeasurer, SizeCache, SystemInfoReader
-  Findings/   FindingsEngine and the offline rule set
+              SizeMeasurer, SizeCache, SystemInfoReader,
+              ShellConfigReader, TerminalAppsReader
+  Findings/   FindingsEngine, ConfigRules and the offline rule set
   UI/         DevTheme, SVGPath/BrandIcon, TitleBar, Sidebar, Center, Inspector
 ```
 

@@ -15,11 +15,13 @@ enum FindingsPrompt {
                       homebrew: EnvironmentScanner.HomebrewSummary,
                       system: SystemInfo,
                       sizes: [String: Int64],
+                      config: ShellConfigSnapshot = .empty,
                       now: Date = .now) -> String {
         var out: [String] = []
         out.append(header(findings: findings, now: now))
         out.append(machine(system))
         out.append(toolchain(tools: tools, homebrew: homebrew))
+        if !config.entries.isEmpty { out.append(startupChain(config)) }
         out.append(findingsSection(findings, tools: tools, sizes: sizes))
         out.append(request(findings: findings))
         out.append(constraints())
@@ -101,6 +103,44 @@ enum FindingsPrompt {
         return lines.joined(separator: "\n")
     }
 
+    /// What the login shell does before the first prompt. An agent proposing a PATH change
+    /// needs to know which file already sets it and in what order those files run, or its
+    /// advice lands in the wrong one.
+    private static func startupChain(_ config: ShellConfigSnapshot) -> String {
+        var lines = ["## Shell startup chain (\(config.shell))"]
+        lines.append("Read statically — DevShop does not execute the shell, so anything a "
+                   + "framework or an `eval` defines at runtime is listed as the hook that "
+                   + "produces it rather than as its result.")
+        lines.append("")
+        lines.append("Files, in load order:")
+        for file in config.filesRead {
+            lines.append("- `\(file.file)` (\(file.line) lines, \(file.stage.label))")
+        }
+
+        for kind in ConfigEntryKind.allCases {
+            let members = config.entries.filter { $0.kind == kind }
+            guard !members.isEmpty else { continue }
+            lines.append("")
+            lines.append("\(kind.groupTitle) (\(members.count)):")
+            for entry in members {
+                // The masked value, never the raw one — this text goes to a third party.
+                var parts = ["`\(entry.name)`"]
+                if entry.kind != .path, !entry.displayValue.isEmpty {
+                    parts.append("= `\(entry.displayValue)`")
+                }
+                parts.append("from \(entry.origins.map(\.location).joined(separator: ", "))")
+                if entry.isSecret { parts.append("(value redacted by DevShop)") }
+                lines.append("- \(parts.joined(separator: " "))")
+            }
+        }
+        if !config.staleFiles.isEmpty {
+            lines.append("")
+            lines.append("Leftover config files that never load: "
+                       + config.staleFiles.joined(separator: ", "))
+        }
+        return lines.joined(separator: "\n")
+    }
+
     private static func findingsSection(_ findings: [Finding],
                                         tools: [DetectedTool],
                                         sizes: [String: Int64]) -> String {
@@ -111,6 +151,8 @@ enum FindingsPrompt {
             lines.append("- Area: \(finding.scope)")
             lines.append("- What the scanner saw: \(finding.detail)")
 
+            // Config findings carry entry ids in the same field; they have no tool to
+            // describe, and the finding's own detail already names the file and line.
             let affected = finding.toolIDs.compactMap { id in
                 tools.first { $0.id == id }
             }
@@ -190,6 +232,12 @@ enum FindingsPrompt {
         before I reach it, and explain what it will affect.
         - This is Apple silicon with Homebrew at `/opt/homebrew`. Do not give me `/usr/local` \
         paths or Intel-only advice.
+        - Any secret value above is redacted. Never ask me to paste one back to you, and \
+        assume a credential in a dotfile should move to the Keychain rather than to another \
+        file.
+        - When a fix edits a startup file, tell me which file in the chain it belongs in and \
+        why — `.zshenv`, `.zprofile` and `.zshrc` run at different times and for different \
+        kinds of shell.
         - Runtimes are managed by version managers, not just Homebrew. Check which one owns a \
         tool before proposing an upgrade path.
         - Ask before removing any runtime version — a project may pin it even if nothing on \
