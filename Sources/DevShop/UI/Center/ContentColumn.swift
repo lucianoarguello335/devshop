@@ -16,11 +16,17 @@ struct ContentColumn: View {
                     ForEach(model.visiblePanels) { panel in
                         section(for: panel)
                             .id(panel.category.rawValue)
+                        // Directly below Shell & Core Tooling, above Not Installed.
+                        if model.showConfigSection, panel.category == .shell {
+                            configSection
+                        }
                     }
 
-                    if model.showConfigSection {
-                        ConfigSection(model: model)
-                            .id(AppModel.configSectionID)
+                    // Shell & Core Tooling can be toggled off or filtered away by the search.
+                    // The Terminal Config section is not part of it and should not vanish
+                    // with it, so it falls to the end of the panels instead.
+                    if model.showConfigSection, !model.configFollowsShellPanel {
+                        configSection
                     }
 
                     if model.showFindingsSection {
@@ -62,6 +68,10 @@ struct ContentColumn: View {
         // insert-and-remove diff across every section on every keystroke, and typing is the
         // one place in this window where the result has to keep up with the user.
         .animation(.easeInOut(duration: 0.2), value: model.layout)
+    }
+
+    private var configSection: some View {
+        ConfigSection(model: model).id(AppModel.configSectionID)
     }
 
     private func section(for panel: Panel) -> some View {

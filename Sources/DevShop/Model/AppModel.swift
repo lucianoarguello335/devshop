@@ -429,6 +429,13 @@ final class AppModel {
 
     var showConfigSection: Bool { configPanelVisible && !configGroups.isEmpty }
 
+    /// Whether the Shell & Core Tooling panel is on screen, which is where the Terminal
+    /// Config section is drawn. When that panel is toggled off or filtered away by the
+    /// search, the section falls to the end of the panels rather than disappearing with it.
+    var configFollowsShellPanel: Bool {
+        visiblePanels.contains { $0.category == .shell }
+    }
+
     /// Whether a Terminal Config group is showing its rows.
     ///
     /// A search overrides the collapse state entirely. Matching a row and then hiding it

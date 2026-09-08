@@ -45,16 +45,21 @@ struct SidebarView: View {
                             select: { model.reveal(category) },
                             toggle: { model.toggle(category) }
                         )
+                        // Terminal Config sits with the shell rather than after everything
+                        // else: it describes the same part of the machine, and Not Installed
+                        // is the natural end of the list.
+                        if category == .shell {
+                            PanelToggleRow(
+                                symbol: "list.bullet.indent",
+                                title: "Terminal Config",
+                                count: model.shellConfig.entries.count,
+                                isOn: model.configPanelVisible,
+                                accent: Color(hex: "64d2ff"),
+                                select: { model.revealConfig() },
+                                toggle: { model.configPanelVisible.toggle() }
+                            )
+                        }
                     }
-                    PanelToggleRow(
-                        symbol: "list.bullet.indent",
-                        title: "Terminal Config",
-                        count: model.shellConfig.entries.count,
-                        isOn: model.configPanelVisible,
-                        accent: Color(hex: "64d2ff"),
-                        select: { model.revealConfig() },
-                        toggle: { model.configPanelVisible.toggle() }
-                    )
                     PanelToggleRow(
                         symbol: "exclamationmark.triangle.fill",
                         title: "Findings",

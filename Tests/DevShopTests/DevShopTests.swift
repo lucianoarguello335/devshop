@@ -1024,6 +1024,13 @@ struct StartupChainFileTests {
 @Suite("Config groups")
 @MainActor
 struct ConfigGroupTests {
+    @Test("the section follows the shell panel, and stands alone when that panel is gone")
+    func placement() {
+        let model = AppModel()
+        // No scan has run, so no panel is visible and the section cannot follow one.
+        #expect(!model.configFollowsShellPanel)
+    }
+
     @Test("every kind carries its own explanation")
     func explanations() {
         let all = ConfigEntryKind.allCases.map(\.explanation)
