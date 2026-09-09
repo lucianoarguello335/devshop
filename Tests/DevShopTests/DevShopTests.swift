@@ -69,6 +69,24 @@ struct ProbeTests {
     func missingDirectory() {
         #expect(Probes.subdirectories(of: "/nope/definitely/not/here").isEmpty)
     }
+
+    /// Several casks stage a `latest` symlink beside the real version directory. Counting
+    /// it made the cask look like it had two versions installed, and `latest` sorted after
+    /// every number, so it became the reported version.
+    @Test("a symlink to a directory is not counted as a version of its own")
+    func symlinkedVersionIsSkipped() throws {
+        let root = FileManager.default.temporaryDirectory
+            .appendingPathComponent("devshop-caskroom-\(UUID().uuidString)")
+        let real = root.appendingPathComponent("583.0.0")
+        try FileManager.default.createDirectory(at: real, withIntermediateDirectories: true)
+        try FileManager.default.createSymbolicLink(at: root.appendingPathComponent("latest"),
+                                                   withDestinationURL: real)
+        defer { try? FileManager.default.removeItem(at: root) }
+
+        #expect(Probes.subdirectories(of: root.path) == ["583.0.0"])
+        #expect(Probes.isSymbolicLink(root.appendingPathComponent("latest").path))
+        #expect(!Probes.isSymbolicLink(real.path))
+    }
 }
 
 // MARK: - Homebrew
@@ -1065,5 +1083,86 @@ struct ConfigGroupTests {
         #expect(ConfigEntryKind.allCases.allSatisfy { model.isExpanded($0) })
         model.query = "   "
         #expect(ConfigEntryKind.allCases.allSatisfy { !model.isExpanded($0) })
+    }
+}
+
+// MARK: - Search
+
+@Suite("Search")
+struct SearchFilterTests {
+    private func child(_ token: String, name: String? = nil, version: String = "1.0") -> ToolChild {
+        ToolChild(id: "brew.formulae/\(token)", token: token, name: name ?? token,
+                  version: version, path: "/opt/homebrew/Cellar/\(token)/\(version)",
+                  appBundlePath: nil, iconSlug: nil, color: "888888")
+    }
+
+    private func container(children: [ToolChild]) -> DetectedTool {
+        var tool = DetectedTool(
+            id: "brew.formulae",
+            definition: ToolDefinition(id: "brew.formulae", name: "Formulae", category: .pkg,
+                                       icon: nil, symbol: "circle", color: "888888", website: nil,
+                                       rules: [.directory(path: "/opt/homebrew/Cellar", version: nil)],
+                                       missingNote: nil),
+            status: .ok,
+            subtitle: "153 installed",
+            path: "/opt/homebrew/Cellar",
+            managedBy: "Homebrew",
+            measurableRoot: "/opt/homebrew/Cellar"
+        )
+        tool.children = children
+        return tool
+    }
+
+    @Test("a container matches on a package nested inside it")
+    func matchesOnChild() {
+        let tool = container(children: [child("libomp", version: "23.1.0"), child("summarize")])
+        #expect(SearchFilter.matches(tool, query: "libomp"))
+        #expect(SearchFilter.matches(tool, query: "LIBOMP"))
+        #expect(!SearchFilter.matches(tool, query: "gcloud"))
+    }
+
+    @Test("an empty query matches everything")
+    func emptyQuery() {
+        #expect(SearchFilter.matches(container(children: []), query: ""))
+        #expect(SearchFilter.matches(child("libomp"), query: ""))
+    }
+
+    @Test("a cask row is findable by the token it was installed under, not only its app name")
+    func matchesOnToken() {
+        let cask = child("gcloud-cli", name: "Google Cloud CLI", version: "583.0.0")
+        #expect(SearchFilter.matches(cask, query: "gcloud-cli"))
+        #expect(SearchFilter.matches(cask, query: "Google Cloud"))
+        #expect(SearchFilter.matches(cask, query: "583"))
+        #expect(!SearchFilter.matches(cask, query: "azure"))
+    }
+
+    @MainActor
+    @Test("the contents list narrows to the matching entries")
+    func contentsAreFiltered() {
+        let model = AppModel()
+        let tool = container(children: [child("libomp"), child("summarize"), child("libpq")])
+        model.query = "libomp"
+        #expect(model.children(of: tool).map(\.token) == ["libomp"])
+        model.query = ""
+        #expect(model.children(of: tool).count == 3)
+    }
+
+    @MainActor
+    @Test("the contents list follows the column the centre list is sorted by")
+    func contentsFollowTheSort() {
+        let model = AppModel()
+        let tool = container(children: [child("summarize"), child("libomp"), child("libpq")])
+
+        // The default, and what the list header shows on launch.
+        #expect(model.sort.field == .name && model.sort.ascending)
+        #expect(model.children(of: tool).map(\.token) == ["libomp", "libpq", "summarize"])
+
+        model.sort.toggle(.name)
+        #expect(model.children(of: tool).map(\.token) == ["summarize", "libpq", "libomp"])
+
+        // Size starts descending, and with nothing measured every child ties on zero, so
+        // the name is what breaks the tie — descending, to match.
+        model.sort.toggle(.size)
+        #expect(model.children(of: tool).map(\.token) == ["summarize", "libpq", "libomp"])
     }
 }

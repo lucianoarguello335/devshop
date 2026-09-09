@@ -151,16 +151,21 @@ private struct ColumnHeader: View {
                     .opacity(isActive ? 1 : (isHovering ? 0.45 : 0))
             }
             .foregroundStyle(isActive || isHovering ? theme.text : theme.muted)
-            .frame(maxWidth: .infinity,
-                   alignment: field == .size ? .trailing : .leading)
             .padding(.vertical, 5)
+            .padding(.horizontal, 6)
             .background {
-                // Negative inset widens the highlight past the text without moving it, so
-                // the heading stays aligned with the column beneath it.
                 RoundedRectangle(cornerRadius: 5)
                     .fill(isHovering ? theme.fill : .clear)
-                    .padding(.horizontal, -6)
             }
+            // The highlight is sized to the heading, not to the column. Filling the column
+            // and then widening it by another 6pt each side ran the pill under the next
+            // heading's text, so hovering Location looked like it had selected Managed by
+            // as well. The negative inset undoes the 6pt above, which keeps the title on
+            // the same x as the column beneath it while the pill still has its breathing
+            // room. The click target stays the whole column, from the frame below.
+            .padding(.horizontal, -6)
+            .frame(maxWidth: .infinity,
+                   alignment: field == .size ? .trailing : .leading)
             .contentShape(.rect)
         }
         .buttonStyle(.plain)

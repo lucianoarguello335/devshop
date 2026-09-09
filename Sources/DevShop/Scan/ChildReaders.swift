@@ -14,6 +14,7 @@ enum ChildReaders {
         "postgresql@17": "postgresql", "postgresql@16": "postgresql", "postgresql@14": "postgresql",
         "mongodb-community": "mongodb", "kubernetes-cli": "kubernetes",
         "awscli": "amazonwebservices", "google-cloud-sdk": "googlecloud",
+        "gcloud-cli": "googlecloud",
         "docker": "docker", "podman": "podman", "rust": "rust", "ruby": "ruby",
         "go": "go", "deno": "deno", "bun": "bun", "php": "php", "lua": "lua",
         // The CLI is not named after the product it belongs to.

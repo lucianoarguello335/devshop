@@ -1763,12 +1763,16 @@
   "website": "https://cloud.google.com/sdk",
   "rules": [
    {
-    "kind": "directory",
-    "path": "~/google-cloud-sdk"
+    "kind": "brewCask",
+    "name": "gcloud-cli"
+   },
+   {
+    "kind": "brewCask",
+    "name": "google-cloud-sdk"
    },
    {
     "kind": "directory",
-    "path": "/opt/homebrew/Caskroom/google-cloud-sdk"
+    "path": "~/google-cloud-sdk"
    },
    {
     "kind": "executable",

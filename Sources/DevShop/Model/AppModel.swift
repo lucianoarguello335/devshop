@@ -257,11 +257,7 @@ final class AppModel {
     }
 
     private func matches(_ tool: DetectedTool) -> Bool {
-        let q = trimmedQuery
-        guard !q.isEmpty else { return true }
-        let haystack = [tool.name, tool.subtitle, tool.version ?? "",
-                        tool.path ?? "", tool.managedBy]
-        return haystack.contains { $0.localizedStandardContains(q) }
+        SearchFilter.matches(tool, query: trimmedQuery)
     }
 
     /// Every category with at least one tool, filtered by the search field and the sidebar
@@ -372,13 +368,20 @@ final class AppModel {
 
     func bytes(for child: ToolChild) -> Int64 { sizes[child.id] ?? 0 }
 
-    /// A container's contents, heaviest first — the order that answers "what is taking up
-    /// all this space" without any further clicking.
+    /// A container's contents, in the order the centre column is sorted by.
+    ///
+    /// It used to be heaviest-first regardless of the sort control, which read as unsorted:
+    /// with the list on Name the panel beside it was in an order nothing on screen
+    /// explained. Clicking Size still puts the biggest first, which is the case that
+    /// ordering was there to serve.
+    ///
+    /// A search narrows the list to the matching entries. The tile only survives the filter
+    /// because one of its children matched, so showing all 153 formulae again would hide the
+    /// one the user typed.
     func children(of tool: DetectedTool) -> [ToolChild] {
-        tool.children.sorted {
-            let a = bytes(for: $0), b = bytes(for: $1)
-            return a == b ? $0.name.localizedStandardCompare($1.name) == .orderedAscending : a > b
-        }
+        tool.children
+            .filter { SearchFilter.matches($0, query: trimmedQuery) }
+            .sorted { sort.compare($0, $1, bytes: bytes(for:)) }
     }
 
     /// Largest single child, so the contents bars share one scale.
