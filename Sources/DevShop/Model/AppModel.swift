@@ -257,11 +257,7 @@ final class AppModel {
     }
 
     private func matches(_ tool: DetectedTool) -> Bool {
-        let q = trimmedQuery
-        guard !q.isEmpty else { return true }
-        let haystack = [tool.name, tool.subtitle, tool.version ?? "",
-                        tool.path ?? "", tool.managedBy]
-        return haystack.contains { $0.localizedStandardContains(q) }
+        SearchFilter.matches(tool, query: trimmedQuery)
     }
 
     /// Every category with at least one tool, filtered by the search field and the sidebar
@@ -374,8 +370,12 @@ final class AppModel {
 
     /// A container's contents, heaviest first — the order that answers "what is taking up
     /// all this space" without any further clicking.
+    ///
+    /// A search narrows the list to the matching entries. The tile only survives the filter
+    /// because one of its children matched, so showing all 153 formulae again would hide the
+    /// one the user typed.
     func children(of tool: DetectedTool) -> [ToolChild] {
-        tool.children.sorted {
+        tool.children.filter { SearchFilter.matches($0, query: trimmedQuery) }.sorted {
             let a = bytes(for: $0), b = bytes(for: $1)
             return a == b ? $0.name.localizedStandardCompare($1.name) == .orderedAscending : a > b
         }
