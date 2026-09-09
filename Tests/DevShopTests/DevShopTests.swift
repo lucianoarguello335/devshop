@@ -69,6 +69,24 @@ struct ProbeTests {
     func missingDirectory() {
         #expect(Probes.subdirectories(of: "/nope/definitely/not/here").isEmpty)
     }
+
+    /// Several casks stage a `latest` symlink beside the real version directory. Counting
+    /// it made the cask look like it had two versions installed, and `latest` sorted after
+    /// every number, so it became the reported version.
+    @Test("a symlink to a directory is not counted as a version of its own")
+    func symlinkedVersionIsSkipped() throws {
+        let root = FileManager.default.temporaryDirectory
+            .appendingPathComponent("devshop-caskroom-\(UUID().uuidString)")
+        let real = root.appendingPathComponent("583.0.0")
+        try FileManager.default.createDirectory(at: real, withIntermediateDirectories: true)
+        try FileManager.default.createSymbolicLink(at: root.appendingPathComponent("latest"),
+                                                   withDestinationURL: real)
+        defer { try? FileManager.default.removeItem(at: root) }
+
+        #expect(Probes.subdirectories(of: root.path) == ["583.0.0"])
+        #expect(Probes.isSymbolicLink(root.appendingPathComponent("latest").path))
+        #expect(!Probes.isSymbolicLink(real.path))
+    }
 }
 
 // MARK: - Homebrew

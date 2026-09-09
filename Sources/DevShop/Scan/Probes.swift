@@ -40,14 +40,26 @@ enum Probes {
         return found && dir.boolValue
     }
 
+    /// True for a symlink itself, without following it. `attributesOfItem` does not
+    /// resolve the link, which is exactly the distinction `isDirectory` cannot make.
+    static func isSymbolicLink(_ path: String) -> Bool {
+        let attributes = try? FileManager.default.attributesOfItem(atPath: expand(path))
+        return attributes?[.type] as? FileAttributeType == .typeSymbolicLink
+    }
+
     /// Immediate subdirectory names, sorted, hidden entries dropped. Returns `[]` for a
     /// path that does not exist — an unreadable directory is not an error here.
+    ///
+    /// Symlinks are skipped even when they point at a directory. Several casks stage a
+    /// `latest` link beside the real version directory; counting it made the cask look
+    /// like it had two versions installed and made `latest` sort last, which is what the
+    /// version pass then reported.
     static func subdirectories(of path: String) -> [String] {
         let full = expand(path)
         guard let names = try? FileManager.default.contentsOfDirectory(atPath: full) else { return [] }
         return names
             .filter { !$0.hasPrefix(".") }
-            .filter { isDirectory(full + "/" + $0) }
+            .filter { isDirectory(full + "/" + $0) && !isSymbolicLink(full + "/" + $0) }
             .sorted()
     }
 
