@@ -1147,4 +1147,22 @@ struct SearchFilterTests {
         #expect(model.children(of: tool).count == 3)
     }
 
+    @MainActor
+    @Test("the contents list follows the column the centre list is sorted by")
+    func contentsFollowTheSort() {
+        let model = AppModel()
+        let tool = container(children: [child("summarize"), child("libomp"), child("libpq")])
+
+        // The default, and what the list header shows on launch.
+        #expect(model.sort.field == .name && model.sort.ascending)
+        #expect(model.children(of: tool).map(\.token) == ["libomp", "libpq", "summarize"])
+
+        model.sort.toggle(.name)
+        #expect(model.children(of: tool).map(\.token) == ["summarize", "libpq", "libomp"])
+
+        // Size starts descending, and with nothing measured every child ties on zero, so
+        // the name is what breaks the tie — descending, to match.
+        model.sort.toggle(.size)
+        #expect(model.children(of: tool).map(\.token) == ["summarize", "libpq", "libomp"])
+    }
 }

@@ -61,6 +61,35 @@ struct ToolSort: Sendable, Equatable {
         }
         return ascending ? result : !result
     }
+
+    /// The same ordering applied to what is inside a container tile, so the inspector's
+    /// Contents list agrees with the column header the user clicked. A child has no
+    /// "managed by" of its own — it is whatever installed the parent — so that column
+    /// falls back to the name.
+    func compare(_ a: ToolChild, _ b: ToolChild, bytes: (ToolChild) -> Int64) -> Bool {
+        let byName = a.name.localizedStandardCompare(b.name) == .orderedAscending
+        let result: Bool
+        switch field {
+        case .name, .managedBy:
+            result = byName
+        case .version:
+            // A child's version is never nil, but it can be empty or a placeholder like
+            // "tap". Empty sorts last in ascending order, matching the tool rule above.
+            switch (a.version.isEmpty, b.version.isEmpty) {
+            case (true, true): result = byName
+            case (true, false): result = false
+            case (false, true): result = true
+            case (false, false):
+                result = a.version.localizedStandardCompare(b.version) == .orderedAscending
+            }
+        case .location:
+            result = a.path.localizedStandardCompare(b.path) == .orderedAscending
+        case .size:
+            let x = bytes(a), y = bytes(b)
+            result = x == y ? byName : x < y
+        }
+        return ascending ? result : !result
+    }
 }
 
 /// How the centre column draws its tools.
