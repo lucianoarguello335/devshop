@@ -27,6 +27,16 @@ Built from a Claude Design handoff (`DevShop Window.dc.html`) as a native SwiftU
 It never installs, updates or removes anything, never spawns a subprocess or shell, and never
 makes a network request. The only actions are Open in Finder, Copy path and Open website.
 
+## Install
+
+Download the latest `DevShop-<version>.dmg` from [Releases](https://github.com/lucianoarguello335/devshop/releases),
+open it, and drag DevShop to Applications.
+
+The app is signed with a Developer ID certificate and notarized by Apple, so it opens on a
+double-click with no Gatekeeper detour.
+
+Requires macOS 15 or later. The binary is universal — Apple silicon and Intel both run natively.
+
 ## Build
 
 ```bash
@@ -34,6 +44,29 @@ make run          # release build, wrap into DevShop.app, launch
 make test         # unit tests
 make app          # build the bundle without launching
 ```
+
+### Cutting a release
+
+```bash
+make release                  # universal, signed, notarized, stapled -> dist/
+make release ARGS=--dry-run   # rehearse the whole thing without a certificate
+```
+
+`VERSION` is the single source of truth for the version string, the DMG filename and the git
+tag. `CFBundleVersion` comes from the commit count, so there is no second number to bump.
+
+A release needs two things on the build machine, both one-time:
+
+- A **Developer ID Application** certificate in the keychain. Xcode creates it: Settings >
+  Accounts > *team* > Manage Certificates > **+** > Developer ID Application.
+- A notarization credential named `devshop-notary`:
+
+  ```bash
+  xcrun notarytool store-credentials devshop-notary --apple-id <you> --team-id <team>
+  ```
+
+  The password is an [app-specific password](https://support.apple.com/en-us/HT204397), not
+  the Apple Account password.
 
 The first build needs nothing but the Swift toolchain shipped with Xcode. `icons.json` and
 `catalog.json` are committed, so `make icons` and `make catalog` are only needed when you
