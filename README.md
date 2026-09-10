@@ -52,6 +52,10 @@ make release                  # universal, signed, notarized, stapled -> dist/
 make release ARGS=--dry-run   # rehearse the whole thing without a certificate
 ```
 
+It writes two identical images: `DevShop-<version>.dmg` and `DevShop.dmg`. **Attach both to the
+release.** GitHub's `/releases/latest/download/<name>` shortcut needs a constant filename, and the
+website links the version-less one, so that URL never has to be edited again.
+
 `VERSION` is the single source of truth for the version string, the DMG filename and the git
 tag. `CFBundleVersion` comes from the commit count, so there is no second number to bump.
 
