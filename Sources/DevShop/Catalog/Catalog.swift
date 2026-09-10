@@ -5,7 +5,7 @@ enum Catalog {
     static let all: [ToolDefinition] = load()
 
     private static func load() -> [ToolDefinition] {
-        guard let url = Bundle.module.url(forResource: "catalog", withExtension: "json"),
+        guard let url = ResourceBundle.url(forResource: "catalog", withExtension: "json"),
               let data = try? Data(contentsOf: url) else {
             assertionFailure("catalog.json is missing from the bundle")
             return []

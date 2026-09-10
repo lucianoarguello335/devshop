@@ -4,7 +4,7 @@ import Foundation
 /// Used by the diagnostics dump to report which icon source a package would get.
 enum IconStoreProbe {
     private static let slugs: Set<String> = {
-        guard let url = Bundle.module.url(forResource: "icons", withExtension: "json"),
+        guard let url = ResourceBundle.url(forResource: "icons", withExtension: "json"),
               let data = try? Data(contentsOf: url, options: .mappedIfSafe),
               let map = try? JSONDecoder().decode([String: String].self, from: data) else {
             return []

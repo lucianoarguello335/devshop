@@ -9,7 +9,7 @@ enum IconStore {
     private static var pathData: [String: String] = {
         // Mapped rather than read: the file is a quarter of a megabyte and every entry is
         // dropped again as soon as it has been parsed, so it never needs to be resident.
-        guard let url = Bundle.module.url(forResource: "icons", withExtension: "json"),
+        guard let url = ResourceBundle.url(forResource: "icons", withExtension: "json"),
               let data = try? Data(contentsOf: url, options: .mappedIfSafe),
               let map = try? JSONDecoder().decode([String: String].self, from: data) else {
             return [:]
