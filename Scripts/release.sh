@@ -139,13 +139,31 @@ if [ "$NOTARIZE" = "1" ]; then
   spctl -a -vvv -t open --context context:primary-signature "$DMG"
 fi
 
+# ---------------------------------------------------------------- stable filename
+
+# GitHub's /releases/latest/download/<name> shortcut needs the asset filename to be constant.
+# Shipping a second, version-less copy alongside the versioned one gives the website a download
+# URL that never has to be edited again. It is a byte copy of the stapled image, so it carries
+# the same signature and the same notarization ticket.
+STABLE="dist/DevShop.dmg"
+cp "$DMG" "$STABLE"
+if [ "$NOTARIZE" = "1" ]; then
+  # Prove the copy really did keep the ticket rather than assuming a copy is transparent.
+  xcrun stapler validate "$STABLE"
+  spctl -a -vvv -t open --context context:primary-signature "$STABLE"
+fi
+
 # ---------------------------------------------------------------- summary
 
 step "Done"
 echo "artifact  $DMG"
+echo "stable    $STABLE  (same bytes; keeps /releases/latest/download working)"
 echo "size      $(du -h "$DMG" | cut -f1)"
 echo "sha256    $(shasum -a 256 "$DMG" | cut -d' ' -f1)"
 echo
 echo "Next:"
 echo "  git tag v$VERSION && git push origin v$VERSION"
-echo "  gh release create v$VERSION $DMG --title \"DevShop $VERSION\" --notes-file <notes>"
+echo "  gh release create v$VERSION $DMG $STABLE --title \"DevShop $VERSION\" --notes-file <notes>"
+echo
+echo "Attach BOTH assets. The website links the version-less one:"
+echo "  https://github.com/lucianoarguello335/devshop/releases/latest/download/DevShop.dmg"
