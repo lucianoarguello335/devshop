@@ -67,11 +67,17 @@ fi
 # reports still symbolicate from .build, which keeps the full binary and its debug info.
 strip -x "$APP/Contents/MacOS/DevShop"
 
-# SwiftPM emits resources as a sibling bundle; Bundle.module looks for it next to the
-# executable, so it has to travel with the binary. Both slices produce identical resource
-# bundles, so either one will do.
-for bundle in "$RESOURCE_DIR"/*.bundle; do
-  [ -e "$bundle" ] && cp -R "$bundle" "$APP/Contents/Resources/"
+# SwiftPM emits resources as a sibling bundle. It travels in Contents/Resources: the standard
+# place, and the only one codesign will seal — a bundle at the app root is refused outright with
+# "unsealed contents present in the bundle root". Sources/DevShop/ResourceBundle.swift is what
+# finds it there at runtime; Bundle.module cannot, and that is why it is not used.
+# Both slices produce identical resource bundles, so either one will do.
+shopt -s nullglob
+BUNDLES=("$RESOURCE_DIR"/*.bundle)
+shopt -u nullglob
+[ ${#BUNDLES[@]} -gt 0 ] || { echo "error: no resource bundle in $RESOURCE_DIR" >&2; exit 1; }
+for bundle in "${BUNDLES[@]}"; do
+  cp -R "$bundle" "$APP/Contents/Resources/"
 done
 
 # Built by Scripts/make-icon.sh; committed so a plain `make app` needs no extra step.
