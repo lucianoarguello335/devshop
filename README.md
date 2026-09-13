@@ -1,41 +1,62 @@
 # DevShop
 
-A read-only macOS viewer and inspector for the development environment installed on your Mac.
+**See every developer tool installed on your Mac — versions, paths, disk usage and what's broken — on one screen.**
 
-Built from a Claude Design handoff (`DevShop Window.dc.html`) as a native SwiftUI app.
+A read-only macOS viewer and inspector for your development environment. Free, open source, and fully offline.
 
-<img src="docs/screenshot.png" width="900" alt="DevShop in light appearance">
-<img src="docs/screenshot-dark.png" width="900" alt="DevShop in dark appearance">
+### [⬇️ Download DevShop for macOS](https://github.com/lucianoarguello335/devshop/releases/latest)
+
+Signed and notarized DMG · macOS 15+ · Universal (Apple Silicon + Intel) · MIT
+[Website](https://www.lucianoarguello.dev/apps/devshop/) · [Releases](https://github.com/lucianoarguello335/devshop/releases)
+
+![DevShop](docs/screenshot.png)
+
+---
+
+## Why
+
+You do not actually know what is on your machine. Three Node versions, a Python from 2021, gigabytes
+of Homebrew you forgot about, and a PATH line copy-pasted years ago that quietly shadows the runtime
+you think you are using. DevShop shows you all of it.
 
 ## What it does
 
-- Probes ~137 languages, SDKs, package managers, IDEs and CLI tools and sorts them into six
-  panels, plus a **Not Installed** panel for everything it knows about but could not find.
-- Reads real versions and paths: Homebrew's `Cellar`/`Caskroom` layout, `Info.plist` of app
-  bundles, and the version directories under nvm, pyenv, rbenv and `JavaVirtualMachines`.
-- Inspects the **terminal config**: every unique thing the login shell does before the first
-  prompt — PATH entries, exports, `eval` init hooks, sourced files, framework settings,
-  aliases, functions and options — deduplicated across the whole startup chain, with every
-  file and line that declares it. Shows which terminal emulators are installed alongside it.
-- Derives **findings** — end-of-life runtimes, stale Homebrew versions, shadowed installs,
-  a missing container runtime, plaintext secrets and broken PATH entries — and rolls them
-  into a health score.
-- Measures how much disk each tool occupies, on demand.
+- **~137 tools detected** — languages, runtimes, package managers, SDKs, IDEs and CLI tools, with
+  real versions and real paths read from Homebrew's Cellar, `Info.plist` files, and nvm/pyenv/rbenv
+  version folders. Shows a dash when no file states a version, instead of guessing.
+- **Disk usage per tool**, heaviest first, measured on demand and cached.
+- **Terminal config inspector** — parses your whole zsh startup chain and lists every PATH entry,
+  export, eval hook, alias and function, with the file and line each came from. Also shows which
+  terminal emulators are installed.
+- **Findings + 0–100 health score** — end-of-life runtimes, stale Homebrew versions, shadowed
+  installs, broken PATH entries, plaintext secrets in your shell config.
+- **Copy setup (JSON)** — the full scan as sorted JSON that diffs cleanly between machines.
+- **Copy AI prompt (⌘⇧C)** — a briefing for an AI agent with exact paths, versions and sizes, so it
+  can plan fixes from real data. Secrets stay masked.
 
-## What it does not do
+## Safety
 
-It never installs, updates or removes anything, never spawns a subprocess or shell, and never
-makes a network request. The only actions are Open in Finder, Copy path and Open website.
+- **Never changes anything.** No install, update or removal. Only Open in Finder, Copy path, Open website.
+- **Never executes anything.** No subprocesses, no shells. Dotfiles are parsed as text, never sourced.
+- **No network access.** End-of-life data ships as a bundled table.
+- **Secrets masked** in the UI, in the JSON export, and in the AI prompt.
 
 ## Install
 
-Download the latest `DevShop-<version>.dmg` from [Releases](https://github.com/lucianoarguello335/devshop/releases),
-open it, and drag DevShop to Applications.
+1. [Download the latest DMG](https://github.com/lucianoarguello335/devshop/releases/latest)
+2. Open it and drag **DevShop** to Applications
+3. Launch it
 
 The app is signed with a Developer ID certificate and notarized by Apple, so it opens on a
 double-click with no Gatekeeper detour.
 
-Requires macOS 15 or later. The binary is universal — Apple silicon and Intel both run natively.
+---
+
+## Screenshots
+
+![Dark appearance](docs/screenshot-dark.png)
+![List view](docs/screenshot-list.png)
+![Findings](docs/screenshot-findings.png)
 
 ## Build
 
