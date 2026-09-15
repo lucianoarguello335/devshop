@@ -9,6 +9,10 @@ struct InspectorView: View {
     @Environment(\.theme) private var theme
     @State private var didCopy = false
     @State private var copyResetTask: Task<Void, Never>?
+    /// Merged hook rows in the resolved PATH lists that the user opened.
+    @State private var expandedHookRuns: Set<String> = []
+    /// Commands whose Nested login PATH the user opened although it matches Login terminal.
+    @State private var expandedNestedPaths: Set<String> = []
 
     private var tool: DetectedTool? { model.selectedTool }
 
@@ -24,6 +28,12 @@ struct InspectorView: View {
                 if let tool { toolBody(tool) } else { placeholder }
             case .configEntry:
                 if let entry = model.selectedConfigEntry { entryBody(entry) } else { placeholder }
+            case .resolvedCommand:
+                if let resolution = model.selectedResolvedCommand {
+                    resolvedBody(resolution)
+                } else {
+                    placeholder
+                }
             case .terminal:
                 if let terminal = model.selectedTerminal {
                     terminalBody(terminal)
@@ -484,6 +494,218 @@ struct InspectorView: View {
     private func entryFindings(_ entry: ConfigEntry) -> some View {
         findingsCard(model.findings(for: entry),
                      emptyMessage: "No findings for \(entry.name) \u{2014} nothing needs attention.")
+    }
+
+    // MARK: - Resolved command
+
+    @ViewBuilder
+    private func resolvedBody(_ resolution: CommandResolution) -> some View {
+        HStack(spacing: 12) {
+            IconChip(slug: nil, symbol: "terminal.fill", colorHex: "0a84ff",
+                     isMissing: false, size: 52, theme: theme, glow: true)
+            VStack(alignment: .leading, spacing: 1) {
+                Text(resolution.command)
+                    .font(.system(size: 14.5, weight: .bold, design: .monospaced))
+                    .textSelection(.enabled)
+                Text(resolution.differs ? "Differs between shell contexts" : "Same in both contexts")
+                    .font(.system(size: 11.5))
+                    .foregroundStyle(resolution.differs ? Color(hex: FindingTier.warning.hex) : theme.muted)
+            }
+        }
+        // Two lines here; the rest is on the tooltip and the group's info popover, so Runs and
+        // Set by stay above the fold.
+        Text(ResolvedPathGroup.shortExplanation)
+            .font(.system(size: 11))
+            .foregroundStyle(theme.muted)
+            .lineLimit(2)
+            .fixedSize(horizontal: false, vertical: true)
+            .help(ResolvedPathGroup.explanation)
+        ScrollView {
+            VStack(alignment: .leading, spacing: 14) {
+                ForEach(ShellContext.allCases) { context in
+                    contextPath(resolution, context: context)
+                }
+            }
+        }
+        Spacer(minLength: 0)
+        findingsCard(model.findings(for: resolution),
+                     emptyMessage: "No findings for \(resolution.command).")
+    }
+
+    private func contextPath(_ resolution: CommandResolution, context: ShellContext) -> some View {
+        let hit = resolution.hit(in: context)
+        let slots = model.shellConfig.pathResolution.path(for: context)?.slots ?? []
+        let winnerIndex = hit.flatMap { hit in slots.firstIndex { $0.dirPath == hit.dir.path } }
+        return VStack(alignment: .leading, spacing: 6) {
+            Text(context.label)
+                .font(.system(size: 11.5, weight: .semibold))
+                .help(context.explanation)
+            detailRow("Runs") {
+                Text(hit?.path ?? "not found")
+                    .font(.system(size: 10.5, design: .monospaced))
+                    .foregroundStyle(hit?.isUncertain == true ? theme.muted : .primary)
+                    .textSelection(.enabled)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            detailRow("Set by") {
+                Text(hit?.dir.sourceLabel ?? "\u{2014}")
+                    .font(.system(size: 10.5, design: .monospaced))
+                    .lineLimit(1)
+                    .truncationMode(.middle)
+                    .textSelection(.enabled)
+                    .help(hit?.dir.sourceFile ?? "")
+            }
+            if let hit, hit.isUncertain {
+                detailRow("Unsure") {
+                    let count = hit.hooksAhead.count
+                    Text("\(count) hook\(count == 1 ? " runs" : "s run") ahead of this directory: "
+                       + "\(hit.hooksSummary). Any of them could put a different "
+                       + "\(resolution.command) first.")
+                        .font(.system(size: 11))
+                        .foregroundStyle(Color(hex: FindingTier.warning.hex))
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
+            // Nested login repeats the Login terminal list with the inherited copies added. When
+            // the answer is the same, that is twenty-odd rows saying nothing new.
+            let key = resolution.command
+            let isCollapsible = context == .nestedLogin && !resolution.differs
+            if isCollapsible {
+                Button {
+                    if expandedNestedPaths.contains(key) { expandedNestedPaths.remove(key) }
+                    else { expandedNestedPaths.insert(key) }
+                } label: {
+                    HStack(spacing: 6) {
+                        SFIcon(symbol: "chevron.right", size: 7, weight: .bold)
+                            .foregroundStyle(theme.muted)
+                            .rotationEffect(.degrees(expandedNestedPaths.contains(key) ? 90 : 0))
+                        Text("Same as Login terminal \u{00b7} show all \(slots.count)")
+                            .font(.system(size: 11))
+                            .foregroundStyle(theme.muted)
+                    }
+                    .contentShape(.rect)
+                }
+                .buttonStyle(.plain)
+            }
+            if !isCollapsible || expandedNestedPaths.contains(key) {
+            VStack(alignment: .leading, spacing: 2) {
+                ForEach(slotRuns(slots), id: \.start) { run in
+                    switch run.kind {
+                    case .dir(let dir):
+                        dirRow(dir, position: run.start + 1, isWinner: run.start == winnerIndex)
+                    case .hooks(let steps):
+                        hookRunRow(steps, start: run.start, key: "\(context.rawValue).\(run.start)")
+                    }
+                }
+            }
+            }
+        }
+    }
+
+    private struct SlotRun {
+        enum Kind { case dir(ResolvedDir), hooks([PathStep]) }
+        var start: Int
+        var kind: Kind
+    }
+
+    /// Back-to-back hooks become one row. Nine "unknown output" lines in a row read as a
+    /// broken list, and what matters is how many there are and where the directories start.
+    private func slotRuns(_ slots: [PathSlot]) -> [SlotRun] {
+        var runs: [SlotRun] = []
+        for (index, slot) in slots.enumerated() {
+            switch slot {
+            case .dir(let dir):
+                runs.append(SlotRun(start: index, kind: .dir(dir)))
+            case .hook(let step):
+                if case .hooks(let steps) = runs.last?.kind {
+                    runs[runs.count - 1].kind = .hooks(steps + [step])
+                } else {
+                    runs.append(SlotRun(start: index, kind: .hooks([step])))
+                }
+            }
+        }
+        return runs
+    }
+
+    private func positionLabel(_ text: String) -> some View {
+        Text(text)
+            .font(.system(size: 9.5, design: .monospaced))
+            .foregroundStyle(theme.faint)
+            .frame(width: 30, alignment: .trailing)
+    }
+
+    /// A fixed width, so a long path cannot squeeze its source down to a sliver, and the
+    /// sources line up in one column down the list.
+    private func sourceText(_ text: String, help: String? = nil) -> some View {
+        Text(text)
+            .font(.system(size: 9.5, design: .monospaced))
+            .foregroundStyle(theme.faint)
+            .lineLimit(1)
+            .truncationMode(.head)
+            .frame(width: 92, alignment: .trailing)
+            .help(help ?? text)
+    }
+
+    private func dirRow(_ dir: ResolvedDir, position: Int, isWinner: Bool) -> some View {
+        HStack(alignment: .firstTextBaseline, spacing: 6) {
+            positionLabel("\(position)")
+            Text(dir.path)
+                .font(.system(size: 10.5, weight: isWinner ? .bold : .regular, design: .monospaced))
+                .foregroundStyle(isWinner ? DevTheme.accent : .primary)
+                .lineLimit(1)
+                .truncationMode(.middle)
+            if dir.isConditional {
+                Text("if").font(.system(size: 9, weight: .bold)).foregroundStyle(theme.muted)
+                    .help("Added inside a condition; it may not apply")
+            }
+            Spacer(minLength: 4)
+            sourceText(dir.shortSourceLabel, help: "\(dir.sourceLabel) (\(dir.sourceFile))")
+        }
+    }
+
+    @ViewBuilder
+    private func hookRunRow(_ steps: [PathStep], start: Int, key: String) -> some View {
+        let isOpen = expandedHookRuns.contains(key)
+        let warning = Color(hex: FindingTier.warning.hex)
+        Button {
+            if isOpen { expandedHookRuns.remove(key) } else { expandedHookRuns.insert(key) }
+        } label: {
+            HStack(alignment: .firstTextBaseline, spacing: 6) {
+                positionLabel(steps.count == 1 ? "\(start + 1)" : "\(start + 1)\u{2013}\(start + steps.count)")
+                SFIcon(symbol: "chevron.right", size: 7, weight: .bold)
+                    .foregroundStyle(warning)
+                    .rotationEffect(.degrees(isOpen ? 90 : 0))
+                Text(steps.count == 1 ? "hook \u{00b7} unknown output"
+                                      : "\(steps.count) hooks \u{00b7} unknown output")
+                    .font(.system(size: 10.5, design: .monospaced))
+                    .foregroundStyle(warning)
+                    .lineLimit(1)
+                    .fixedSize()
+                    .layoutPriority(1)
+                Spacer(minLength: 4)
+                if steps.count == 1 { sourceText(steps[0].origin.location) }
+            }
+            .contentShape(.rect)
+        }
+        .buttonStyle(.plain)
+        .help(steps.map { $0.origin.text }.joined(separator: "\n"))
+        .accessibilityLabel("\(steps.count) hooks with unknown output")
+        .accessibilityValue(isOpen ? "expanded" : "collapsed")
+        if isOpen {
+            // In run order, which is the reverse of their order in PATH.
+            ForEach(Array(steps.reversed().enumerated()), id: \.offset) { _, step in
+                HStack(alignment: .firstTextBaseline, spacing: 6) {
+                    positionLabel("")
+                    Text(step.hookName)
+                        .font(.system(size: 10.5, design: .monospaced))
+                        .lineLimit(1)
+                        .truncationMode(.middle)
+                    Spacer(minLength: 4)
+                    sourceText(step.origin.location)
+                }
+                .help(step.origin.text)
+            }
+        }
     }
 
     // MARK: - Terminal

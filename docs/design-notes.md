@@ -62,6 +62,20 @@ also where it stops being useful: following every `source` pulls in the three hu
 oh-my-zsh loads, and a sourced file's own `setopt`s and functions are filtered out for the
 same reason.
 
+**PATH is resolved, not run.** `Scan/PathResolver.swift` answers "which `python3` runs here" for
+two contexts: a new Terminal window, and a login shell started from one that already built PATH
+(an editor's terminal, tmux). The reader records every PATH statement in run order — prepend,
+append or replace, inside a condition or not, guarded by an "already on PATH" test or not — with
+sourced files spliced in at the line that sources them. The resolver replays those steps from
+launchd's default PATH, then replays them again on top of the result for the nested shell.
+`path_helper` is modelled rather than run, because its rule is fixed: `/etc/paths`, then
+`/etc/paths.d` in numeric order, then whatever PATH already held. That second pass is where the
+two contexts split: path_helper moves inherited directories behind `/usr/bin`, and a guarded
+prepend then declines to add them again. What stops certainty is an `eval` or a `source` that
+was not read. It is kept as a slot at its position, and any lookup that passes it is marked
+uncertain instead of guessed — and is never reported as a finding. Running `zsh -ilc 'whence
+python3'` would give exact answers and would execute the user's dotfiles to get them.
+
 **Secrets are masked, and stay masked in exports.** A value whose name or shape says
 credential is shown as `AIza••••••••••DpdA` with a click-to-reveal in the inspector, raises an
 error-tier finding, and is written to the setup JSON and the AI prompt in its masked form

@@ -16,6 +16,7 @@ struct ConfigSection: View {
         VStack(alignment: .leading, spacing: 11) {
             header
             if !model.shellConfig.terminals.isEmpty { terminals }
+            if !model.resolvedCommands.isEmpty { ResolvedPathGroup(model: model) }
             ForEach(model.configGroups) { group in
                 VStack(alignment: .leading, spacing: 4) {
                     ConfigGroupHeader(kind: group.kind,
@@ -86,8 +87,11 @@ struct ConfigSection: View {
 /// `Image` gives macOS a glyph-shaped tracking area that a hover barely lands on, and a
 /// tooltip is invisible to anyone whose instinct is to click. The click opens a popover, and
 /// the tooltip is kept as well for anyone who does hover.
-private struct ConfigGroupHeader: View {
-    let kind: ConfigEntryKind
+struct ConfigGroupHeader: View {
+    let title: String
+    let symbol: String
+    let accentHex: String
+    let explanation: String
     let count: Int
     let isExpanded: Bool
     let theme: DevTheme
@@ -104,9 +108,9 @@ private struct ConfigGroupHeader: View {
                         .foregroundStyle(theme.muted)
                         .rotationEffect(.degrees(isExpanded ? 90 : 0))
                         .frame(width: 9)
-                    SFIcon(symbol: kind.symbol, size: 9, weight: .semibold)
-                        .foregroundStyle(Color(hex: kind.accentHex))
-                    Text(kind.groupTitle.uppercased())
+                    SFIcon(symbol: symbol, size: 9, weight: .semibold)
+                        .foregroundStyle(Color(hex: accentHex))
+                    Text(title.uppercased())
                         .font(.system(size: 10.5, weight: .semibold))
                         .kerning(0.5)
                         .foregroundStyle(theme.muted)
@@ -118,8 +122,8 @@ private struct ConfigGroupHeader: View {
                 .contentShape(.rect)
             }
             .buttonStyle(.plain)
-            .help(isExpanded ? "Collapse \(kind.groupTitle)" : "Expand \(kind.groupTitle)")
-            .accessibilityLabel("\(kind.groupTitle), \(count) entries")
+            .help(isExpanded ? "Collapse \(title)" : "Expand \(title)")
+            .accessibilityLabel("\(title), \(count) entries")
             .accessibilityValue(isExpanded ? "expanded" : "collapsed")
             .accessibilityHint("Shows or hides this group")
 
@@ -151,26 +155,35 @@ private struct ConfigGroupHeader: View {
                 .contentShape(.rect)
         }
         .buttonStyle(.plain)
-        .help(kind.explanation)
-        .accessibilityLabel("About \(kind.groupTitle)")
-        .accessibilityValue(kind.explanation)
+        .help(explanation)
+        .accessibilityLabel("About \(title)")
+        .accessibilityValue(explanation)
         .popover(isPresented: $isExplaining, arrowEdge: .bottom) {
             VStack(alignment: .leading, spacing: 6) {
                 HStack(spacing: 6) {
-                    SFIcon(symbol: kind.symbol, size: 10, weight: .semibold)
-                        .foregroundStyle(Color(hex: kind.accentHex))
-                    Text(kind.groupTitle.uppercased())
+                    SFIcon(symbol: symbol, size: 10, weight: .semibold)
+                        .foregroundStyle(Color(hex: accentHex))
+                    Text(title.uppercased())
                         .font(.system(size: 10.5, weight: .semibold))
                         .kerning(0.5)
                         .foregroundStyle(theme.muted)
                 }
-                Text(kind.explanation)
+                Text(explanation)
                     .font(.system(size: 11.5))
                     .fixedSize(horizontal: false, vertical: true)
             }
             .padding(12)
             .frame(width: 270, alignment: .leading)
         }
+    }
+}
+
+extension ConfigGroupHeader {
+    init(kind: ConfigEntryKind, count: Int, isExpanded: Bool, theme: DevTheme,
+         toggle: @escaping () -> Void) {
+        self.init(title: kind.groupTitle, symbol: kind.symbol, accentHex: kind.accentHex,
+                  explanation: kind.explanation, count: count, isExpanded: isExpanded,
+                  theme: theme, toggle: toggle)
     }
 }
 

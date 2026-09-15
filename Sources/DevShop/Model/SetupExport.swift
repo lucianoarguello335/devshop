@@ -33,6 +33,8 @@ enum SetupExport {
         var terminals: [Terminal]
         var staleFiles: [String]
         var writableFiles: [String]
+        /// Command name → context → executable, or `null` when not found.
+        var resolvedCommands: [String: [String: String?]]
 
         struct File: Encodable {
             var path: String
@@ -272,6 +274,11 @@ enum SetupExport {
                       configPaths: $0.configPaths)
             },
             staleFiles: config.staleFiles,
-            writableFiles: config.writableFiles)
+            writableFiles: config.writableFiles,
+            resolvedCommands: Dictionary(uniqueKeysWithValues: config.pathResolution.commands.map { command in
+                (command.command, Dictionary(uniqueKeysWithValues: ShellContext.allCases.map {
+                    ($0.rawValue, command.hit(in: $0)?.path)
+                }))
+            }))
     }
 }

@@ -64,6 +64,8 @@ final class AppModel {
         case tool(String)
         case configEntry(String)
         case terminal(String)
+        /// A command name from the Resolved PATH group.
+        case resolvedCommand(String)
     }
 
     var selection: Selection?
@@ -92,6 +94,10 @@ final class AppModel {
     /// a reference list rather than something to read top to bottom, and seventy rows open by
     /// default would push the Findings section off the bottom of the column.
     var collapsedConfigKinds: Set<ConfigEntryKind> = Set(ConfigEntryKind.allCases)
+    /// The Resolved PATH group starts collapsed for the same reason.
+    var resolvedPathExpanded: Bool = false
+    /// Which context the Resolved PATH rows show.
+    var resolvedPathContext: ShellContext = .loginTerminal
     /// `nil` follows the system appearance; the title-bar control sets an override.
     var themeOverride: DevTheme.Appearance?
     /// Grid or list. Remembered between launches, because it is a lasting preference
@@ -223,6 +229,7 @@ final class AppModel {
         case .tool(let id): tools.contains { $0.id == id }
         case .configEntry(let id): shellConfig.entry(id: id) != nil
         case .terminal(let id): shellConfig.terminals.contains { $0.id == id }
+        case .resolvedCommand(let command): shellConfig.pathResolution.commands.contains { $0.command == command }
         case nil: false
         }
     }
@@ -239,6 +246,9 @@ final class AppModel {
         if let flagged = findings.first?.toolIDs.first {
             if tools.contains(where: { $0.id == flagged }) { return .tool(flagged) }
             if shellConfig.entry(id: flagged) != nil { return .configEntry(flagged) }
+            if flagged.hasPrefix(Self.resolvedPrefix) {
+                return .resolvedCommand(String(flagged.dropFirst(Self.resolvedPrefix.count)))
+            }
         }
         return (tools.first { $0.status != .missing }).map { .tool($0.id) }
     }
@@ -292,6 +302,12 @@ final class AppModel {
     /// Config entries grouped by kind, filtered by the search field. Built here rather than
     /// in the view for the same reason `visiblePanels` is.
     private(set) var configGroups: [ConfigGroup] = []
+
+    /// Resolved PATH rows, filtered by the search field.
+    private(set) var resolvedCommands: [CommandResolution] = []
+
+    /// Findings point at a resolved command with this prefix in `toolIDs`.
+    static let resolvedPrefix = "resolved."
 
     /// Tile counts per category, including hidden ones, for the sidebar toggles.
     private(set) var categoryCounts: [ToolCategory: Int] = [:]
@@ -355,6 +371,14 @@ final class AppModel {
             let members = shellConfig.entries.filter { $0.kind == kind && matches($0) }
             return members.isEmpty ? nil : ConfigGroup(kind: kind, entries: members)
         }
+
+        // Commands that differ between contexts first: they are the reason the group exists.
+        resolvedCommands = shellConfig.pathResolution.commands.filter { resolution in
+            q.isEmpty || resolution.command.localizedStandardContains(q)
+                || resolution.hits.values.contains { $0.path.localizedStandardContains(q) }
+        }.enumerated().sorted { a, b in
+            a.element.differs != b.element.differs ? a.element.differs : a.offset < b.offset
+        }.map(\.element)
     }
 
     /// Search matches the name, the value and the files a directive comes from. The raw value
@@ -420,6 +444,22 @@ final class AppModel {
         guard case .configEntry(let id) = selection else { return nil }
         return shellConfig.entry(id: id)
     }
+
+    var selectedResolvedCommand: CommandResolution? {
+        guard case .resolvedCommand(let command) = selection else { return nil }
+        return shellConfig.pathResolution.commands.first { $0.command == command }
+    }
+
+    func findings(for resolution: CommandResolution) -> [Finding] {
+        findings.filter { $0.toolIDs.contains(Self.resolvedPrefix + resolution.command) }
+    }
+
+    func findingTier(for resolution: CommandResolution) -> FindingTier? {
+        findingTierByToolID[Self.resolvedPrefix + resolution.command]
+    }
+
+    /// Search opens the group, like `isExpanded(_:)` does for the others.
+    var isResolvedPathShown: Bool { !trimmedQuery.isEmpty || resolvedPathExpanded }
 
     var selectedTerminal: TerminalApp? {
         guard case .terminal(let id) = selection else { return nil }
@@ -631,6 +671,7 @@ final class AppModel {
         if case .configEntry(let id) = new, let kind = shellConfig.entry(id: id)?.kind {
             collapsedConfigKinds.remove(kind)
         }
+        if case .resolvedCommand = new { resolvedPathExpanded = true }
         selection = new
     }
 

@@ -16,6 +16,7 @@ enum ConfigRules {
         findings += missingPathDirectories(config, fileManager: fileManager)
         findings += duplicatePathEntries(config)
         findings += pathSetInInteractiveFile(config)
+        findings += commandsDifferByContext(config)
         findings += missingSourcedFiles(config, fileManager: fileManager)
         findings += profilingLeftEnabled(config)
         findings += slowInitHooks(config)
@@ -88,6 +89,49 @@ enum ConfigRules {
                   + "rest just make PATH longer to search.",
             scope: "Terminal Config · PATH",
             toolIDs: duplicated.map(\.id))]
+    }
+
+    /// A command that runs a different executable in a new Terminal window than in a login
+    /// shell started from another shell. Lookups with a hook ahead of them are left out: the
+    /// hook could make them agree, and a finding has to be something the files prove.
+    private static func commandsDifferByContext(_ config: ShellConfigSnapshot) -> [Finding] {
+        let differing = config.pathResolution.commands.filter { $0.differs && !$0.isUncertain }
+        guard !differing.isEmpty else { return [] }
+
+        let descriptions = differing.map { resolution in
+            let login = resolution.hit(in: .loginTerminal)?.path ?? "nothing"
+            let nested = resolution.hit(in: .nestedLogin)?.path ?? "nothing"
+            return "\(resolution.command) runs \(login) in a new Terminal window but \(nested) "
+                 + "in a nested login shell"
+        }
+        let guardLines = differing.compactMap { resolution -> String? in
+            guard let origin = resolution.hit(in: .loginTerminal)?.dir.setBy,
+                  config.pathSteps.contains(where: { $0.origin == origin && $0.skipsIfPresent })
+            else { return nil }
+            return origin.location
+        }
+        let helperCause = "path_helper in /etc/zprofile moves inherited directories behind "
+            + "the system ones when the chain runs again."
+        let guards = list(Array(Set(guardLines)).sorted())
+        let verb = guardLines.count == 1 ? "adds" : "add"
+        let guardCause = "\(guards) only \(verb) a directory when it is not already on PATH, "
+            + "and path_helper has moved the inherited copy behind the system directories. "
+            + "Drop the guard, or add `typeset -U path` and prepend unconditionally."
+        let cause = guardLines.isEmpty ? helperCause : guardCause
+
+        let pathIDs = differing.flatMap { resolution in
+            resolution.hits.values.map { "path.\($0.dir.path)" }
+        }.filter { config.entry(id: $0) != nil }
+
+        return [Finding(
+            id: "config.path.contextmismatch",
+            tier: .warning,
+            title: "\(differing.count) command\(differing.count == 1 ? "" : "s") "
+                 + "resolve\(differing.count == 1 ? "s" : "") differently in nested shells",
+            detail: descriptions.joined(separator: "; ") + ". Editors' built-in terminals and "
+                  + "tmux start that kind of shell. " + cause,
+            scope: "Terminal Config · Resolved PATH",
+            toolIDs: differing.map { "resolved.\($0.command)" } + Array(Set(pathIDs)).sorted())]
     }
 
     /// PATH built in `.zshrc` rather than `.zprofile`. `.zshrc` runs for every interactive

@@ -23,6 +23,11 @@ enum ShellConfigReader {
         var merged: [ConfigEntry] = []
         var filesRead: [ConfigOrigin] = []
         var seenFiles: Set<String> = []
+        // Kept per file, in chain order, so sourced files can be spliced in where they run.
+        var chainFiles: [String] = []
+        var statementsByFile: [String: [PathStatement]] = [:]
+        var pathHelperDirs: [String] = []
+        var pathHelperSources: [String: String] = [:]
 
         func ingest(path: String, stage: LoadStage, isPathList: Bool = false) {
             let full = Probes.expand(path)
@@ -30,6 +35,16 @@ enum ShellConfigReader {
                   let text = try? String(contentsOfFile: full, encoding: .utf8) else { return }
             seenFiles.insert(full)
             let short = abbreviate(full, home: home)
+            if isPathList {
+                for dir in pathListDirectories(text) {
+                    pathHelperDirs.append(dir)
+                    pathHelperSources[dir] = pathHelperSources[dir] ?? short
+                }
+            } else {
+                statementsByFile[full] = parsePathStatements(text, file: short,
+                                                             stage: stage, home: home)
+                if stage != .sourced { chainFiles.append(full) }
+            }
             var parsed = isPathList
                 ? parsePathList(text, file: short, stage: stage, home: home)
                 : parse(text, file: short, stage: stage, home: home)
@@ -52,7 +67,10 @@ enum ShellConfigReader {
         // path_helper folds these into PATH before any user rc file runs, so they belong in
         // the chain even though no shell file mentions them.
         ingest(path: "/etc/paths", stage: .pathHelper, isPathList: true)
-        for name in (try? fileManager.contentsOfDirectory(atPath: "/etc/paths.d"))?.sorted() ?? [] {
+        // path_helper orders these numerically — `40-XQuartz` before `100-rvictl` — and the
+        // resolver depends on matching it.
+        let pathsD = (try? fileManager.contentsOfDirectory(atPath: "/etc/paths.d")) ?? []
+        for name in pathsD.sorted(by: { $0.localizedStandardCompare($1) == .orderedAscending }) {
             guard !name.hasPrefix(".") else { continue }
             ingest(path: "/etc/paths.d/" + name, stage: .pathHelper, isPathList: true)
         }
@@ -78,13 +96,60 @@ enum ShellConfigReader {
                 : order($0.kind) < order($1.kind)
         }
 
+        var pathIsUnique = false
+        // What the chain has set so far, in run order. Only values that need no running:
+        // a `$(…)` assignment removes the name, so a later `$NAME` stays unknown.
+        var variables: [String: String] = ["HOME": home]
+        if let zdotdir = environment["ZDOTDIR"] { variables["ZDOTDIR"] = Probes.expand(zdotdir) }
+
+        func steps(in file: String, visiting: Set<String>) -> [PathStep] {
+            var out: [PathStep] = []
+            for statement in statementsByFile[file] ?? [] {
+                switch statement {
+                case .step(let step):
+                    out.append(expandingVariables(step, variables: variables, home: home))
+                case .assign(let name, let value):
+                    if value.contains("$(") || value.contains("`") {
+                        variables[name] = nil
+                    } else {
+                        variables[name] = expandVariables(value, variables: variables)
+                    }
+                case .unique:
+                    pathIsUnique = true
+                case .source(let written, let origin, let isConditional):
+                    let target = written.contains("$")
+                        ? expandVariables(written, variables: variables) ?? written
+                        : written
+                    if statementsByFile[target] != nil, !visiting.contains(target) {
+                        out += steps(in: target, visiting: visiting.union([target])).map {
+                            var step = $0
+                            step.isConditional = step.isConditional || isConditional
+                            return step
+                        }
+                    } else if target.contains("$") || fileManager.fileExists(atPath: target) {
+                        // Sourced but not read — past one level, or not expandable. It may
+                        // change PATH, and nothing here can say how.
+                        out.append(PathStep(operation: .unknown(hook: origin.text),
+                                            origin: origin, isConditional: isConditional))
+                    }
+                    // A file that does not exist changes nothing.
+                }
+            }
+            return out
+        }
+        let pathSteps = chainFiles.flatMap { steps(in: $0, visiting: [$0]) }
+
         return ShellConfigSnapshot(
             shell: shell,
             entries: merged,
             filesRead: filesRead,
             terminals: terminals,
             staleFiles: staleFiles(home: home, fileManager: fileManager),
-            writableFiles: writableFiles(filesRead.map(\.text), home: home, fileManager: fileManager))
+            writableFiles: writableFiles(filesRead.map(\.text), home: home, fileManager: fileManager),
+            pathSteps: pathSteps,
+            pathHelperDirs: pathHelperDirs,
+            pathHelperSources: pathHelperSources,
+            pathIsUnique: pathIsUnique)
     }
 
     /// Kinds a sourced file is allowed to contribute. See the filter in `read`.
@@ -187,6 +252,303 @@ enum ShellConfigReader {
                                                   stage: stage, text: line),
                              home: home)
         }
+    }
+
+    // MARK: - PATH steps
+
+    /// A PATH step, a `source` the reader splices the target's steps in after, or
+    /// `typeset -U path`.
+    enum PathStatement: Equatable {
+        case step(PathStep)
+        /// `path` is expanded; it still contains `$` when it could not be.
+        case source(path: String, origin: ConfigOrigin, isConditional: Bool)
+        /// `NAME=value`, kept so later `$NAME` in PATH can be expanded.
+        case assign(name: String, value: String)
+        case unique
+    }
+
+    /// The PATH-changing statements of one file, in order. Pure, like `parse`.
+    static func parsePathSteps(_ text: String,
+                               file: String,
+                               stage: LoadStage,
+                               home: String = Probes.home) -> [PathStep] {
+        parsePathStatements(text, file: file, stage: stage, home: home).compactMap {
+            if case .step(let step) = $0 { step } else { nil }
+        }
+    }
+
+    static func parsePathStatements(_ text: String,
+                                    file: String,
+                                    stage: LoadStage,
+                                    home: String = Probes.home) -> [PathStatement] {
+        var out: [PathStatement] = []
+        let lines = text.components(separatedBy: .newlines)
+        var index = 0
+        var braceDepth = 0
+        var blockDepth = 0
+        // Depth of an open `if` whose condition tests PATH; everything inside is guarded.
+        var pathGuardDepth: Int?
+
+        while index < lines.count {
+            let lineNumber = index + 1
+            var raw = lines[index]
+            while raw.hasSuffix("\\"), index + 1 < lines.count {
+                raw = String(raw.dropLast()) + " "
+                    + lines[index + 1].trimmingCharacters(in: .whitespaces)
+                index += 1
+            }
+            index += 1
+
+            let line = raw.trimmingCharacters(in: .whitespaces)
+            guard !line.isEmpty, !line.hasPrefix("#") else { continue }
+            if braceDepth > 0 {
+                braceDepth += braceDelta(line)
+                continue
+            }
+            var statement = stripComment(line)
+            guard !statement.isEmpty else { continue }
+            if functionName(in: statement) != nil {
+                braceDepth += braceDelta(statement)
+                continue
+            }
+
+            // `path=(\n a\n $path\n)` is one statement.
+            if let assigned = assignment(in: statement),
+               assigned.value.hasPrefix("("), !assigned.value.contains(")") {
+                while index < lines.count {
+                    let next = stripComment(lines[index])
+                    index += 1
+                    statement += " " + next
+                    if next.contains(")") { break }
+                }
+            }
+
+            let origin = ConfigOrigin(file: file, line: lineNumber, stage: stage, text: line)
+            let words = statement
+                .replacingOccurrences(of: ";", with: " ; ")
+                .split(whereSeparator: { $0 == " " || $0 == "\t" })
+                .map(String.init)
+            let opensBlock = words.contains { blockOpeners.contains($0) }
+            let isConditional = blockDepth > 0 || opensBlock
+                || statement.contains("&&") || statement.contains("||")
+            let parts = segments(of: statement)
+            let testsPath = parts.contains(where: isPathTest)
+            let isGuarded = testsPath || pathGuardDepth.map { blockDepth >= $0 } == true
+            let depthBefore = blockDepth
+            blockDepth = max(0, blockDepth
+                + words.filter { blockOpeners.contains($0) }.count
+                - words.filter { blockClosers.contains($0) }.count)
+            if testsPath, blockDepth > depthBefore { pathGuardDepth = blockDepth }
+            if let depth = pathGuardDepth, blockDepth < depth { pathGuardDepth = nil }
+
+            for segment in parts {
+                out += pathStatements(in: segment, origin: origin,
+                                      isConditional: isConditional, home: home).map {
+                    guard isGuarded, case .step(var step) = $0 else { return $0 }
+                    step.skipsIfPresent = true
+                    return .step(step)
+                }
+            }
+        }
+        return out
+    }
+
+    /// A test, not a command, that looks at PATH: `[[ ":$PATH:" != *…* ]]`,
+    /// `if (( ! ${path[(Ie)/x]} ))`, `case ":$PATH:" in`.
+    private static func isPathTest(_ segment: String) -> Bool {
+        let isTest = ["[", "if ", "(( ", "case ", "test ", "! "].contains { segment.hasPrefix($0) }
+        return isTest && ["$PATH", "${PATH", "$path", "${path"].contains { segment.contains($0) }
+    }
+
+    private static let blockOpeners: Set<String> = ["if", "case", "for", "while", "until"]
+    private static let blockClosers: Set<String> = ["fi", "esac", "done"]
+    private static let blockKeywords = ["then ", "else ", "elif ", "do ", "{ "]
+
+    /// `[ -d x ] && export PATH=x:$PATH; fi` → its simple commands, keywords dropped.
+    private static func segments(of statement: String) -> [String] {
+        var parts: [String] = []
+        var current = ""
+        var single = false, double = false, parens = 0
+        var characters = Array(statement)[...]
+        while let character = characters.first {
+            characters = characters.dropFirst()
+            switch character {
+            case "'" where !double: single.toggle()
+            case "\"" where !single: double.toggle()
+            case "(" where !single: parens += 1
+            case ")" where !single: parens = max(0, parens - 1)
+            default: break
+            }
+            let quoted = single || double || parens > 0
+            if !quoted, character == ";" {
+                parts.append(current); current = ""; continue
+            }
+            if !quoted, character == "&" || character == "|", characters.first == character {
+                characters = characters.dropFirst()
+                parts.append(current); current = ""; continue
+            }
+            current.append(character)
+        }
+        parts.append(current)
+        return parts.map { part in
+            var text = part.trimmingCharacters(in: .whitespaces)
+            var changed = true
+            while changed {
+                changed = false
+                for keyword in blockKeywords where text.hasPrefix(keyword) {
+                    text = String(text.dropFirst(keyword.count))
+                        .trimmingCharacters(in: .whitespaces)
+                    changed = true
+                }
+            }
+            return text
+        }.filter { !$0.isEmpty }
+    }
+
+    private static func pathStatements(in segment: String,
+                                       origin: ConfigOrigin,
+                                       isConditional: Bool,
+                                       home: String) -> [PathStatement] {
+        func step(_ operation: PathOperation) -> PathStatement {
+            .step(PathStep(operation: operation, origin: origin, isConditional: isConditional))
+        }
+
+        let words = segment.split(separator: " ").map(String.init)
+        if let first = words.first, ["typeset", "declare"].contains(first),
+           words.contains(where: { $0.hasPrefix("-") && $0.contains("U") }),
+           words.contains(where: { $0 == "path" || $0 == "PATH" }) {
+            return [.unique]
+        }
+        if let hook = evalHook(in: segment) {
+            return [step(hook.value.contains("path_helper") ? .pathHelper
+                                                           : .unknown(hook: origin.text))]
+        }
+        // `path+=(x)` is not an identifier assignment to `assignment(in:)`, so it is read here.
+        for prefix in ["path+=", "PATH+="] where segment.hasPrefix(prefix) {
+            let value = unquote(String(segment.dropFirst(prefix.count)))
+            return pathAssignment((String(prefix.dropLast()), value), home: home).map(step)
+        }
+        if let assigned = assignment(in: segment) {
+            if assigned.name == "PATH" || assigned.name == "path" {
+                return pathAssignment(assigned, home: home).map(step)
+            }
+            return [.assign(name: assigned.name, value: expandHome(assigned.value, home: home))]
+        }
+        if let target = sourcedFile(in: segment) {
+            return [.source(path: expandHome(target, home: home),
+                            origin: origin, isConditional: isConditional)]
+        }
+        return []
+    }
+
+    /// `PATH=a:$PATH:b` → prepend a, append b. Anything but a plain directory or `$HOME` in
+    /// the value makes the whole assignment unknown rather than half right.
+    private static func pathAssignment(_ assigned: (name: String, value: String),
+                                       home: String) -> [PathOperation] {
+        var name = assigned.name
+        let isAppendAssign = name.hasSuffix("+")
+        if isAppendAssign { name.removeLast() }
+        guard name == "PATH" || name == "path" else { return [] }
+
+        var value = assigned.value
+        let isArray = value.hasPrefix("(")
+        if isArray { value = String(value.dropFirst().prefix { $0 != ")" }) }
+        let tokens = (isArray ? value.split(separator: " ") : value.split(separator: ":"))
+            .map { unquote(String($0)) }
+            .filter { !$0.isEmpty }
+
+        var before: [String] = [], after: [String] = []
+        var sawCarryOver = false
+        for token in tokens {
+            if isPathCarryOver(token) || token == "${path[@]}" {
+                sawCarryOver = true
+                continue
+            }
+            let expanded = expandHome(token, home: home)
+            // `$(…)` and backticks need running. A plain `$VAR` is kept as written and
+            // expanded by the reader, which knows what the chain set before this line.
+            guard !expanded.contains("$("), !expanded.contains("`") else {
+                return [.unknown(hook: "\(assigned.name)=\(assigned.value)")]
+            }
+            let short = abbreviate(expanded, home: home)
+            if sawCarryOver { after.append(short) } else { before.append(short) }
+        }
+
+        if isAppendAssign { return (before + after).isEmpty ? [] : [.append(before + after)] }
+        guard sawCarryOver else { return [.replace(before)] }
+        var out: [PathOperation] = []
+        if !before.isEmpty { out.append(.prepend(before)) }
+        if !after.isEmpty { out.append(.append(after)) }
+        return out
+    }
+
+    /// Replaces the `$VAR` tokens in a step's directories. One that cannot be expanded turns
+    /// the whole step unknown, so a half-expanded path is never looked up.
+    static func expandingVariables(_ step: PathStep,
+                                   variables: [String: String],
+                                   home: String) -> PathStep {
+        func expanded(_ paths: [String]) -> [String]? {
+            var out: [String] = []
+            for path in paths {
+                guard path.contains("$") else { out.append(path); continue }
+                guard let value = expandVariables(path, variables: variables) else { return nil }
+                out.append(abbreviate(value, home: home))
+            }
+            return out
+        }
+        var result = step
+        switch step.operation {
+        case .prepend(let paths):
+            if let paths = expanded(paths) { result.operation = .prepend(paths); return result }
+        case .append(let paths):
+            if let paths = expanded(paths) { result.operation = .append(paths); return result }
+        case .replace(let paths):
+            if let paths = expanded(paths) { result.operation = .replace(paths); return result }
+        case .pathHelper, .unknown:
+            return step
+        }
+        result.operation = .unknown(hook: step.origin.text)
+        return result
+    }
+
+    /// `$NAME`, `${NAME}` and `${NAME:-default}` from known values. `nil` when any name is
+    /// unknown or the form is anything else (`${(%):-%n}`, `$(…)`) — never a guess.
+    static func expandVariables(_ text: String, variables: [String: String]) -> String? {
+        var out = ""
+        var rest = Substring(text)
+        while let dollar = rest.firstIndex(of: "$") {
+            out += rest[rest.startIndex..<dollar]
+            rest = rest[rest.index(after: dollar)...]
+            if rest.first == "{" {
+                guard let close = rest.firstIndex(of: "}") else { return nil }
+                let inner = String(rest[rest.index(after: rest.startIndex)..<close])
+                rest = rest[rest.index(after: close)...]
+                let parts = inner.components(separatedBy: ":-")
+                let name = parts[0]
+                guard isIdentifier(name), parts.count <= 2 else { return nil }
+                if let value = variables[name], !value.isEmpty {
+                    out += value
+                } else if parts.count == 2,
+                          let fallback = expandVariables(parts[1], variables: variables) {
+                    out += fallback
+                } else {
+                    return nil
+                }
+            } else {
+                let name = rest.prefix { $0.isLetter || $0.isNumber || $0 == "_" }
+                guard !name.isEmpty, let value = variables[String(name)] else { return nil }
+                out += value
+                rest = rest.dropFirst(name.count)
+            }
+        }
+        return out + rest
+    }
+
+    /// The directories in an `/etc/paths`-style list, in file order.
+    static func pathListDirectories(_ text: String) -> [String] {
+        text.components(separatedBy: .newlines)
+            .map { $0.trimmingCharacters(in: .whitespaces) }
+            .filter { !$0.isEmpty && !$0.hasPrefix("#") }
     }
 
     /// Everything one statement declares. A statement usually declares one thing; a `PATH`

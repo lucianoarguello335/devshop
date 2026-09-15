@@ -36,10 +36,12 @@ actor EnvironmentScanner {
             caskCount: brew.caskCount,
             staleFormulae: stale
         )
+        var shellConfig = ShellConfigReader.read(terminals: TerminalAppsReader.scan())
+        shellConfig.pathResolution = PathResolver.resolution(for: shellConfig)
         return Result(tools: decorate(tools, brew: brew, summary: summary),
                       homebrew: summary,
                       applications: ApplicationsReader.scan(),
-                      shellConfig: ShellConfigReader.read(terminals: TerminalAppsReader.scan()))
+                      shellConfig: shellConfig)
     }
 
     // MARK: - Per-definition probing

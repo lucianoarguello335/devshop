@@ -1166,3 +1166,305 @@ struct SearchFilterTests {
         #expect(model.children(of: tool).map(\.token) == ["summarize", "libpq", "libomp"])
     }
 }
+
+// MARK: - Resolved PATH
+
+@Suite("PATH steps")
+struct PathStepTests {
+    private func steps(_ text: String, stage: LoadStage = .userRC) -> [PathStep] {
+        ShellConfigReader.parsePathSteps(text, file: "~/.zshrc", stage: stage, home: "/Users/tester")
+    }
+
+    @Test("prepend, append and replace are told apart")
+    func operations() {
+        #expect(steps(#"export PATH="$HOME/bin:$PATH""#).map(\.operation) == [.prepend(["~/bin"])])
+        #expect(steps("PATH=$PATH:/opt/x/bin").map(\.operation) == [.append(["/opt/x/bin"])])
+        #expect(steps("export PATH=/a:/b").map(\.operation) == [.replace(["/a", "/b"])])
+        #expect(steps("PATH=/a:$PATH:/b").map(\.operation) == [.prepend(["/a"]), .append(["/b"])])
+    }
+
+    @Test("zsh path arrays, including the multi-line and += forms")
+    func arrays() {
+        #expect(steps("path=(/a $path)").map(\.operation) == [.prepend(["/a"])])
+        #expect(steps("path+=(/z)").map(\.operation) == [.append(["/z"])])
+        #expect(steps("path=(\n  /a\n  $path\n)").map(\.operation) == [.prepend(["/a"])])
+    }
+
+    @Test("path_helper is modelled, other hooks and substitutions are unknown")
+    func hooks() {
+        let helper = steps("if [ -x /usr/libexec/path_helper ]; then\n\teval `/usr/libexec/path_helper -s`\nfi",
+                           stage: .systemProfile)
+        #expect(helper.map(\.operation) == [.pathHelper])
+        if case .unknown = steps(#"eval "$(/opt/homebrew/bin/brew shellenv)""#).first?.operation {} else {
+            Issue.record("brew shellenv should be unknown")
+        }
+        if case .unknown = steps(#"export PATH="$(brew --prefix)/bin:$PATH""#).first?.operation {} else {
+            Issue.record("a command substitution should be unknown")
+        }
+    }
+
+    @Test("if blocks and && guards are conditional, plain lines are not")
+    func conditionals() {
+        #expect(steps("export PATH=/a:$PATH").first?.isConditional == false)
+        #expect(steps("[ -d /a ] && export PATH=/a:$PATH").first?.isConditional == true)
+        let block = steps("if [ -d /a ]; then\n  export PATH=/a:$PATH\nfi\nexport PATH=/b:$PATH")
+        #expect(block.map(\.isConditional) == [true, false])
+    }
+
+    @Test("a condition that tests PATH marks the step as skipped when already present")
+    func pathGuards() {
+        #expect(steps(#"[[ ":$PATH:" != *":/a:"* ]] && export PATH="/a:$PATH""#).first?.skipsIfPresent == true)
+        #expect(steps("[ -d /a ] && export PATH=/a:$PATH").first?.skipsIfPresent == false)
+        let block = steps("if [[ \":$PATH:\" != *\":/a:\"* ]]; then\n  export PATH=/a:$PATH\nfi\nexport PATH=/b:$PATH")
+        #expect(block.map(\.skipsIfPresent) == [true, false])
+    }
+
+    @Test("variable expansion handles $NAME, ${NAME} and ${NAME:-default}, and refuses the rest")
+    func expansion() {
+        let vars = ["HOME": "/Users/tester", "PYENV_ROOT": "/Users/tester/.pyenv"]
+        #expect(ShellConfigReader.expandVariables("$PYENV_ROOT/bin", variables: vars) == "/Users/tester/.pyenv/bin")
+        #expect(ShellConfigReader.expandVariables("${PYENV_ROOT}/shims", variables: vars) == "/Users/tester/.pyenv/shims")
+        #expect(ShellConfigReader.expandVariables("${ZDOTDIR:-$HOME}/.zkbd", variables: vars) == "/Users/tester/.zkbd")
+        #expect(ShellConfigReader.expandVariables("$JAVA_HOME/bin", variables: vars) == nil)
+        #expect(ShellConfigReader.expandVariables("${(%):-%n}", variables: vars) == nil)
+        #expect(ShellConfigReader.expandVariables("/plain", variables: vars) == "/plain")
+    }
+
+    @Test("PATH uses variables the chain set earlier, in run order, and never a $(…) value")
+    func chainVariables() throws {
+        let root = FileManager.default.temporaryDirectory
+            .appendingPathComponent("devshop-vars-\(UUID().uuidString)")
+        try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: root) }
+        try """
+        export JAVA_HOME=/opt/jdk
+        export PYENV_ROOT="$HOME/.pyenv"
+        export GOROOT=$(go env GOROOT)
+        """.write(to: root.appendingPathComponent(".zprofile"), atomically: true, encoding: .utf8)
+        try """
+        export PATH=$JAVA_HOME/bin:$PATH
+        export PATH="$PYENV_ROOT/bin:$PATH"
+        export PATH=$GOROOT/bin:$PATH
+        export PATH=$LATER/bin:$PATH
+        export LATER=/too/late
+        """.write(to: root.appendingPathComponent(".zshrc"), atomically: true, encoding: .utf8)
+
+        let snapshot = ShellConfigReader.read(home: root.path, environment: ["ZDOTDIR": root.path])
+        let mine = snapshot.pathSteps.filter { $0.origin.file.hasSuffix(".zshrc") && $0.origin.file.hasPrefix("~") }
+        #expect(mine.count == 4)
+        #expect(mine.first?.operation == .prepend(["/opt/jdk/bin"]))
+        #expect(mine.dropFirst().first?.operation == .prepend(["~/.pyenv/bin"]))
+        for step in mine.suffix(2) {
+            if case .unknown = step.operation {} else { Issue.record("\(step.origin.location) should be unknown") }
+        }
+    }
+
+    @Test("function bodies are not startup steps")
+    func functions() {
+        #expect(steps("addpath() {\n  export PATH=/a:$PATH\n}").isEmpty)
+    }
+}
+
+@Suite("PATH resolver")
+struct PathResolverTests {
+    private let home = "/Users/tester"
+    private let system = ["/usr/local/bin", "/usr/bin", "/bin", "/usr/sbin", "/sbin"]
+
+    private func origin(_ stage: LoadStage, _ line: Int = 1) -> ConfigOrigin {
+        ConfigOrigin(file: "f", line: line, stage: stage, text: "")
+    }
+
+    private func config(_ steps: [PathStep]) -> ShellConfigSnapshot {
+        var snapshot = ShellConfigSnapshot.empty
+        snapshot.pathSteps = steps
+        snapshot.pathHelperDirs = system
+        return snapshot
+    }
+
+    private func resolve(_ config: ShellConfigSnapshot) -> (login: ResolvedPath, nested: ResolvedPath) {
+        let login = PathResolver.resolve(config, context: .loginTerminal,
+                                         start: PathResolver.launchdDefault.map { .dir(ResolvedDir(path: $0)) })
+        return (login, PathResolver.resolve(config, context: .nestedLogin, start: login.slots))
+    }
+
+    @Test("the Reddit case: a guarded prepend wins in Terminal but not in a nested login shell")
+    func guardedPrependLosesWhenNested() {
+        // ~/.zshrc: [[ ":$PATH:" != *":$HOME/.pyenv/shims:"* ]] && PATH="$HOME/.pyenv/shims:$PATH"
+        let snapshot = config([
+            PathStep(operation: .pathHelper, origin: origin(.systemProfile)),
+            PathStep(operation: .prepend(["~/.pyenv/shims"]), origin: origin(.userRC),
+                     isConditional: true, skipsIfPresent: true)
+        ])
+        let (login, nested) = resolve(snapshot)
+        let pythons: Set<String> = ["/Users/tester/.pyenv/shims/python3", "/usr/bin/python3"]
+        let isExecutable: (String) -> Bool = { pythons.contains($0) }
+
+        // Terminal: not on PATH yet, so it is prepended and wins.
+        #expect(PathResolver.lookup("python3", in: login, home: home, isExecutable: isExecutable)?.path
+                == "~/.pyenv/shims/python3")
+        // Nested: inherited, moved behind /usr/bin by path_helper, and the guard skips it.
+        #expect(PathResolver.lookup("python3", in: nested, home: home, isExecutable: isExecutable)?.path
+                == "/usr/bin/python3")
+    }
+
+    @Test("an unguarded prepend is repeated in a nested shell and still wins")
+    func unguardedPrependStillWins() {
+        let snapshot = config([
+            PathStep(operation: .pathHelper, origin: origin(.systemProfile)),
+            PathStep(operation: .prepend(["~/.local/py/bin"]), origin: origin(.userProfile))
+        ])
+        let (login, nested) = resolve(snapshot)
+        #expect(login.dirs.first?.path == "~/.local/py/bin")
+        #expect(nested.dirs.first?.path == "~/.local/py/bin")
+        #expect(nested.dirs.map(\.path).filter { $0 == "~/.local/py/bin" }.count == 2)
+    }
+
+    @Test("path_helper appends inherited dirs after the system list, in their order")
+    func pathHelperRule() {
+        let snapshot = config([PathStep(operation: .pathHelper, origin: origin(.systemProfile))])
+        let start: [PathSlot] = ["/x/bin", "/usr/bin", "/opt/homebrew/bin"].map { .dir(ResolvedDir(path: $0)) }
+        var helperConfig = snapshot
+        helperConfig.pathHelperDirs = ["/usr/local/bin", "/usr/bin", "/bin", "/opt/homebrew/bin"]
+        let result = PathResolver.resolve(helperConfig, context: .nestedLogin, start: start)
+        // Matches `env -i PATH=/x/bin:/usr/bin:/opt/homebrew/bin /usr/libexec/path_helper -s`.
+        #expect(result.dirs.map(\.path) == ["/usr/local/bin", "/usr/bin", "/bin", "/opt/homebrew/bin", "/x/bin"])
+    }
+
+    @Test("a hook ahead of the winning dir makes the lookup uncertain")
+    func hookAhead() {
+        let hook = PathStep(operation: .unknown(hook: #"eval "$(pyenv init -)""#), origin: origin(.userRC))
+        let (login, _) = resolve(config([hook]))
+        let hit = PathResolver.lookup("python3", in: login, home: home) { $0 == "/usr/bin/python3" }
+        #expect(hit?.hooksAhead == [hook])
+    }
+
+    @Test("a prepend after the hook is ahead of it and stays certain")
+    func prependAfterHook() {
+        let (login, _) = resolve(config([
+            PathStep(operation: .unknown(hook: "eval x"), origin: origin(.userRC, 1)),
+            PathStep(operation: .prepend(["/opt/py/bin"]), origin: origin(.userRC, 2))
+        ]))
+        let hit = PathResolver.lookup("python3", in: login, home: home) { $0 == "/opt/py/bin/python3" }
+        #expect(hit?.path == "/opt/py/bin/python3")
+        #expect(hit?.hooksAhead.isEmpty == true)
+    }
+
+    @Test("a path_helper dir names its list file, not the eval line")
+    func helperSourceLabel() {
+        var snapshot = config([PathStep(operation: .pathHelper,
+                                        origin: ConfigOrigin(file: "/etc/zprofile", line: 11,
+                                                             stage: .systemProfile, text: ""))])
+        snapshot.pathHelperSources = ["/usr/local/bin": "/etc/paths"]
+        let dirs = resolve(snapshot).login.dirs
+        #expect(dirs.first { $0.path == "/usr/local/bin" }?.sourceLabel == "path_helper \u{00b7} paths")
+        #expect(dirs.contains { $0.sourceLabel.contains("zprofile") } == false)
+    }
+
+    @Test("every hook ahead is listed once, in run order, and summarised by name")
+    func hooksInRunOrder() {
+        func hook(_ text: String, _ line: Int) -> PathStep {
+            PathStep(operation: .unknown(hook: text),
+                     origin: ConfigOrigin(file: "~/.zshrc", line: line, stage: .userRC, text: text))
+        }
+        let brew = hook(#"eval "$(/opt/homebrew/bin/brew shellenv)""#, 140)
+        let pyenv = hook(#"eval "$(pyenv init - zsh)""#, 149)
+        let nvm = hook(#"\. /opt/homebrew/opt/nvm/nvm.sh"#, 160)
+        let (login, nested) = resolve(config([brew, pyenv, nvm]))
+        let isExecutable: (String) -> Bool = { $0 == "/usr/bin/git" }
+        let hit = PathResolver.lookup("git", in: login, home: home, isExecutable: isExecutable)
+        #expect(hit?.hooksAhead == [brew, pyenv, nvm])
+        #expect(hit?.hooksSummary == "brew shellenv, pyenv init and nvm.sh")
+        // The nested pass meets the same hooks twice; each is still listed once.
+        #expect(PathResolver.lookup("git", in: nested, home: home, isExecutable: isExecutable)?
+            .hooksAhead.count == 3)
+    }
+
+    @Test("short source labels and hook names stay readable")
+    func readableLabels() {
+        let helper = ResolvedDir(path: "/opt/homebrew/bin", isFromPathHelper: true,
+                                 helperSource: "/etc/paths.d/homebrew")
+        #expect(helper.shortSourceLabel == "homebrew")
+        #expect(helper.sourceLabel == "path_helper \u{00b7} paths.d/homebrew")
+        #expect(helper.sourceFile == "/etc/paths.d/homebrew")
+        let plain = ResolvedDir(path: "~/.local/bin",
+                                setBy: ConfigOrigin(file: "~/.zprofile", line: 10, stage: .userProfile, text: ""))
+        #expect(plain.shortSourceLabel == "~/.zprofile:10")
+
+        let text = "source ${ZDOTDIR:-$HOME}/.zkbd/${TERM}-${VENDOR}"
+        let step = PathStep(operation: .unknown(hook: text),
+                            origin: ConfigOrigin(file: "/etc/zshrc", line: 26, stage: .systemRC, text: text))
+        #expect(step.hookName == "/etc/zshrc:26 \u{00b7} source")
+    }
+
+    @Test("the hook summary names user hooks with real names first, system lines last")
+    func hookSummaryOrder() {
+        func step(_ text: String, _ file: String, _ line: Int, _ stage: LoadStage) -> PathStep {
+            PathStep(operation: .unknown(hook: text),
+                     origin: ConfigOrigin(file: file, line: line, stage: stage, text: text))
+        }
+        let zkbd = step("source ${ZDOTDIR:-$HOME}/.zkbd/${TERM}-${VENDOR}", "/etc/zshrc", 26, .systemRC)
+        let p10k = step(#"source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-${(%):-%n}.zsh""#, "~/.zshrc", 5, .userRC)
+        let nvm = step(#"\. /opt/homebrew/opt/nvm/nvm.sh"#, "~/.zshrc", 160, .userRC)
+        let hit = CommandHit(path: "/usr/bin/npm", dir: ResolvedDir(path: "/usr/bin"),
+                             hooksAhead: [zkbd, p10k, nvm])
+        #expect(hit.hooksSummary == "nvm.sh, ~/.zshrc:5 \u{00b7} source and /etc/zshrc:26 \u{00b7} source")
+    }
+
+    @Test("typeset -U path keeps only the first copy")
+    func unique() {
+        var snapshot = config([PathStep(operation: .append(["/usr/bin"]), origin: origin(.userRC))])
+        snapshot.pathIsUnique = true
+        #expect(resolve(snapshot).login.dirs.map(\.path) == PathResolver.launchdDefault)
+    }
+
+    @Test("a context mismatch becomes one warning naming the guard, unless a hook is ahead")
+    func mismatchFinding() {
+        let guardOrigin = ConfigOrigin(file: "~/.zshrc", line: 12, stage: .userRC, text: "")
+        var snapshot = config([
+            PathStep(operation: .pathHelper, origin: origin(.systemProfile)),
+            PathStep(operation: .prepend(["~/.pyenv/shims"]), origin: guardOrigin,
+                     isConditional: true, skipsIfPresent: true)
+        ])
+        snapshot.entries = [ConfigEntry(id: "path.~/.pyenv/shims", kind: .path, name: "~/.pyenv/shims",
+                                        displayValue: "~/.pyenv/shims", rawValue: "~/.pyenv/shims")]
+        let pythons: Set<String> = ["/tmp/nope/.pyenv/shims/python3", "/usr/bin/python3"]
+        let fake = FakeExecutables(paths: pythons)
+        snapshot.pathResolution = PathResolver.resolution(for: snapshot, commands: ["python3"],
+                                                          home: "/tmp/nope", fileManager: fake)
+
+        let findings = ConfigRules.evaluate(config: snapshot, tools: [], fileManager: fake)
+            .filter { $0.id == "config.path.contextmismatch" }
+        #expect(findings.count == 1)
+        #expect(findings.first?.detail.contains("~/.zshrc:12") == true)
+        #expect(findings.first?.toolIDs.contains("resolved.python3") == true)
+
+        snapshot.pathSteps.append(PathStep(operation: .unknown(hook: "eval x"), origin: origin(.userRC, 20)))
+        snapshot.pathResolution = PathResolver.resolution(for: snapshot, commands: ["python3"],
+                                                          home: "/tmp/nope", fileManager: fake)
+        #expect(ConfigRules.evaluate(config: snapshot, tools: [], fileManager: fake)
+            .contains { $0.id == "config.path.contextmismatch" } == false)
+    }
+
+    @Test("sourced files are spliced in at the line that sources them")
+    func splicing() throws {
+        let root = FileManager.default.temporaryDirectory
+            .appendingPathComponent("devshop-path-\(UUID().uuidString)")
+        try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: root) }
+        let extra = root.appendingPathComponent("extra.zsh")
+        try "export PATH=/from-sourced:$PATH\n".write(to: extra, atomically: true, encoding: .utf8)
+        try "export PATH=/first:$PATH\nsource \(extra.path)\nexport PATH=/last:$PATH\n"
+            .write(to: root.appendingPathComponent(".zshrc"), atomically: true, encoding: .utf8)
+
+        let snapshot = ShellConfigReader.read(home: root.path, environment: ["ZDOTDIR": root.path])
+        let mine = snapshot.pathSteps.filter { $0.origin.file.contains(root.lastPathComponent) || $0.origin.file.hasPrefix("~") }
+        #expect(mine.map(\.operation) == [.prepend(["/first"]), .prepend(["/from-sourced"]), .prepend(["/last"])])
+    }
+}
+
+/// Answers `isExecutableFile` from a fixed set, so resolver tests need no real binaries.
+private final class FakeExecutables: FileManager, @unchecked Sendable {
+    let paths: Set<String>
+    init(paths: Set<String>) { self.paths = paths }
+    override func isExecutableFile(atPath path: String) -> Bool { paths.contains(path) }
+}
