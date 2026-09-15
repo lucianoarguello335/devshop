@@ -628,7 +628,11 @@ struct InspectorView: View {
                 ScrollView {
                     VStack(spacing: 6) {
                         ForEach(matches) { finding in
-                            FindingRow(finding: finding, compact: true)
+                            FindingRow(finding: finding, compact: true) {
+                                withAnimation(.easeInOut(duration: 0.2)) {
+                                    model.dismissFinding(finding.id)
+                                }
+                            }
                         }
                     }
                 }
