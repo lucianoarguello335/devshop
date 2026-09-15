@@ -32,7 +32,18 @@ struct ContentColumn: View {
                     if model.showFindingsSection {
                         FindingsSection(findings: model.filteredFindings,
                                         summary: model.findings.tally,
-                                        copyPrompt: model.copyFindingsPrompt)
+                                        dismissedCount: model.dismissedFindingCount,
+                                        copyPrompt: model.copyFindingsPrompt,
+                                        dismiss: { id in
+                                            withAnimation(.easeInOut(duration: 0.2)) {
+                                                model.dismissFinding(id)
+                                            }
+                                        },
+                                        restoreDismissed: {
+                                            withAnimation(.easeInOut(duration: 0.2)) {
+                                                model.restoreDismissedFindings()
+                                            }
+                                        })
                             .id(AppModel.findingsSectionID)
                     }
 

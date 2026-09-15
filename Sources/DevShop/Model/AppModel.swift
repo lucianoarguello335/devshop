@@ -34,7 +34,13 @@ final class AppModel {
     // MARK: - Scan output
 
     private(set) var tools: [DetectedTool] = []
+    /// The findings still on screen: the last scan's findings minus the dismissed ones.
+    /// Everything downstream (score, tally, badges, prompt, export) reads this.
     private(set) var findings: [Finding] = []
+    /// Every finding the last scan produced, dismissed or not.
+    private var allFindings: [Finding] = []
+    /// Findings the user checked off. Cleared by the next scan.
+    private(set) var dismissedFindingIDs: Set<String> = []
     private(set) var systemInfo: SystemInfo = .unknown
     private(set) var homebrew: EnvironmentScanner.HomebrewSummary = .none
     /// Everything in /Applications, for the setup export.
@@ -166,9 +172,11 @@ final class AppModel {
         applications = result.applications
         shellConfig = result.shellConfig
         systemInfo = info
-        findings = FindingsEngine.evaluate(tools: result.tools,
-                                           homebrew: result.homebrew,
-                                           config: result.shellConfig)
+        allFindings = FindingsEngine.evaluate(tools: result.tools,
+                                              homebrew: result.homebrew,
+                                              config: result.shellConfig)
+        dismissedFindingIDs.removeAll()
+        findings = allFindings
         rebuildDerived()
         if !isSelectionStillValid { selection = defaultSelection() }
     }
@@ -428,7 +436,28 @@ final class AppModel {
         return tools.first { $0.id == id } ?? tools.first
     }
 
-    var showFindingsSection: Bool { findingsPanelVisible && !filteredFindings.isEmpty }
+    /// Kept on screen while anything is dismissed, so the restore link stays reachable.
+    var showFindingsSection: Bool {
+        findingsPanelVisible && (!filteredFindings.isEmpty || dismissedFindingCount > 0)
+    }
+
+    var dismissedFindingCount: Int { allFindings.count - findings.count }
+
+    /// Hides a finding everywhere until the next Refresh.
+    func dismissFinding(_ id: String) {
+        dismissedFindingIDs.insert(id)
+        applyDismissals()
+    }
+
+    func restoreDismissedFindings() {
+        dismissedFindingIDs.removeAll()
+        applyDismissals()
+    }
+
+    private func applyDismissals() {
+        findings = allFindings.filter { !dismissedFindingIDs.contains($0.id) }
+        rebuildDerived()
+    }
 
     var showConfigSection: Bool { configPanelVisible && !configGroups.isEmpty }
 

@@ -4,7 +4,10 @@ import SwiftUI
 struct FindingRow: View {
     let finding: Finding
     var compact: Bool = false
+    /// Shows the checkmark that hides this finding until the next Refresh.
+    var onDismiss: (() -> Void)? = nil
     @Environment(\.theme) private var theme
+    @State private var isHoveringDismiss = false
 
     private var tint: Color { Color(hex: finding.tier.hex) }
 
@@ -29,13 +32,21 @@ struct FindingRow: View {
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-            Text(finding.tier.label.uppercased())
-                .font(.system(size: 9, weight: .bold))
-                .kerning(0.27)
-                .foregroundStyle(tint)
-                .padding(.horizontal, 5)
-                .padding(.vertical, 2)
-                .background(theme.tagBackground, in: .rect(cornerRadius: 5))
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel("\(finding.tier.label): \(finding.title). \(finding.detail)")
+            HStack(spacing: 5) {
+                Text(finding.tier.label.uppercased())
+                    .font(.system(size: 9, weight: .bold))
+                    .kerning(0.27)
+                    .foregroundStyle(tint)
+                    .padding(.horizontal, 5)
+                    .padding(.vertical, 2)
+                    .background(theme.tagBackground, in: .rect(cornerRadius: 5))
+                    .accessibilityHidden(true)
+                if let onDismiss {
+                    dismissButton(onDismiss)
+                }
+            }
         }
         .padding(.horizontal, 9)
         .padding(.vertical, 8)
@@ -44,8 +55,24 @@ struct FindingRow: View {
             RoundedRectangle(cornerRadius: 8)
                 .strokeBorder(tint.opacity(0.25), lineWidth: 0.5)
         }
-        .accessibilityElement(children: .combine)
-        .accessibilityLabel("\(finding.tier.label): \(finding.title). \(finding.detail)")
+        .accessibilityElement(children: .contain)
+    }
+
+    /// Sized to match the tier tag beside it.
+    private func dismissButton(_ action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            SFIcon(symbol: "checkmark", size: 8.5, weight: .bold)
+                .foregroundStyle(isHoveringDismiss ? tint : theme.muted)
+                .frame(width: 17, height: 15)
+                .background(theme.tagBackground.opacity(isHoveringDismiss ? 1 : 0.6),
+                            in: .rect(cornerRadius: 5))
+                .contentShape(.rect)
+        }
+        .buttonStyle(.plain)
+        .onHover { isHoveringDismiss = $0 }
+        .help("Dismiss until the next Refresh")
+        .accessibilityLabel("Dismiss finding")
+        .accessibilityHint("Hides this finding until the next Refresh")
     }
 }
 
@@ -53,9 +80,13 @@ struct FindingRow: View {
 struct FindingsSection: View {
     let findings: [Finding]
     let summary: String
+    let dismissedCount: Int
     let copyPrompt: () -> Void
+    let dismiss: (String) -> Void
+    let restoreDismissed: () -> Void
     @Environment(\.theme) private var theme
     @State private var isHovering = false
+    @State private var isHoveringRestore = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 11) {
@@ -66,15 +97,31 @@ struct FindingsSection: View {
                 Text(summary)
                     .font(.system(size: 11))
                     .foregroundStyle(theme.muted)
+                if dismissedCount > 0 {
+                    restoreButton
+                }
                 Spacer(minLength: 12)
                 copyButton
             }
             VStack(spacing: 6) {
                 ForEach(findings) { finding in
-                    FindingRow(finding: finding)
+                    FindingRow(finding: finding) { dismiss(finding.id) }
                 }
             }
         }
+    }
+
+    private var restoreButton: some View {
+        Button(action: restoreDismissed) {
+            Text("Show \(dismissedCount) dismissed")
+                .font(.system(size: 11, weight: .medium))
+                .foregroundStyle(DevTheme.accent)
+                .underline(isHoveringRestore)
+                .contentShape(.rect)
+        }
+        .buttonStyle(.plain)
+        .onHover { isHoveringRestore = $0 }
+        .help("Bring back the findings you dismissed")
     }
 
     /// Sits on the same line as the title and lines up with the tier tags down the right
