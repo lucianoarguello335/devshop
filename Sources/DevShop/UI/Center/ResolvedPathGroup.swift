@@ -137,6 +137,7 @@ enum CommandIcon {
     }
 
     /// The chip for a command, falling back to the terminal glyph for one the catalog lacks.
+    @MainActor
     static func chip(for command: String, size: CGFloat, theme: DevTheme,
                      glow: Bool = false) -> IconChip {
         let tool = definition(for: command)

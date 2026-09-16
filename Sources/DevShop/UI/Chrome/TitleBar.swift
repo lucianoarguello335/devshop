@@ -1,3 +1,6 @@
+// `tick` is a Combine type (`Publishers.Autoconnect`). SwiftUI no longer re-exports Combine
+// for a stored property's type, so the import is explicit.
+import Combine
 import SwiftUI
 
 /// The 52pt window header: title block, appearance switch, search field, Refresh.
