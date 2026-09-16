@@ -29,27 +29,28 @@ struct ResolvedPathGroup: View {
                 model.toggleResolvedPathGroup()
             }
             if model.isResolvedPathShown {
-                // A picker whose two sides show the same rows looks broken. When nothing
-                // differs, that is the answer, so it is said instead.
-                if anyDiffers {
-                    Picker("Context", selection: $model.resolvedPathContext) {
-                        ForEach(ShellContext.allCases) { Text($0.label).tag($0) }
+                // Set in under the header like every other Terminal Config group.
+                ConfigGroupBody(theme: theme) {
+                    // A picker whose two sides show the same rows looks broken. When nothing
+                    // differs, that is the answer, so it is said instead.
+                    if anyDiffers {
+                        Picker("Context", selection: $model.resolvedPathContext) {
+                            ForEach(ShellContext.allCases) { Text($0.label).tag($0) }
+                        }
+                        .pickerStyle(.segmented)
+                        .labelsHidden()
+                        .controlSize(.small)
+                        .help(model.resolvedPathContext.explanation)
+                        .padding(.horizontal, 6)
+                        .padding(.bottom, 2)
+                    } else if !allUncertain {
+                        sameEverywhereLine
                     }
-                    .pickerStyle(.segmented)
-                    .labelsHidden()
-                    .controlSize(.small)
-                    .help(model.resolvedPathContext.explanation)
-                    .padding(.horizontal, 6)
-                    .padding(.bottom, 2)
-                } else if !allUncertain {
-                    sameEverywhereLine
-                }
 
-                // "Same" and "unsure" side by side read as a contradiction, so when every row
-                // is unsure the one banner carries both halves.
-                if allUncertain { uncertaintyBanner }
+                    // "Same" and "unsure" side by side read as a contradiction, so when every row
+                    // is unsure the one banner carries both halves.
+                    if allUncertain { uncertaintyBanner }
 
-                VStack(spacing: 2) {
                     ForEach(model.resolvedCommands) { resolution in
                         ResolvedCommandRow(
                             resolution: resolution,
