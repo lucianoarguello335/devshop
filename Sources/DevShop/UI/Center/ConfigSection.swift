@@ -44,6 +44,7 @@ struct ConfigSection: View {
             }
         }
         .animation(.easeInOut(duration: 0.2), value: model.collapsedConfigKinds)
+        .animation(.easeInOut(duration: 0.2), value: model.collapsedDuringSearch)
     }
 
     private var header: some View {

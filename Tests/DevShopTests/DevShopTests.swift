@@ -106,9 +106,21 @@ struct HomebrewTests {
 struct ByteFormatTests {
     @Test("compact form matches the design's labels")
     func compact() {
-        #expect(ByteFormat.compact(7_500_000_000) == "7.5G")
-        #expect(ByteFormat.compact(466_000_000) == "466M")
+        #expect(ByteFormat.compact(7_500_000_000) == "7.5GB")
+        #expect(ByteFormat.compact(466_000_000) == "466MB")
+        #expect(ByteFormat.compact(45_056) == "45KB")
         #expect(ByteFormat.compact(0) == "0B")
+        // The two forms never disagree about the unit.
+        #expect(ByteFormat.full(466_000_000).hasSuffix("MB"))
+    }
+
+    @Test("a compact label stays short enough for the column it sits in")
+    func compactFits() {
+        // SizeLabel.columnWidth is sized for these; a longer label would wrap the unit onto
+        // its own line, which is what the two-letter units first did.
+        for bytes: Int64 in [1, 999, 45_056, 999_000_000, 14_800_000_000, 999_000_000_000] {
+            #expect(ByteFormat.compact(bytes).count <= 7, "\(ByteFormat.compact(bytes)) is too long")
+        }
     }
 
     @Test("full form is used by the inspector")

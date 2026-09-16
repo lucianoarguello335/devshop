@@ -55,7 +55,15 @@ final class AppModel {
 
     // MARK: - UI state
 
-    var query: String = "" { didSet { if query != oldValue { rebuildDerived() } } }
+    var query: String = "" {
+        didSet {
+            guard query != oldValue else { return }
+            // A new search opens every group again; what was closed during the last one no
+            // longer applies to what matches now.
+            collapsedDuringSearch.removeAll()
+            rebuildDerived()
+        }
+    }
 
     /// What the inspector is describing. Three kinds of thing can be selected, so this is an
     /// enum rather than a bare id — a tool id and a config entry id are both strings and
@@ -96,6 +104,11 @@ final class AppModel {
     var collapsedConfigKinds: Set<ConfigEntryKind> = Set(ConfigEntryKind.allCases)
     /// The Resolved PATH group starts collapsed for the same reason.
     var resolvedPathExpanded: Bool = false
+    /// Groups closed while a search is active, by `ConfigEntryKind` raw value or
+    /// `resolvedGroupKey`. Kept apart from the saved collapse state so clearing the search
+    /// puts that back untouched.
+    private(set) var collapsedDuringSearch: Set<String> = []
+    static let resolvedGroupKey = "resolved"
     /// Which context the Resolved PATH rows show.
     var resolvedPathContext: ShellContext = .loginTerminal
     /// `nil` follows the system appearance; the title-bar control sets an override.
@@ -459,7 +472,18 @@ final class AppModel {
     }
 
     /// Search opens the group, like `isExpanded(_:)` does for the others.
-    var isResolvedPathShown: Bool { !trimmedQuery.isEmpty || resolvedPathExpanded }
+    var isResolvedPathShown: Bool {
+        trimmedQuery.isEmpty ? resolvedPathExpanded
+                             : !collapsedDuringSearch.contains(Self.resolvedGroupKey)
+    }
+
+    func toggleResolvedPathGroup() {
+        if trimmedQuery.isEmpty {
+            resolvedPathExpanded.toggle()
+        } else {
+            collapsedDuringSearch.formSymmetricDifference([Self.resolvedGroupKey])
+        }
+    }
 
     var selectedTerminal: TerminalApp? {
         guard case .terminal(let id) = selection else { return nil }
@@ -510,15 +534,18 @@ final class AppModel {
 
     /// Whether a Terminal Config group is showing its rows.
     ///
-    /// A search overrides the collapse state entirely. Matching a row and then hiding it
-    /// inside a closed group would make the search look broken, and the collapse state is
-    /// remembered underneath so clearing the field puts everything back.
+    /// A search opens every group, so a match is never hidden inside a closed one. The
+    /// chevron still works during a search: it closes the group for that search only, and
+    /// the saved collapse state underneath comes back when the field is cleared.
     func isExpanded(_ kind: ConfigEntryKind) -> Bool {
-        !trimmedQuery.isEmpty || !collapsedConfigKinds.contains(kind)
+        trimmedQuery.isEmpty ? !collapsedConfigKinds.contains(kind)
+                             : !collapsedDuringSearch.contains(kind.rawValue)
     }
 
     func toggleConfigGroup(_ kind: ConfigEntryKind) {
-        if collapsedConfigKinds.contains(kind) {
+        if !trimmedQuery.isEmpty {
+            collapsedDuringSearch.formSymmetricDifference([kind.rawValue])
+        } else if collapsedConfigKinds.contains(kind) {
             collapsedConfigKinds.remove(kind)
         } else {
             collapsedConfigKinds.insert(kind)
