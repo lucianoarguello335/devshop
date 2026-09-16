@@ -513,6 +513,23 @@ final class AppModel {
         applyDismissals()
     }
 
+    #if DEBUG
+    /// Stands in for a scan's results, so dismissal can be tested without scanning the Mac.
+    func loadFindingsForTesting(_ loaded: [Finding]) {
+        allFindings = loaded
+        dismissedFindingIDs.removeAll()
+        findings = loaded
+        rebuildDerived()
+    }
+    #endif
+
+    /// Dismisses every finding from the last scan, including any a search is hiding, until
+    /// the next Refresh. "Show N dismissed" brings them back.
+    func dismissAllFindings() {
+        dismissedFindingIDs = Set(allFindings.map(\.id))
+        applyDismissals()
+    }
+
     func restoreDismissedFindings() {
         dismissedFindingIDs.removeAll()
         applyDismissals()

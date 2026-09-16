@@ -1104,6 +1104,27 @@ struct ConfigGroupTests {
         #expect(ConfigEntryKind.allCases.allSatisfy { !model.isExpanded($0) })
     }
 
+    @Test("clear all dismisses every finding, and Show dismissed brings them all back")
+    func clearAllFindings() {
+        let model = AppModel()
+        model.loadFindingsForTesting([
+            Finding(id: "a", tier: .warning, title: "A", detail: "", scope: "", toolIDs: []),
+            Finding(id: "b", tier: .info, title: "B", detail: "", scope: "", toolIDs: []),
+            Finding(id: "c", tier: .info, title: "C match", detail: "", scope: "", toolIDs: [])
+        ])
+        // A search hides two of them; clear all still dismisses all three.
+        model.query = "match"
+        model.dismissAllFindings()
+        model.query = ""
+        #expect(model.findings.isEmpty)
+        #expect(model.dismissedFindingCount == 3)
+        #expect(model.showFindingsSection == model.findingsPanelVisible)
+
+        model.restoreDismissedFindings()
+        #expect(model.findings.map(\.id) == ["a", "b", "c"])
+        #expect(model.dismissedFindingCount == 0)
+    }
+
     @Test("the chevron closes a group during a search, and only for that search")
     func collapseDuringSearch() {
         let model = AppModel()
