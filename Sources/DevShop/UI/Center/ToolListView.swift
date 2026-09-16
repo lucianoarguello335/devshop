@@ -239,11 +239,7 @@ private struct ToolListRow: View, Equatable {
                              ? max(0.04, Double(tile.bytes) / Double(maximumBytes)) : 0,
                              color: isMissing ? theme.muted : Color(hex: tile.colorHex))
                         .frame(width: 52, height: 4)
-                    Text(tile.bytes > 0 ? ByteFormat.compact(tile.bytes) : "—")
-                        .font(.system(size: 11))
-                        .monospacedDigit()
-                        .foregroundStyle(theme.muted)
-                        .frame(width: 40, alignment: .trailing)
+                    SizeLabel(bytes: tile.bytes, fontSize: 11)
                 }
             }
             .frame(maxWidth: .infinity)

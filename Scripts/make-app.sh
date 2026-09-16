@@ -38,14 +38,20 @@ ARM_DIR=".build/arm64-apple-macosx/$CONFIG"
 X86_DIR=".build/x86_64-apple-macosx/$CONFIG"
 HOST_DIR=".build/$HOST_ARCH-apple-macosx/$CONFIG"
 
+# Ask SwiftPM where it put the products rather than assuming a layout. Newer toolchains write
+# to .build/out/Products/<Config>, and copying from the old per-triple directory silently
+# bundled a stale binary.
 if [ "$UNIVERSAL" = "1" ]; then
   echo "building arm64…"
   swift build -c "$CONFIG" --triple "arm64-apple-macosx$DEPLOY"
+  ARM_DIR="$(swift build -c "$CONFIG" --triple "arm64-apple-macosx$DEPLOY" --show-bin-path)"
   echo "building x86_64…"
   swift build -c "$CONFIG" --triple "x86_64-apple-macosx$DEPLOY"
+  X86_DIR="$(swift build -c "$CONFIG" --triple "x86_64-apple-macosx$DEPLOY" --show-bin-path)"
   RESOURCE_DIR="$ARM_DIR"
 else
   swift build -c "$CONFIG"
+  HOST_DIR="$(swift build -c "$CONFIG" --show-bin-path)"
   RESOURCE_DIR="$HOST_DIR"
 fi
 

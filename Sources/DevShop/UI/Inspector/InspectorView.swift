@@ -24,6 +24,12 @@ struct InspectorView: View {
                 if let tool { toolBody(tool) } else { placeholder }
             case .configEntry:
                 if let entry = model.selectedConfigEntry { entryBody(entry) } else { placeholder }
+            case .resolvedCommand:
+                if let resolution = model.selectedResolvedCommand {
+                    resolvedBody(resolution)
+                } else {
+                    placeholder
+                }
             case .terminal:
                 if let terminal = model.selectedTerminal {
                     terminalBody(terminal)
@@ -282,10 +288,8 @@ struct InspectorView: View {
                     .foregroundStyle(theme.muted)
                 Spacer(minLength: 0)
                 if model.hasSizes {
-                    Text(ByteFormat.compact(children.reduce(0) { $0 + model.bytes(for: $1) }))
-                        .font(.system(size: 10.5))
-                        .monospacedDigit()
-                        .foregroundStyle(theme.muted)
+                    SizeLabel(bytes: children.reduce(0) { $0 + model.bytes(for: $1) },
+                              fontSize: 10.5, width: nil)
                 }
             }
             ScrollView {
@@ -484,6 +488,18 @@ struct InspectorView: View {
     private func entryFindings(_ entry: ConfigEntry) -> some View {
         findingsCard(model.findings(for: entry),
                      emptyMessage: "No findings for \(entry.name) \u{2014} nothing needs attention.")
+    }
+
+    // MARK: - Resolved command
+
+    private func resolvedBody(_ resolution: CommandResolution) -> some View {
+        ResolvedCommandInspector(resolution: resolution,
+                                 paths: model.shellConfig.pathResolution) {
+            findingsCard(model.findings(for: resolution),
+                         emptyMessage: "No findings for \(resolution.command).")
+        }
+        // A fresh view per command, so what was opened for one does not stay open for the next.
+        .id(resolution.command)
     }
 
     // MARK: - Terminal
@@ -729,11 +745,7 @@ private struct ChildRow: View {
                          ? max(0.05, Double(bytes) / Double(maximumBytes)) : 0,
                          color: Color(hex: child.color))
                     .frame(width: 30, height: 4)
-                Text(ByteFormat.compact(bytes))
-                    .font(.system(size: 10))
-                    .monospacedDigit()
-                    .foregroundStyle(theme.muted)
-                    .frame(width: 34, alignment: .trailing)
+                SizeLabel(bytes: bytes)
             }
         }
         .padding(.horizontal, 6)

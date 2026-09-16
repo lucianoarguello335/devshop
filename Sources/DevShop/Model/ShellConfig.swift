@@ -188,6 +188,32 @@ struct ConfigEntry: Sendable, Identifiable, Equatable {
     }
 }
 
+/// What one statement does to PATH. `entries` cannot say this: merging by directory loses
+/// both the order and whether a line added to the front or the back.
+enum PathOperation: Sendable, Equatable {
+    case prepend([String])
+    case append([String])
+    case replace([String])
+    /// `eval `/usr/libexec/path_helper -s`` in `/etc/zprofile`. Modelled, because its rule is
+    /// fixed: `/etc/paths`, then `/etc/paths.d`, then whatever PATH held that is not yet in it.
+    case pathHelper
+    /// A hook or an unexpandable value. What PATH looks like after this cannot be known
+    /// without running it, so it is reported rather than guessed.
+    case unknown(hook: String)
+}
+
+/// One PATH-changing statement, in the order the shell runs it.
+struct PathStep: Sendable, Equatable {
+    var operation: PathOperation
+    var origin: ConfigOrigin
+    /// Inside an `if`/`case`/loop, or guarded by `&&`/`||`. It may not run at all.
+    var isConditional: Bool = false
+    /// The condition tests PATH itself — `[[ ":$PATH:" != *":/x:"* ]] && PATH=/x:$PATH`.
+    /// Read as "only when not already there", which is what makes a nested shell keep the
+    /// copy path_helper pushed behind the system directories.
+    var skipsIfPresent: Bool = false
+}
+
 /// Everything the reader could learn about the startup chain in one pass.
 struct ShellConfigSnapshot: Sendable, Equatable {
     /// The login shell this snapshot describes, e.g. `/bin/zsh`.
@@ -200,6 +226,19 @@ struct ShellConfigSnapshot: Sendable, Equatable {
     var staleFiles: [String]
     /// Files whose permissions let someone other than the owner write them.
     var writableFiles: [String]
+    /// Every PATH-changing statement, in run order, with sourced files spliced in at the line
+    /// that sources them.
+    var pathSteps: [PathStep] = []
+    /// What path_helper puts first: `/etc/paths`, then `/etc/paths.d` in path_helper's order.
+    var pathHelperDirs: [String] = []
+    /// The `/etc/paths` or `/etc/paths.d/*` file each of `pathHelperDirs` comes from, so a
+    /// directory can name the file a user would open rather than the `eval` line.
+    var pathHelperSources: [String: String] = [:]
+    /// `typeset -U path` somewhere in the chain: zsh then drops later duplicates.
+    var pathIsUnique: Bool = false
+    /// PATH and command lookups per shell context. Filled by the scanner after reading,
+    /// because the lookup is the one part that asks the filesystem.
+    var pathResolution: PathResolution = .empty
 
     static let empty = ShellConfigSnapshot(shell: "/bin/zsh",
                                            entries: [],

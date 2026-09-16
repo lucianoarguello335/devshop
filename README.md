@@ -38,6 +38,9 @@ you think you are using. DevShop shows you all of it.
 - **Terminal config inspector** — parses your whole zsh startup chain and lists every PATH entry,
   export, eval hook, alias and function, with the file and line each came from. Also shows which
   terminal emulators are installed.
+- **Resolved PATH per shell context** — which `python3`, `node`, `java`… actually runs in a new
+  Terminal window versus a shell started inside another one (an editor's terminal, tmux), and
+  the line that makes them differ. Worked out from the files; nothing is run.
 - **Findings + 0–100 health score** — end-of-life runtimes, stale Homebrew versions, shadowed
   installs, broken PATH entries, plaintext secrets in your shell config.
 - **Copy setup (JSON)** — the full scan as sorted JSON that diffs cleanly between machines.

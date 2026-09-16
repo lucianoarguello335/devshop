@@ -55,7 +55,15 @@ final class AppModel {
 
     // MARK: - UI state
 
-    var query: String = "" { didSet { if query != oldValue { rebuildDerived() } } }
+    var query: String = "" {
+        didSet {
+            guard query != oldValue else { return }
+            // A new search opens every group again; what was closed during the last one no
+            // longer applies to what matches now.
+            collapsedDuringSearch.removeAll()
+            rebuildDerived()
+        }
+    }
 
     /// What the inspector is describing. Three kinds of thing can be selected, so this is an
     /// enum rather than a bare id — a tool id and a config entry id are both strings and
@@ -64,6 +72,8 @@ final class AppModel {
         case tool(String)
         case configEntry(String)
         case terminal(String)
+        /// A command name from the Resolved PATH group.
+        case resolvedCommand(String)
     }
 
     var selection: Selection?
@@ -92,6 +102,15 @@ final class AppModel {
     /// a reference list rather than something to read top to bottom, and seventy rows open by
     /// default would push the Findings section off the bottom of the column.
     var collapsedConfigKinds: Set<ConfigEntryKind> = Set(ConfigEntryKind.allCases)
+    /// The Resolved PATH group starts collapsed for the same reason.
+    var resolvedPathExpanded: Bool = false
+    /// Groups closed while a search is active, by `ConfigEntryKind` raw value or
+    /// `resolvedGroupKey`. Kept apart from the saved collapse state so clearing the search
+    /// puts that back untouched.
+    private(set) var collapsedDuringSearch: Set<String> = []
+    static let resolvedGroupKey = "resolved"
+    /// Which context the Resolved PATH rows show.
+    var resolvedPathContext: ShellContext = .loginTerminal
     /// `nil` follows the system appearance; the title-bar control sets an override.
     var themeOverride: DevTheme.Appearance?
     /// Grid or list. Remembered between launches, because it is a lasting preference
@@ -223,6 +242,7 @@ final class AppModel {
         case .tool(let id): tools.contains { $0.id == id }
         case .configEntry(let id): shellConfig.entry(id: id) != nil
         case .terminal(let id): shellConfig.terminals.contains { $0.id == id }
+        case .resolvedCommand(let command): shellConfig.pathResolution.commands.contains { $0.command == command }
         case nil: false
         }
     }
@@ -239,6 +259,9 @@ final class AppModel {
         if let flagged = findings.first?.toolIDs.first {
             if tools.contains(where: { $0.id == flagged }) { return .tool(flagged) }
             if shellConfig.entry(id: flagged) != nil { return .configEntry(flagged) }
+            if flagged.hasPrefix(Self.resolvedPrefix) {
+                return .resolvedCommand(String(flagged.dropFirst(Self.resolvedPrefix.count)))
+            }
         }
         return (tools.first { $0.status != .missing }).map { .tool($0.id) }
     }
@@ -292,6 +315,12 @@ final class AppModel {
     /// Config entries grouped by kind, filtered by the search field. Built here rather than
     /// in the view for the same reason `visiblePanels` is.
     private(set) var configGroups: [ConfigGroup] = []
+
+    /// Resolved PATH rows, filtered by the search field.
+    private(set) var resolvedCommands: [CommandResolution] = []
+
+    /// Findings point at a resolved command with this prefix in `toolIDs`.
+    static let resolvedPrefix = "resolved."
 
     /// Tile counts per category, including hidden ones, for the sidebar toggles.
     private(set) var categoryCounts: [ToolCategory: Int] = [:]
@@ -355,6 +384,14 @@ final class AppModel {
             let members = shellConfig.entries.filter { $0.kind == kind && matches($0) }
             return members.isEmpty ? nil : ConfigGroup(kind: kind, entries: members)
         }
+
+        // Commands that differ between contexts first: they are the reason the group exists.
+        resolvedCommands = shellConfig.pathResolution.commands.filter { resolution in
+            q.isEmpty || resolution.command.localizedStandardContains(q)
+                || resolution.hits.values.contains { $0.path.localizedStandardContains(q) }
+        }.enumerated().sorted { a, b in
+            a.element.differs != b.element.differs ? a.element.differs : a.offset < b.offset
+        }.map(\.element)
     }
 
     /// Search matches the name, the value and the files a directive comes from. The raw value
@@ -421,6 +458,33 @@ final class AppModel {
         return shellConfig.entry(id: id)
     }
 
+    var selectedResolvedCommand: CommandResolution? {
+        guard case .resolvedCommand(let command) = selection else { return nil }
+        return shellConfig.pathResolution.commands.first { $0.command == command }
+    }
+
+    func findings(for resolution: CommandResolution) -> [Finding] {
+        findings.filter { $0.toolIDs.contains(Self.resolvedPrefix + resolution.command) }
+    }
+
+    func findingTier(for resolution: CommandResolution) -> FindingTier? {
+        findingTierByToolID[Self.resolvedPrefix + resolution.command]
+    }
+
+    /// Search opens the group, like `isExpanded(_:)` does for the others.
+    var isResolvedPathShown: Bool {
+        trimmedQuery.isEmpty ? resolvedPathExpanded
+                             : !collapsedDuringSearch.contains(Self.resolvedGroupKey)
+    }
+
+    func toggleResolvedPathGroup() {
+        if trimmedQuery.isEmpty {
+            resolvedPathExpanded.toggle()
+        } else {
+            collapsedDuringSearch.formSymmetricDifference([Self.resolvedGroupKey])
+        }
+    }
+
     var selectedTerminal: TerminalApp? {
         guard case .terminal(let id) = selection else { return nil }
         return shellConfig.terminals.first { $0.id == id }
@@ -470,15 +534,18 @@ final class AppModel {
 
     /// Whether a Terminal Config group is showing its rows.
     ///
-    /// A search overrides the collapse state entirely. Matching a row and then hiding it
-    /// inside a closed group would make the search look broken, and the collapse state is
-    /// remembered underneath so clearing the field puts everything back.
+    /// A search opens every group, so a match is never hidden inside a closed one. The
+    /// chevron still works during a search: it closes the group for that search only, and
+    /// the saved collapse state underneath comes back when the field is cleared.
     func isExpanded(_ kind: ConfigEntryKind) -> Bool {
-        !trimmedQuery.isEmpty || !collapsedConfigKinds.contains(kind)
+        trimmedQuery.isEmpty ? !collapsedConfigKinds.contains(kind)
+                             : !collapsedDuringSearch.contains(kind.rawValue)
     }
 
     func toggleConfigGroup(_ kind: ConfigEntryKind) {
-        if collapsedConfigKinds.contains(kind) {
+        if !trimmedQuery.isEmpty {
+            collapsedDuringSearch.formSymmetricDifference([kind.rawValue])
+        } else if collapsedConfigKinds.contains(kind) {
             collapsedConfigKinds.remove(kind)
         } else {
             collapsedConfigKinds.insert(kind)
@@ -631,6 +698,7 @@ final class AppModel {
         if case .configEntry(let id) = new, let kind = shellConfig.entry(id: id)?.kind {
             collapsedConfigKinds.remove(kind)
         }
+        if case .resolvedCommand = new { resolvedPathExpanded = true }
         selection = new
     }
 

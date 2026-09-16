@@ -133,6 +133,21 @@ enum FindingsPrompt {
                 lines.append("- \(parts.joined(separator: " "))")
             }
         }
+        let resolution = config.pathResolution
+        if !resolution.commands.isEmpty {
+            lines.append("")
+            lines.append("Resolved commands (worked out from the files, not by running a shell; "
+                       + "\"hook ahead\" means an eval or unread source could change the answer):")
+            for command in resolution.commands {
+                let perContext = ShellContext.allCases.map { context in
+                    let hit = command.hit(in: context)
+                    let hooks = hit?.hooksAhead.map(\.origin.location) ?? []
+                    let hook = hooks.isEmpty ? "" : ", hooks ahead at " + hooks.joined(separator: ", ")
+                    return "\(context.label): `\(hit?.path ?? "not found")`\(hook)"
+                }
+                lines.append("- `\(command.command)` \u{2014} " + perContext.joined(separator: "; "))
+            }
+        }
         if !config.staleFiles.isEmpty {
             lines.append("")
             lines.append("Leftover config files that never load: "
