@@ -74,6 +74,7 @@ struct ThisMacCard: View {
                 HStack(spacing: 9) {
                     legend("in use", Color(hex: "0a84ff"))
                     legend("dev \(ByteFormat.compact(developmentBytes))", Color(hex: "ff9f0a"))
+                        .fixedSize()
                     legend("free", theme.track)
                 }
                 .padding(.top, 6)

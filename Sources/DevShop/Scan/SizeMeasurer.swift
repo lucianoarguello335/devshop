@@ -128,14 +128,15 @@ actor SizeMeasurer {
 // MARK: - Formatting
 
 enum ByteFormat {
-    /// Compact form used on tiles and bars: `466M`, `7.5G`.
+    /// Compact form used on tiles and bars: `466MB`, `7.5GB`. Decimal units, like Finder,
+    /// so the numbers match what macOS reports for the same folder.
     static func compact(_ bytes: Int64) -> String {
         let gb = Double(bytes) / 1_000_000_000
-        if gb >= 1 { return String(format: "%.1fG", gb) }
+        if gb >= 1 { return String(format: "%.1fGB", gb) }
         let mb = Double(bytes) / 1_000_000
-        if mb >= 1 { return "\(Int(mb.rounded()))M" }
+        if mb >= 1 { return "\(Int(mb.rounded()))MB" }
         let kb = Double(bytes) / 1_000
-        if kb >= 1 { return "\(Int(kb.rounded()))K" }
+        if kb >= 1 { return "\(Int(kb.rounded()))KB" }
         return "0B"
     }
 

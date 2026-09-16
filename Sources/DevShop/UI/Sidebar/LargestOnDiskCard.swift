@@ -40,11 +40,7 @@ struct LargestOnDiskCard: View {
                         MeterBar(fraction: Double(row.bytes) / Double(maximum),
                                  color: Color(hex: row.category.accentHex))
                             .frame(width: 44, height: 5)
-                        Text(ByteFormat.compact(row.bytes))
-                            .font(.system(size: 10))
-                            .monospacedDigit()
-                            .foregroundStyle(theme.muted)
-                            .frame(width: 34, alignment: .trailing)
+                        SizeLabel(bytes: row.bytes)
                     }
                 }
             }

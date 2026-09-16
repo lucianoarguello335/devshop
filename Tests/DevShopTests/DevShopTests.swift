@@ -1103,6 +1103,28 @@ struct ConfigGroupTests {
         model.query = "   "
         #expect(ConfigEntryKind.allCases.allSatisfy { !model.isExpanded($0) })
     }
+
+    @Test("the chevron closes a group during a search, and only for that search")
+    func collapseDuringSearch() {
+        let model = AppModel()
+        model.query = "libpq"
+        model.toggleConfigGroup(.path)
+        model.toggleResolvedPathGroup()
+        #expect(!model.isExpanded(.path))
+        #expect(!model.isResolvedPathShown)
+        #expect(model.isExpanded(.environment))
+
+        // A new search opens everything again.
+        model.query = "libp"
+        #expect(model.isExpanded(.path))
+        #expect(model.isResolvedPathShown)
+
+        // Clearing the search restores the saved state, untouched by the search-time clicks.
+        model.toggleConfigGroup(.path)
+        model.query = ""
+        #expect(ConfigEntryKind.allCases.allSatisfy { !model.isExpanded($0) })
+        #expect(!model.isResolvedPathShown)
+    }
 }
 
 // MARK: - Search

@@ -59,11 +59,7 @@ struct ToolTile: View, Equatable {
                              ? max(0.06, Double(tile.bytes) / Double(maximumBytes)) : 0,
                              color: isMissing ? theme.muted : brand)
                         .frame(height: 4)
-                    Text(tile.bytes > 0 ? ByteFormat.compact(tile.bytes) : "—")
-                        .font(.system(size: 10))
-                        .monospacedDigit()
-                        .foregroundStyle(theme.muted)
-                        .frame(minWidth: 34, alignment: .trailing)
+                    SizeLabel(bytes: tile.bytes)
                 }
             }
             .padding(.horizontal, 12)
