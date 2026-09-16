@@ -37,8 +37,12 @@ struct ToolListView: View {
 private enum ListMetrics {
     /// Icon chip and status dot.
     static let leading: CGFloat = 58
-    /// Size bar plus its label.
-    static let size: CGFloat = 104
+    /// Size bar (52) + its gap (8) + `SizeLabel.columnWidth`. Held to that sum: when the
+    /// label grew for the two-letter units, a column narrower than its contents pushed the
+    /// number over the row's inset and into the card's edge.
+    static let barWidth: CGFloat = 52
+    static let barGap: CGFloat = 8
+    static let size: CGFloat = barWidth + barGap + SizeLabel.columnWidth
     static let inset: CGFloat = 14
 
     /// Flexible columns, as fractions of whatever is left over.
@@ -233,12 +237,12 @@ private struct ToolListRow: View, Equatable {
                 text(tile.managedBy, size: 12, weight: .regular, color: theme.faint)
                     .frame(maxWidth: .infinity, alignment: .leading)
 
-                HStack(spacing: 8) {
+                HStack(spacing: ListMetrics.barGap) {
                     Spacer(minLength: 0)
                     MeterBar(fraction: maximumBytes > 0 && tile.bytes > 0
                              ? max(0.04, Double(tile.bytes) / Double(maximumBytes)) : 0,
                              color: isMissing ? theme.muted : Color(hex: tile.colorHex))
-                        .frame(width: 52, height: 4)
+                        .frame(width: ListMetrics.barWidth, height: 4)
                     SizeLabel(bytes: tile.bytes, fontSize: 11)
                 }
             }

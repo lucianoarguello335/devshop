@@ -14,7 +14,7 @@ struct SizeLabel: View {
     var placeholder: String = "\u{2014}"
 
     /// Fits `999MB` and `14.8GB` at 10\u{2013}11pt, the sizes the columns use.
-    static let columnWidth: CGFloat = 52
+    nonisolated static let columnWidth: CGFloat = 52
 
     @Environment(\.theme) private var theme
 
