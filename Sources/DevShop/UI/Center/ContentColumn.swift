@@ -39,6 +39,11 @@ struct ContentColumn: View {
                                                 model.dismissFinding(id)
                                             }
                                         },
+                                        dismissAll: {
+                                            withAnimation(.easeInOut(duration: 0.2)) {
+                                                model.dismissAllFindings()
+                                            }
+                                        },
                                         restoreDismissed: {
                                             withAnimation(.easeInOut(duration: 0.2)) {
                                                 model.restoreDismissedFindings()

@@ -26,7 +26,7 @@ struct ConfigSection: View {
                         model.toggleConfigGroup(group.kind)
                     }
                     if model.isExpanded(group.kind) {
-                        VStack(spacing: 2) {
+                        ConfigGroupBody(theme: theme) {
                             ForEach(group.entries) { entry in
                                 ConfigEntryRow(
                                     entry: entry,
@@ -175,6 +175,34 @@ struct ConfigGroupHeader: View {
             }
             .padding(12)
             .frame(width: 270, alignment: .leading)
+        }
+    }
+}
+
+/// The rows of an open group, set in from the header with a guide line down their left edge,
+/// so a long group still reads as belonging to its heading.
+///
+/// The line sits under the header's chevron, and the rows start just past it: the same
+/// outline shape Finder's list view uses.
+struct ConfigGroupBody<Content: View>: View {
+    let theme: DevTheme
+    @ViewBuilder let content: Content
+
+    /// Centre of the header's chevron: its 6pt padding plus half its 9pt frame.
+    static var guideInset: CGFloat { 10 }
+    /// From the guide line to the rows.
+    static var rowInset: CGFloat { 10 }
+
+    var body: some View {
+        HStack(alignment: .top, spacing: 0) {
+            Rectangle()
+                .fill(theme.hairline)
+                .frame(width: 1)
+                .padding(.leading, Self.guideInset)
+                .padding(.vertical, 2)
+                .accessibilityHidden(true)
+            VStack(alignment: .leading, spacing: 2) { content }
+                .padding(.leading, Self.rowInset)
         }
     }
 }

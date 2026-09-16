@@ -83,10 +83,12 @@ struct FindingsSection: View {
     let dismissedCount: Int
     let copyPrompt: () -> Void
     let dismiss: (String) -> Void
+    let dismissAll: () -> Void
     let restoreDismissed: () -> Void
     @Environment(\.theme) private var theme
     @State private var isHovering = false
     @State private var isHoveringRestore = false
+    @State private var isHoveringClear = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 11) {
@@ -101,6 +103,7 @@ struct FindingsSection: View {
                     restoreButton
                 }
                 Spacer(minLength: 12)
+                if !findings.isEmpty { clearAllButton }
                 copyButton
             }
             VStack(spacing: 6) {
@@ -122,6 +125,28 @@ struct FindingsSection: View {
         .buttonStyle(.plain)
         .onHover { isHoveringRestore = $0 }
         .help("Bring back the findings you dismissed")
+    }
+
+    /// Quieter than Copy AI prompt: it removes things rather than acting on them, so it reads
+    /// as secondary, and it is undone by "Show N dismissed".
+    private var clearAllButton: some View {
+        Button(action: dismissAll) {
+            HStack(spacing: 5) {
+                SFIcon(symbol: "checkmark", size: 9, weight: .bold)
+                Text("Clear all")
+                    .font(.system(size: 11, weight: .medium))
+            }
+            .foregroundStyle(isHoveringClear ? theme.text : theme.muted)
+            .padding(.horizontal, 9)
+            .padding(.vertical, 4)
+            .background(theme.fill.opacity(isHoveringClear ? 1 : 0.6), in: .rect(cornerRadius: 6))
+            .contentShape(.rect)
+        }
+        .buttonStyle(.plain)
+        .onHover { isHoveringClear = $0 }
+        .help("Dismiss every finding until the next Refresh")
+        .accessibilityLabel("Clear all findings")
+        .accessibilityHint("Hides every finding until the next Refresh")
     }
 
     /// Sits on the same line as the title and lines up with the tier tags down the right

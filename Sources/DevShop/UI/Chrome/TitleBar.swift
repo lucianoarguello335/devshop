@@ -1,3 +1,6 @@
+// `tick` is a Combine type (`Publishers.Autoconnect`). SwiftUI no longer re-exports Combine
+// for a stored property's type, so the import is explicit.
+import Combine
 import SwiftUI
 
 /// The 52pt window header: title block, appearance switch, search field, Refresh.
@@ -52,11 +55,14 @@ private struct LayoutSwitch: View {
     @Environment(\.theme) private var theme
 
     var body: some View {
-        HStack(spacing: 2) {
-            ForEach(ContentLayout.allCases, id: \.self) { layout in
-                Button {
-                    model.layout = layout
-                } label: {
+        // One button over the whole pill, like the appearance switch: a click on either icon
+        // flips the layout. With a button per icon, clicking the side already selected did
+        // nothing, which read as the control not responding.
+        Button {
+            model.layout = model.layout.toggled
+        } label: {
+            HStack(spacing: 2) {
+                ForEach(ContentLayout.allCases, id: \.self) { layout in
                     SFIcon(symbol: layout.symbol, size: 11, weight: .semibold)
                         .foregroundStyle(model.layout == layout ? theme.text : theme.muted)
                         .frame(width: 26, height: 24)
@@ -67,16 +73,18 @@ private struct LayoutSwitch: View {
                                     .shadow(color: .black.opacity(0.2), radius: 1, y: 1)
                             }
                         }
-                        .contentShape(.rect)
                 }
-                .buttonStyle(.plain)
-                .help(layout.label)
-                .accessibilityLabel(layout.label)
             }
+            .padding(2)
+            .frame(height: 28)
+            .background(theme.fill, in: .rect(cornerRadius: 9))
+            .contentShape(.rect)
         }
-        .padding(2)
-        .frame(height: 28)
-        .background(theme.fill, in: .rect(cornerRadius: 9))
+        .buttonStyle(.plain)
+        .help("Switch to \(model.layout.toggled.label.lowercased())")
+        .accessibilityLabel("Layout")
+        .accessibilityValue(model.layout.label)
+        .accessibilityHint("Switches to \(model.layout.toggled.label.lowercased())")
         .animation(.easeInOut(duration: 0.2), value: model.layout)
     }
 }
