@@ -44,16 +44,20 @@ private enum ListMetrics {
     static let barGap: CGFloat = 8
     static let size: CGFloat = barWidth + barGap + SizeLabel.columnWidth
     static let inset: CGFloat = 14
+    /// Space after each flexible column. Without it a shortened value filled its column to
+    /// the last point and ran straight into the next column's text, which read as overflow.
+    static let gutter: CGFloat = 16
 
-    /// Flexible columns, as fractions of whatever is left over.
+    /// Flexible columns, as fractions of whatever is left over. Location holds the longest
+    /// values and gets the most; version and managed-by values are short and need little.
     static let flexible: [(field: SortField, share: CGFloat)] = [
-        (.name, 0.22), (.version, 0.20), (.location, 0.36), (.managedBy, 0.22)
+        (.name, 0.20), (.version, 0.12), (.location, 0.48), (.managedBy, 0.20)
     ]
 
     static let shares = flexible.map(\.share)
 
     static var layout: TableRowLayout {
-        TableRowLayout(leading: leading, trailing: size, shares: shares)
+        TableRowLayout(leading: leading, trailing: size, shares: shares, gutter: gutter)
     }
 }
 
@@ -67,6 +71,9 @@ private struct TableRowLayout: Layout {
     let leading: CGFloat
     let trailing: CGFloat
     let shares: [CGFloat]
+    /// Space after each flexible column, taken out before the shares are applied so the
+    /// columns still add up to the row.
+    var gutter: CGFloat = 0
 
     func sizeThatFits(proposal: ProposedViewSize,
                       subviews: Subviews,
@@ -83,18 +90,20 @@ private struct TableRowLayout: Layout {
                        subviews: Subviews,
                        cache: inout ()) {
         var x = bounds.minX
+        let flexibleRange = 1...shares.count
         for (index, width) in widths(in: bounds.width).enumerated() {
             guard index < subviews.count else { break }
             subviews[index].place(at: CGPoint(x: x, y: bounds.midY),
                                   anchor: .leading,
                                   proposal: ProposedViewSize(width: width,
                                                              height: bounds.height))
-            x += width
+            x += width + (flexibleRange.contains(index) ? gutter : 0)
         }
     }
 
-    private func widths(in total: CGFloat) -> [CGFloat] {
-        let flexible = max(0, total - leading - trailing)
+    func widths(in total: CGFloat) -> [CGFloat] {
+        let gutters = gutter * CGFloat(shares.count)
+        let flexible = max(0, total - leading - trailing - gutters)
         return [leading] + shares.map { flexible * $0 } + [trailing]
     }
 }
