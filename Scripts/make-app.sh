@@ -44,11 +44,17 @@ HOST_DIR=".build/$HOST_ARCH-apple-macosx/$CONFIG"
 if [ "$UNIVERSAL" = "1" ]; then
   echo "building arm64…"
   swift build -c "$CONFIG" --triple "arm64-apple-macosx$DEPLOY"
-  ARM_DIR="$(swift build -c "$CONFIG" --triple "arm64-apple-macosx$DEPLOY" --show-bin-path)"
+  ARM_BIN_PATH="$(swift build -c "$CONFIG" --triple "arm64-apple-macosx$DEPLOY" --show-bin-path)"
+  # Newer toolchains give every triple the same bin path, so the x86_64 build below would
+  # overwrite this binary. Keep a copy of the arm64 slice outside .build before it runs.
+  ARM_DIR="$(mktemp -d)"
+  trap 'rm -rf "$ARM_DIR"' EXIT
+  cp "$ARM_BIN_PATH/DevShop" "$ARM_DIR/DevShop"
   echo "building x86_64…"
   swift build -c "$CONFIG" --triple "x86_64-apple-macosx$DEPLOY"
   X86_DIR="$(swift build -c "$CONFIG" --triple "x86_64-apple-macosx$DEPLOY" --show-bin-path)"
-  RESOURCE_DIR="$ARM_DIR"
+  # Resource bundles hold no code, so the copy the x86_64 build left behind serves both slices.
+  RESOURCE_DIR="$X86_DIR"
 else
   swift build -c "$CONFIG"
   HOST_DIR="$(swift build -c "$CONFIG" --show-bin-path)"
