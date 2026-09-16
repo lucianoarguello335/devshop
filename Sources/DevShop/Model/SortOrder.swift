@@ -109,4 +109,7 @@ enum ContentLayout: String, Sendable, CaseIterable {
         case .list: "List view"
         }
     }
+
+    /// The other layout. There are two, so the switch flips rather than picks.
+    var toggled: ContentLayout { self == .grid ? .list : .grid }
 }

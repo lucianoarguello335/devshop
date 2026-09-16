@@ -1148,6 +1148,16 @@ struct ConfigGroupTests {
     }
 }
 
+@Suite("Layout switch")
+struct LayoutSwitchTests {
+    @Test("a click anywhere on the switch flips to the other layout")
+    func toggles() {
+        #expect(ContentLayout.grid.toggled == .list)
+        #expect(ContentLayout.list.toggled == .grid)
+        for layout in ContentLayout.allCases { #expect(layout.toggled.toggled == layout) }
+    }
+}
+
 // MARK: - Search
 
 @Suite("Search")
