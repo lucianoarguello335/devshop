@@ -72,7 +72,17 @@ enum PathSlot: Sendable, Equatable {
 }
 
 extension PathStep {
-    /// What a user recognises a hook by: `brew shellenv`, `pyenv init -`, `nvm.sh`.
+    /// What kind of statement it is, when it has no name worth showing: `source`, `eval`,
+    /// or the assignment it makes. Paired with the line, which the row already shows.
+    var hookKind: String {
+        let text = origin.text
+        if text.contains("eval ") { return "eval" }
+        if ShellConfigReader.sourcedFile(in: text) != nil { return "source" }
+        return "PATH assignment"
+    }
+
+    /// What a user recognises a hook by: `brew shellenv`, `pyenv init`, `nvm.sh`. Falls back
+    /// to the file and line when the statement names nothing readable.
     var hookName: String {
         let text = origin.text
         if let hook = ShellConfigReader.evalHook(in: text) {
@@ -81,7 +91,7 @@ extension PathStep {
         }
         if let target = ShellConfigReader.sourcedFile(in: text) {
             // `${TERM}-${VENDOR}` is not a name anyone recognises; the line they can open is.
-            guard !target.contains("$") else { return "\(origin.location) \u{00b7} source" }
+            guard !target.contains("$") else { return origin.location }
             return URL(fileURLWithPath: target).lastPathComponent
         }
         return origin.location
@@ -119,18 +129,22 @@ struct CommandHit: Sendable, Equatable {
 
     var isUncertain: Bool { !hooksAhead.isEmpty }
 
-    /// `brew shellenv, pyenv init - and 7 more` — names, not line numbers, because a row has
-    /// room for a phrase and the inspector lists the lines.
-    var hooksSummary: String {
-        // Most likely to change PATH first: a hook with a real name in a file the user wrote
-        // (`nvm.sh`, `pyenv init -`), then ones known only by line, then system files. Stable,
-        // so equal hooks keep run order.
+    /// Most likely to change PATH first: a hook with a real name in a file the user wrote
+    /// (`nvm.sh`, `pyenv init`), then ones known only by line, then system files. Stable, so
+    /// equal hooks keep run order.
+    var rankedHooks: [PathStep] {
         func rank(_ step: PathStep) -> Int {
             (step.origin.stage.isUserOwned ? 0 : 2) + (step.hasRecognisableName ? 0 : 1)
         }
-        let ranked = hooksAhead.enumerated()
+        return hooksAhead.enumerated()
             .sorted { (rank($0.element), $0.offset) < (rank($1.element), $1.offset) }
             .map(\.element)
+    }
+
+    /// `brew shellenv, pyenv init and 7 more` — names where there are names, because a row
+    /// has room for a phrase and the inspector lists the lines.
+    var hooksSummary: String {
+        let ranked = rankedHooks
         var names: [String] = []
         for name in ranked.map(\.hookName) where !names.contains(name) { names.append(name) }
         guard names.count > 3 else {

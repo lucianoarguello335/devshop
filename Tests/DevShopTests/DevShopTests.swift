@@ -1042,6 +1042,13 @@ struct StartupChainFileTests {
 @Suite("Config groups")
 @MainActor
 struct ConfigGroupTests {
+    @Test("every resolved command uses a catalog tool's icon")
+    func commandIcons() {
+        for command in PathResolver.commands {
+            #expect(CommandIcon.definition(for: command) != nil, "\(command) has no catalog icon")
+        }
+    }
+
     @Test("the section follows the shell panel, and stands alone when that panel is gone")
     func placement() {
         let model = AppModel()
@@ -1393,7 +1400,9 @@ struct PathResolverTests {
         let text = "source ${ZDOTDIR:-$HOME}/.zkbd/${TERM}-${VENDOR}"
         let step = PathStep(operation: .unknown(hook: text),
                             origin: ConfigOrigin(file: "/etc/zshrc", line: 26, stage: .systemRC, text: text))
-        #expect(step.hookName == "/etc/zshrc:26 \u{00b7} source")
+        #expect(step.hookName == "/etc/zshrc:26")
+        #expect(step.hasRecognisableName == false)
+        #expect(step.hookKind == "source")
     }
 
     @Test("the hook summary names user hooks with real names first, system lines last")
@@ -1407,7 +1416,28 @@ struct PathResolverTests {
         let nvm = step(#"\. /opt/homebrew/opt/nvm/nvm.sh"#, "~/.zshrc", 160, .userRC)
         let hit = CommandHit(path: "/usr/bin/npm", dir: ResolvedDir(path: "/usr/bin"),
                              hooksAhead: [zkbd, p10k, nvm])
-        #expect(hit.hooksSummary == "nvm.sh, ~/.zshrc:5 \u{00b7} source and /etc/zshrc:26 \u{00b7} source")
+        #expect(hit.hooksSummary == "nvm.sh, ~/.zshrc:5 and /etc/zshrc:26")
+    }
+
+    @Test("the search order folds hooks and searched dirs, and stops at the winner")
+    func searchOrderItems() {
+        func hook(_ line: Int) -> PathSlot {
+            .hook(PathStep(operation: .unknown(hook: "eval x"),
+                           origin: ConfigOrigin(file: "~/.zshrc", line: line, stage: .userRC, text: "eval x")))
+        }
+        func dir(_ path: String) -> PathSlot { .dir(ResolvedDir(path: path)) }
+        let slots = [hook(1), hook(2), dir("~/.pyenv/bin"), hook(3),
+                     dir("/a"), dir("/b"), dir("/usr/bin"), dir("/c"), hook(4)]
+        let items = SearchOrderItem.items(slots: slots, winner: ResolvedDir(path: "/usr/bin"))
+        #expect(items.map(\.first) == [1, 3, 4, 5, 7, 8])
+        if case .hooks(_, let steps) = items[0] { #expect(steps.count == 2) } else { Issue.record("hooks") }
+        if case .searched(_, let dirs) = items[3] { #expect(dirs.map(\.path) == ["/a", "/b"]) } else { Issue.record("searched") }
+        if case .winner(let position, _) = items[4] { #expect(position == 7) } else { Issue.record("winner") }
+        if case .notSearched(_, let rest) = items[5] { #expect(rest.count == 2) } else { Issue.record("rest") }
+
+        // Not found anywhere: everything was searched, nothing is left after.
+        let missing = SearchOrderItem.items(slots: [dir("/a"), dir("/b")], winner: nil)
+        #expect(missing.count == 1)
     }
 
     @Test("typeset -U path keeps only the first copy")

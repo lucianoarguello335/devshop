@@ -26,7 +26,7 @@ struct ResolvedPathGroup: View {
                               count: model.resolvedCommands.count,
                               isExpanded: model.isResolvedPathShown,
                               theme: theme) {
-                model.resolvedPathExpanded.toggle()
+                model.toggleResolvedPathGroup()
             }
             if model.isResolvedPathShown {
                 // A picker whose two sides show the same rows looks broken. When nothing
@@ -120,6 +120,32 @@ struct ResolvedPathGroup: View {
     }
 }
 
+/// The catalog tool each command belongs to, so a Resolved PATH row carries the same brand
+/// mark as that tool's tile instead of a generic terminal glyph.
+enum CommandIcon {
+    static let catalogIDs: [String: String] = [
+        "python3": "lang.python", "python": "lang.python", "pip3": "pkg.pip",
+        "node": "lang.node", "npm": "pkg.npm",
+        "ruby": "lang.ruby", "gem": "pkg.gem",
+        "java": "lang.java", "go": "lang.go", "cargo": "pkg.cargo",
+        "swift": "lang.swift", "git": "shell.git"
+    ]
+
+    static func definition(for command: String) -> ToolDefinition? {
+        guard let id = catalogIDs[command] else { return nil }
+        return Catalog.all.first { $0.id == id }
+    }
+
+    /// The chip for a command, falling back to the terminal glyph for one the catalog lacks.
+    static func chip(for command: String, size: CGFloat, theme: DevTheme,
+                     glow: Bool = false) -> IconChip {
+        let tool = definition(for: command)
+        return IconChip(slug: tool?.icon, symbol: tool?.symbol ?? "terminal.fill",
+                        colorHex: tool?.color ?? "0a84ff", isMissing: false,
+                        size: size, theme: theme, glow: glow)
+    }
+}
+
 struct ResolvedCommandRow: View, Equatable {
     let resolution: CommandResolution
     let context: ShellContext
@@ -141,15 +167,11 @@ struct ResolvedCommandRow: View, Equatable {
     private var isUncertain: Bool { hit?.isUncertain == true }
 
     private var hit: CommandHit? { resolution.hit(in: context) }
-    private let tint = Color(hex: "0a84ff")
 
     var body: some View {
         Button(action: select) {
             HStack(spacing: 9) {
-                SFIcon(symbol: "terminal.fill", size: 9.5, weight: .semibold)
-                    .foregroundStyle(tint)
-                    .frame(width: 20, height: 20)
-                    .background(tint.opacity(0.16), in: .rect(cornerRadius: 6))
+                CommandIcon.chip(for: resolution.command, size: 20, theme: theme)
 
                 VStack(alignment: .leading, spacing: 1) {
                     HStack(spacing: 5) {
