@@ -660,6 +660,24 @@ struct ShellConfigParsingTests {
         #expect(guarded.first?.name == "/opt/nvm/nvm.sh")
     }
 
+    @Test("a literal dot in a word list is not a sourced file")
+    func dotInWordList() {
+        // The keypad fix in a real ~/.zshrc: a `for` list of ESC-O sequence/character pairs.
+        // `n .` is the decimal point and `k +` is plus. Read as `source k`, the dot invents
+        // a file that is not on disk, and the missing-source finding fires on it.
+        let keypad = """
+        for _kp_seq _kp_char in \\
+          p 0  q 1  r 2  s 3  t 4  u 5  v 6  w 7  x 8  y 9 \\
+          n .  k +  m -  j '*'  o /  X =
+        """
+        #expect(parse(keypad).contains { $0.kind == .source } == false)
+        #expect(ShellConfigReader.sourcedFile(in: "echo a . b") == nil)
+        // Command position still counts, including after a separator.
+        #expect(ShellConfigReader.sourcedFile(in: ". ~/.profile") == "~/.profile")
+        #expect(ShellConfigReader.sourcedFile(in: "[ -f ~/.x ] && . ~/.x") == "~/.x")
+        #expect(ShellConfigReader.sourcedFile(in: "if [ -f ~/.x ]; then . ~/.x; fi") == "~/.x")
+    }
+
     @Test("two sourced files with the same basename stay separate")
     func sourceIdentity() {
         var merged: [ConfigEntry] = []

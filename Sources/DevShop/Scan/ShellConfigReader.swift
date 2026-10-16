@@ -684,21 +684,19 @@ enum ShellConfigReader {
     }
 
     /// `source x`, `. x`, and the conditional forms — `[ -s "x" ] && \. "x"`.
+    ///
+    /// The marker only counts in command position — the start of a simple command, which is
+    /// what `segments(of:)` hands back. A dot anywhere else is data, not the `source` builtin:
+    /// a keypad table in a `for` word list (`n .  k +  m -`) otherwise reads as `source k`
+    /// and invents a missing file that nobody ever wrote.
     static func sourcedFile(in statement: String) -> String? {
-        let markers = ["source ", "\\. ", ". ", "&& . ", "|| . "]
-        for marker in markers {
-            let range: Range<String.Index>?
-            if statement.hasPrefix(marker) {
-                range = statement.startIndex..<statement.index(statement.startIndex,
-                                                               offsetBy: marker.count)
-            } else {
-                range = statement.range(of: " " + marker) ?? statement.range(of: marker)
-                    .flatMap { statement.hasPrefix(marker) ? $0 : nil }
-            }
-            guard let range else { continue }
-            let tail = String(statement[range.upperBound...]).trimmingCharacters(in: .whitespaces)
+        let markers = ["source ", "\\. ", ". "]
+        for command in segments(of: statement) {
+            guard let marker = markers.first(where: { command.hasPrefix($0) }) else { continue }
+            let tail = String(command.dropFirst(marker.count))
+                .trimmingCharacters(in: .whitespaces)
             let target = unquote(tail.split(separator: " ").first.map(String.init) ?? "")
-            guard !target.isEmpty, target != "&&", target != "||" else { continue }
+            guard !target.isEmpty else { continue }
             return target
         }
         return nil
